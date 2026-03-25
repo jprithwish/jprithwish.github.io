@@ -18,7 +18,7 @@
   <header class="page-header">
     <div class="banner-image-wrap">
       <img
-        src="images/gatech_banner.jpg"
+        src="images/gatech_banner.jpg?v=1"
         alt="Georgia Institute of Technology"
         class="banner-image"
         width="1920"
@@ -39,7 +39,7 @@
           <span class="last-name">Jana</span>
         </p>
 
-        <img src="images/profile1.jpg" alt="Prithwish Jana" class="profile-photo" />
+        <img src="images/profile1.jpg?v=1" alt="Prithwish Jana" class="profile-photo" />
 
         <p class="sidebar-position">Ph.D. Student in Computer Science,</p>
         <p class="sidebar-inst">Georgia Institute of Technology</p>
@@ -418,5 +418,11 @@
   </div>
 
   <script src="js/main.js" defer></script>
+  <script>
+    const v = Date.now();
+    document.querySelectorAll('a[href="assets/CV.pdf"]').forEach(link => {
+      link.href = `assets/CV.pdf?v=${v}`;
+    });
+  </script>
 </body>
 </html>
