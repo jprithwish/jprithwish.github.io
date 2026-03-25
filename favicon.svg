@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Prithwish Jana">
+  <!-- Georgia Tech brand: Navy Blue + Tech Gold (brand.gatech.edu) -->
+  <rect width="64" height="64" rx="14" fill="#003057"/>
+  <text
+    x="32"
+    y="32"
+    text-anchor="middle"
+    dominant-baseline="central"
+    font-family="Georgia, 'Palatino Linotype', Palatino, 'Times New Roman', serif"
+    font-size="44"
+    font-weight="700"
+    letter-spacing="0.35"
+    fill="#B3A369"
+  >PJ</text>
+</svg>
