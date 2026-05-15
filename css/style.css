@@ -1387,6 +1387,92 @@ a:hover {
   object-fit: cover;
 }
 
+/* ICLR / Rio block: outside .memory-grid so auto-fill columns cannot place the next card beside it */
+.memory-iclr-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  min-width: 0;
+  /* Padding (not margin) below the Rio caption so space doesn’t collapse vs. the next .memory-grid */
+  padding-bottom: 20px;
+  margin-bottom: 0;
+}
+
+/* Explicit vertical rhythm (margins survive cache / cascade quirks better than flex gap alone) */
+.memory-iclr-wrap > .memory-stack-full {
+  margin-top: 16px;
+  gap: 6px;
+}
+
+.memory-iclr-wrap > .memory-grid-row--two {
+  width: 100%;
+  min-width: 0;
+  gap: 16px;
+}
+
+/* Poster card: restore column flex so thumb ↔ caption spacing matches other memory cards */
+.memory-iclr-wrap > .memory-grid-row--two > figure.memory-card--poster-fit {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  width: fit-content;
+  max-width: 100%;
+  justify-self: center;
+  margin-inline: auto;
+}
+
+.memory-iclr-wrap > .memory-grid-row--two > figure.memory-card--poster-fit .memory-caption {
+  margin-top: 0;
+}
+
+.memory-iclr-wrap > .memory-grid-row--two > .memory-card:not(.memory-card--poster-fit) {
+  gap: 6px;
+}
+
+.memory-iclr-wrap > .memory-stack-full > .memory-grid-row--three {
+  width: 100%;
+  min-width: 0;
+  gap: 16px;
+}
+
+/* Rio strip: column width drives size; thumb hugs image — no min-height letterboxing */
+.memory-iclr-wrap > .memory-stack-full > .memory-grid-row--three .memory-thumb {
+  aspect-ratio: auto;
+  min-height: 0;
+  height: auto;
+  display: block;
+}
+
+.memory-iclr-wrap > .memory-stack-full > .memory-grid-row--three .memory-thumb img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(720px, 85vh);
+  object-fit: contain;
+  object-position: center;
+}
+
+.memory-stack-full {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+}
+
+.memory-stack-full > .memory-caption--row-below {
+  width: 100%;
+  max-width: none;
+  box-sizing: border-box;
+}
+
+.memory-stack-full > .memory-grid-row--three {
+  width: 100%;
+  min-width: 0;
+}
+
 .memory-caption {
   font-size: 12.5px;
   line-height: 1.45;
