@@ -1014,6 +1014,26 @@ a:hover {
   margin: 0;
 }
 
+.pub-venue-long + .pub-venue-long {
+  margin-top: 4px;
+}
+
+.pub-venue-long a {
+  color: #2a6099;
+  text-decoration: none;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.pub-venue-long a:hover {
+  color: #c0562a;
+  text-decoration: underline;
+}
+
+.pub-venue-long a strong {
+  font-weight: 700;
+}
+
 .pub-venue-long em {
   font-style: italic;
 }
@@ -1054,6 +1074,26 @@ a:hover {
 
 .pub-links a:hover {
   background: #c0562a;
+}
+
+.pub-aside {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.pub-aside a {
+  color: #2a6099;
+  text-decoration: none;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.pub-aside a:hover {
+  color: #c0562a;
+  text-decoration: underline;
 }
 
 .pub-badge {
@@ -1479,6 +1519,17 @@ a:hover {
   color: var(--text-muted);
   font-style: italic;
   margin: 0;
+}
+
+/* Country flags: upright + color emoji font (parent italic skews flag glyphs) */
+.memory-flag {
+  font-style: normal;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
+  margin-right: 0.2em;
+  transform: none;
 }
 
 /* Side-by-side row: each figure has its own caption */
