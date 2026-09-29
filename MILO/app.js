@@ -37,8 +37,10 @@
     var btns = seg.querySelectorAll('button[data-value]');
     function select(value) {
       btns.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-value') === value)); });
-      document.querySelectorAll('.variants[data-group="' + group + '"] .variant').forEach(function (el) {
-        el.classList.toggle('on', el.getAttribute('data-value') === value);
+      document.querySelectorAll('.variants[data-group="' + group + '"]').forEach(function (box) {
+        Array.prototype.forEach.call(box.children, function (el) {
+          if (el.classList.contains('variant')) el.classList.toggle('on', el.getAttribute('data-value') === value);
+        });
       });
       // keep every control of the same group in sync
       document.querySelectorAll('.seg[data-group="' + group + '"] button[data-value]').forEach(function (b) {

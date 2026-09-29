@@ -390,20 +390,36 @@ def leaderboard_table(model):
 
 # ------------------------------------------------------------- range strip
 
-def range_strip(model):
+RANGE_METRICS = {  # metric key -> (axis title, [(benchmark, column index, column label)])
+    "rr": ("Resolution rate (%)", [("Terminal-Bench 2.1", 2, "RR@5"), ("PaperBench", 4, "RR@3"), ("DeepSWE", 7, "RR@3")]),
+    "pr": ("Pass rate (%)", [("Terminal-Bench 2.1", 1, "PR@5"), ("PaperBench", 3, "PR@3"), ("DeepSWE", 6, "PR@3")]),
+}
+
+
+def swarm_y(x, cy, placed, min_d=11.5, step=3):
+    """Beeswarm placement: the smallest vertical offset at which a mark clears every placed mark."""
+    for k in range(0, 60):
+        for sign in ((1,) if k == 0 else (1, -1)):
+            y = cy + sign * k * step
+            if all(math.hypot(px - x, py - y) >= min_d for px, py in placed):
+                return y
+    return cy
+
+
+def range_strip(model, metric="rr"):
     label, sub, rows, gray = MODELS[model]
-    W, H = 1000, 250
-    left, right, top = 150, 40, 34
-    rowh = 62
+    axis_title, benches = RANGE_METRICS[metric]
+    W, H = 1000, 268
+    left, right, top = 150, 40, 40
+    rowh = 68
     sx = lambda v: left + (W - left - right) * v / 100
     b = []
-    benches = [("Terminal-Bench 2.1", 2, "RR@5"), ("PaperBench", 4, "RR@3"), ("DeepSWE", 7, "RR@3")]
     # grid
     for t in range(0, 101, 20):
         x = sx(t)
         b.append(line(x, top - 6, x, top + rowh * 3 - 10, "tick-line"))
         b.append(txt(x, top + rowh * 3 + 8, f"{t}", "tick-label", "middle"))
-    b.append(txt(sx(50), H - 6, "Resolution rate (%)", "axis-title", "middle"))
+    b.append(txt(sx(50), H - 6, axis_title, "axis-title", "middle"))
     for r, (bench, c, metric) in enumerate(benches):
         cy = top + rowh * r + 20
         b.append(txt(left - 14, cy - 2, bench, "group-label", "end"))
@@ -412,31 +428,49 @@ def range_strip(model):
         lo, hi = min(v for _, v in pts), max(v for _, v in pts)
         b.append(f'<line x1="{sx(lo):.1f}" y1="{cy}" x2="{sx(hi):.1f}" y2="{cy}" stroke="{RED}" stroke-opacity=".12" stroke-width="14" stroke-linecap="round"/>')
         b.append(f'<line x1="{sx(lo):.1f}" y1="{cy}" x2="{sx(hi):.1f}" y2="{cy}" stroke="{RED}" stroke-opacity=".28" stroke-width="3" stroke-linecap="round"/>')
-        # beeswarm-ish stacking so coincident points stay visible
-        placed = []
-        order = sorted(pts, key=lambda p: (p[1], p[0]))
-        for i, v in order:
-            cls = HARNESSES[i][4]
-            if cls == "ours":
+        # beeswarm: coincident points pack around the row line instead of hiding each other.
+        # MILO's star is reserved first so nothing lands on it.
+        milo_x = sx(next(v for i, v in pts if HARNESSES[i][4] == "ours"))
+        placed = [(milo_x, cy), (milo_x - 5, cy), (milo_x + 5, cy), (milo_x, cy - 5), (milo_x, cy + 5)]
+        # six or more harnesses within ~1 point of each other collapse into one counted mark
+        # (a greedy sweep along the axis); smaller groups swarm individually
+        others = sorted(((i, v) for i, v in pts if HARNESSES[i][4] != "ours"), key=lambda p: (p[1], p[0]))
+        groups, cur = [], []
+        for p in others:
+            if cur and sx(p[1]) - sx(cur[0][1]) > 8:
+                groups.append(cur); cur = []
+            cur.append(p)
+        if cur:
+            groups.append(cur)
+        for g in groups:
+            if len(g) >= 6:
+                lo_v, hi_v = g[0][1], g[-1][1]
+                x = sx(sum(v for _, v in g) / len(g))
+                y = swarm_y(x, cy, placed, min_d=15)
+                placed += [(x, y), (x - 6, y), (x + 6, y), (x, y - 6), (x, y + 6)]
+                where = f"{fmt(lo_v)}%" if lo_v == hi_v else f"{fmt(lo_v)}–{fmt(hi_v)}%"
+                b.append(f'<circle class="mark" cx="{x:.1f}" cy="{y:.1f}" r="9.5" fill="#5b6472" stroke="#fff" stroke-width="2"/>')
+                b.append(txt(x, y + 3.6, str(len(g)), "id-label", "middle"))
+                b.append(hit_circle(x, y, 15, f"{len(g)} harnesses at {metric} {where}", f"{metric} {where}", "#5b6472",
+                                    ", ".join(NAME[i] for i, _ in g)))
                 continue
-            x = sx(v)
-            lvl = 0
-            while any(abs(px - x) < 13 and pl == lvl for px, pl in placed):
-                lvl = -lvl if lvl > 0 else -lvl + 1
-            placed.append((x, lvl))
-            y = cy + lvl * 12
-            b.append(mark_shape(cls, x, y, 5))
-            b.append(hit_circle(x, y, 13, NAME[i], f"{metric} {fmt(v)}%", CLASS_COLOR[cls], CLASS_NAME[cls]))
+            for i, v in g:
+                cls = HARNESSES[i][4]
+                x = sx(v)
+                y = swarm_y(x, cy, placed)
+                placed.append((x, y))
+                b.append(mark_shape(cls, x, y, 5))
+                b.append(hit_circle(x, y, 13, NAME[i], f"{metric} {fmt(v)}%", CLASS_COLOR[cls], CLASS_NAME[cls]))
         for i, v in pts:
             if HARNESSES[i][4] == "ours":
                 x = sx(v)
                 b.append(star(x, cy, 10, RED))
                 b.append(txt(x + 14, cy + 4.5, f"{fmt(v)}", "pt-label pt-ours"))
                 b.append(hit_circle(x, cy, 14, "MILO (ours)", f"{metric} {fmt(v)}%", RED, CLASS_NAME["ours"]))
-        # low-end direct label
-        lo_id = min(pts, key=lambda p: p[1])[0]
-        b.append(txt(sx(lo) - 12, cy + 4.5, fmt(lo), "val-label", "end"))
-    return svg(W, H, "".join(b), label=f"Resolution rate of every harness on three benchmarks with {label}")
+        # low-end direct label (skipped next to the axis, where the "0" tick already says it)
+        if sx(lo) - 12 > left + 28:
+            b.append(txt(sx(lo) - 12, cy + 4.5, fmt(lo), "val-label", "end"))
+    return svg(W, H, "".join(b), label=f"{axis_title[:-4]} of every harness on three benchmarks with {label}")
 
 
 # ----------------------------------------------------------- cost scatter
@@ -746,8 +780,10 @@ def main():
     gens = {
         "leaderboard-opus": leaderboard_table("opus"),
         "leaderboard-oss": leaderboard_table("oss"),
-        "range-opus": range_strip("opus"),
-        "range-oss": range_strip("oss"),
+        "range-opus-rr": range_strip("opus", "rr"),
+        "range-opus-pr": range_strip("opus", "pr"),
+        "range-oss-rr": range_strip("oss", "rr"),
+        "range-oss-pr": range_strip("oss", "pr"),
         "cost": cost_panels(),
         "ablation": ablation(),
         "sota-pass": sota_multiples("pass"),
