@@ -111,7 +111,7 @@ h1.title .brand { color: var(--accent-ink); letter-spacing: .02em; }
 .logos { display: flex; align-items: center; justify-content: center; gap: 40px; margin: 34px 0 4px; flex-wrap: wrap; }
 .logos img { height: 36px; width: auto; opacity: .92; transition: opacity .25s ease; }
 .logos img.tall { height: 50px; }
-.logos img.short { height: 30px; }
+.logos img.short { height: 40px; }
 .logos img.wide { height: 25px; }
 .logos img:hover, .logos:hover img { opacity: 1; }
 
