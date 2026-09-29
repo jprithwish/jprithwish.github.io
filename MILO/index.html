@@ -50,7 +50,8 @@
   <div class="wrap">
     <span class="badge"><span class="dot"></span>Preprint &middot; 2026 <span class="sep">|</span> arXiv link coming soon</span>
     <h1 class="title"><span class="brand">MILO</span>: Automated Harness Discovery via Orchestrated Multi-Agent Evolution</h1>
-    <p class="tagline"><em>Meta-evolutionary Island Orchestration.</em> A framework that co-evolves an agent&rsquo;s harness and the search strategy that discovers it, so the search adapts its own memory, mutators and curriculum instead of stalling in a local optimum.</p>
+    <p class="tagline"><em>Meta-evolutionary Island Orchestration.</em> Given an agent, MILO discovers a stronger harness for its model. Instead of tuning small surfaces such as prompts or skills, its mutator agents rewrite the <em>whole</em> harness, control flow included, to fit the task distribution at hand; when the search stalls, an orchestrator rewrites the search strategy itself.</p>
+    <p class="tagline-sub">Across command-line tasks, paper replication and multi-file software engineering, the discovered harnesses beat eight expert-built and six automatically searched alternatives with both a frontier and an open-weight model, transfer unchanged to a harder unseen benchmark, and reach 86.1% on Terminal-Bench&nbsp;2.1 with 26% fewer tokens than the harness they started from.</p>
 
     <p class="authors">
       <span class="au"><a href="https://jprithwish.github.io/">Prithwish Jana</a><sup>1,*,&dagger;</sup>,</span>
