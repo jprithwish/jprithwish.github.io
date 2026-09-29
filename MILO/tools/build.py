@@ -235,6 +235,12 @@ def fmt(v):
     return f"{v:.1f}"
 
 
+def fmt1(v):
+    """One decimal, halves rounded down, as the paper labels its figure points (59.95 -> 59.9)."""
+    from decimal import Decimal, ROUND_HALF_DOWN
+    return str(Decimal(str(v)).quantize(Decimal("0.1"), rounding=ROUND_HALF_DOWN))
+
+
 def val(cell):
     return cell[0] if isinstance(cell, tuple) else cell
 
@@ -629,11 +635,11 @@ def sota_multiples(metric):
             b.append(dot(sx(xx, px), sy(yy, py), 4, col))
         # end label
         ex, ey = series[-1]
-        b.append(txt(px + pw + 7, sy(ey, py) + 4, f"{ey:.1f}{unit}", "val-label hi" if ours else "val-label"))
+        b.append(txt(px + pw + 7, sy(ey, py) + 4, f"{fmt1(ey)}{unit}", "val-label hi" if ours else "val-label"))
         # hits per step
         for (xa, ya), (xb, _) in zip(series, series[1:]):
             b.append(hit(sx(xa, px), py, max(sx(xb, px) - sx(xa, px), 2), ph, name,
-                         f"{label} {ya:g}{unit}", col, f"from round {xa:g}"))
+                         f"{label} {fmt1(ya)}{unit}", col, f"from round {xa:g}"))
         if r == rows - 1:
             b.append(txt(px + pw / 2, py + ph + 34, "Evolution round", "axis-title", "middle"))
     b.append(txt(14, y0 + (rows * ph + gy) / 2, ytitle, "axis-title", "middle",
@@ -677,9 +683,9 @@ def islands():
         for xx, yy in pts[:-1]:
             b.append(dot(sx(xx), sy(yy), 4, col))
         seed_dy = {0: -2, 1: 9, 2: 3.5}[k]  # island 1 up, island 2 down: their seeds sit 1.1 points apart
-        b.append(txt(x0 - 34, sy(pts[0][1]) + seed_dy, fmt(pts[0][1]), "val-label", "end", f' style="fill:{col}" font-weight="700"'))
+        b.append(txt(x0 - 34, sy(pts[0][1]) + seed_dy, fmt1(pts[0][1]), "val-label", "end", f' style="fill:{col}" font-weight="700"'))
         for (xa, ya), (xb, _) in zip(pts, pts[1:]):
-            b.append(hit(sx(xa), y0, max(sx(xb) - sx(xa), 2), ph, name, f"pass-rate {ya:.1f}%", col, f"from round {xa}"))
+            b.append(hit(sx(xa), y0, max(sx(xb) - sx(xa), 2), ph, name, f"pass-rate {fmt1(ya)}%", col, f"from round {xa}"))
     # end labels with island keys (avoid collision: 56.7, 55.6, 59.9)
     b.append(star(sx(27), sy(59.95), 11, RED))
     b.append(txt(sx(27) - 15, sy(59.95) + 4, "59.9", "pt-label pt-ours", "end"))
