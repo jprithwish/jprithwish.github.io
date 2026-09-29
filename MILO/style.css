@@ -467,6 +467,8 @@ footer a { color: var(--ink-faint); }
 @media (max-width: 560px) {
   .stats { grid-template-columns: 1fr; }
   .wrap { padding: 0 18px; }
+  h3 .qual { display: block; margin: 2px 0 0; }
+  h1.title { font-size: clamp(30px, 9vw, 40px); }
   .lead { font-size: 17.5px; }
   .setup { grid-template-columns: 1fr; }
 }
