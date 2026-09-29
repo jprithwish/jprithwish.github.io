@@ -125,6 +125,7 @@ h1.title {
 h1.title .brand { color: var(--accent-ink); letter-spacing: .02em; }
 .tagline { font-size: 17.5px; line-height: 1.6; color: var(--ink-soft); max-width: 940px; margin: 0 auto 28px; text-wrap: balance; }
 .tagline em { color: var(--ink); font-style: normal; font-weight: 600; }
+.tagline.tagline-result { margin-top: -14px; color: var(--ink-faint); max-width: 900px; }
 
 .authors { font-size: 16.5px; line-height: 1.9; margin: 0 auto 10px; max-width: 900px; color: var(--ink-soft); }
 .authors a { border-bottom: none; color: var(--ink); font-weight: 600; }
