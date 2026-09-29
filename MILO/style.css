@@ -53,7 +53,7 @@ b, strong { font-weight: 650; }
 
 /* ---------- sticky nav ---------- */
 .nav {
-  position: sticky; top: 0; z-index: 40;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 40;
   background: rgba(255, 255, 255, .84);
   backdrop-filter: saturate(180%) blur(14px); -webkit-backdrop-filter: saturate(180%) blur(14px);
   border-bottom: 1px solid transparent;
@@ -65,8 +65,11 @@ b, strong { font-weight: 650; }
 .nav .mark { font-family: var(--display); font-weight: 700; font-size: 19px; color: var(--navy); letter-spacing: .04em; display: inline-flex; align-items: center; gap: 9px; border: 0; }
 .nav .mark img { width: 22px; height: 22px; border-radius: 6px; }
 .nav .links { display: flex; gap: 22px; margin-left: auto; }
-.nav a { border-bottom: none; font-size: 14.5px; color: var(--ink-soft); font-weight: 500; }
-.nav a:hover { color: var(--accent-ink); }
+.nav .links a { position: relative; border-bottom: none; font-size: 14.5px; color: var(--ink-soft); font-weight: 500; line-height: 56px; transition: color .15s; }
+.nav .links a:hover { color: var(--accent-ink); }
+.nav .links a.active { color: var(--navy); font-weight: 650; }
+.nav .links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px 2px 0 0; background: var(--accent); transform: scaleX(0); transition: transform .2s ease; }
+.nav .links a.active::after { transform: scaleX(1); }
 @media (max-width: 860px) { .nav .links { display: none; } }
 
 /* ---------- header ---------- */
@@ -78,6 +81,19 @@ header {
 }
 header::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: var(--accent); }
 header .wrap { position: relative; z-index: 1; }
+.hero-brand {
+  position: absolute; top: -16px; right: 28px;
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 10px 16px 10px 14px; border-radius: 12px;
+  background: #fff; border: 1px solid var(--rule); box-shadow: var(--shadow-sm);
+}
+.hero-brand img { height: 30px; width: auto; display: block; }
+.hero-brand span { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); padding-left: 10px; border-left: 1px solid var(--rule); line-height: 1; }
+@media (max-width: 940px) {
+  .hero-brand { position: static; margin: 0 auto 22px; }
+}
+.nav .nav-aws { height: 24px; width: auto; margin-left: 22px; opacity: .9; }
+@media (max-width: 860px) { .nav .nav-aws { margin-left: auto; } }
 
 .badge {
   display: inline-flex; align-items: center; gap: 9px;

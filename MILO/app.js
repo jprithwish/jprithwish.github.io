@@ -17,6 +17,30 @@
     }, { rootMargin: '-70px 0px 0px 0px' }).observe(header);
   }
 
+  /* ---------- scroll-spy: highlight the section in view ---------- */
+  var navLinks = nav ? Array.prototype.slice.call(nav.querySelectorAll('.links a[href^="#"]')) : [];
+  var spied = navLinks.map(function (a) {
+    return { a: a, el: document.getElementById(a.getAttribute('href').slice(1)) };
+  }).filter(function (s) { return s.el; });
+  var spyPending = false;
+  function spy() {
+    spyPending = false;
+    var line = 96; // a section is "current" once its top has passed this line below the viewport top
+    var current = null;
+    for (var i = 0; i < spied.length; i++) {
+      if (spied[i].el.getBoundingClientRect().top <= line) current = spied[i];
+    }
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) current = spied[spied.length - 1];
+    spied.forEach(function (s) { s.a.classList.toggle('active', s === current); });
+  }
+  if (spied.length) {
+    window.addEventListener('scroll', function () {
+      if (!spyPending) { spyPending = true; requestAnimationFrame(spy); }
+    }, { passive: true });
+    window.addEventListener('resize', spy);
+    spy();
+  }
+
   /* ---------- reveal on scroll ---------- */
   var targets = document.querySelectorAll('.reveal');
   if (reduced || !('IntersectionObserver' in window)) {
