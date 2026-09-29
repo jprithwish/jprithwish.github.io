@@ -8,13 +8,16 @@
 
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ---------- sticky nav appears once the hero is behind you ---------- */
+  /* ---------- sticky nav slides in once the title has scrolled past; progress bar tracks the read ---------- */
   var nav = document.getElementById('nav');
-  var header = document.querySelector('header');
-  if (nav && header && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (entries) {
-      nav.classList.toggle('show', !entries[0].isIntersecting);
-    }, { rootMargin: '-70px 0px 0px 0px' }).observe(header);
+  var progress = nav ? nav.querySelector('.nav-progress') : null;
+  function navState() {
+    if (!nav) return;
+    nav.classList.toggle('show', window.scrollY > 240);
+    if (progress) {
+      var max = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')';
+    }
   }
 
   /* ---------- scroll-spy: highlight the section in view ---------- */
@@ -25,6 +28,7 @@
   var spyPending = false;
   function spy() {
     spyPending = false;
+    if (!spied.length) return;
     var line = 96; // a section is "current" once its top has passed this line below the viewport top
     var current = null;
     for (var i = 0; i < spied.length; i++) {
@@ -33,13 +37,14 @@
     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) current = spied[spied.length - 1];
     spied.forEach(function (s) { s.a.classList.toggle('active', s === current); });
   }
-  if (spied.length) {
-    window.addEventListener('scroll', function () {
-      if (!spyPending) { spyPending = true; requestAnimationFrame(spy); }
-    }, { passive: true });
-    window.addEventListener('resize', spy);
-    spy();
+  function onScroll() {
+    if (spyPending) return;
+    spyPending = true;
+    requestAnimationFrame(function () { navState(); spy(); });
   }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  navState(); spy();
 
   /* ---------- reveal on scroll ---------- */
   var targets = document.querySelectorAll('.reveal');

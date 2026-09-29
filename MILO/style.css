@@ -54,23 +54,37 @@ b, strong { font-weight: 650; }
 /* ---------- sticky nav ---------- */
 .nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 40;
-  background: rgba(255, 255, 255, .84);
+  background: rgba(255, 255, 255, .86);
   backdrop-filter: saturate(180%) blur(14px); -webkit-backdrop-filter: saturate(180%) blur(14px);
-  border-bottom: 1px solid transparent;
+  border-bottom: 1px solid var(--rule);
+  box-shadow: 0 6px 24px rgba(11, 27, 51, .06);
   transform: translateY(-100%); opacity: 0;
-  transition: transform .28s ease, opacity .28s ease, border-color .28s ease;
+  transition: transform .32s cubic-bezier(.2, .7, .2, 1), opacity .28s ease;
 }
-.nav.show { transform: translateY(0); opacity: 1; border-bottom-color: var(--rule); }
-.nav .wrap { display: flex; align-items: center; gap: 24px; height: 56px; }
-.nav .mark { font-family: var(--display); font-weight: 700; font-size: 19px; color: var(--navy); letter-spacing: .04em; display: inline-flex; align-items: center; gap: 9px; border: 0; }
+.nav.show { transform: translateY(0); opacity: 1; }
+.nav .wrap { display: flex; align-items: center; gap: 18px; height: 58px; }
+.nav .mark { font-family: var(--display); font-weight: 700; font-size: 19px; color: var(--navy); letter-spacing: .04em; display: inline-flex; align-items: center; gap: 9px; border: 0; flex: none; }
 .nav .mark img { width: 22px; height: 22px; border-radius: 6px; }
-.nav .links { display: flex; gap: 22px; margin-left: auto; }
-.nav .links a { position: relative; border-bottom: none; font-size: 14.5px; color: var(--ink-soft); font-weight: 500; line-height: 56px; transition: color .15s; }
-.nav .links a:hover { color: var(--accent-ink); }
-.nav .links a.active { color: var(--navy); font-weight: 650; }
-.nav .links a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px 2px 0 0; background: var(--accent); transform: scaleX(0); transition: transform .2s ease; }
-.nav .links a.active::after { transform: scaleX(1); }
-@media (max-width: 860px) { .nav .links { display: none; } }
+.nav .links { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+.nav .links a {
+  border-bottom: none; font-size: 14px; font-weight: 550; color: var(--ink-soft);
+  padding: 7px 12px; border-radius: 999px; line-height: 1; white-space: nowrap;
+  transition: color .15s, background .15s;
+}
+.nav .links a:hover { color: var(--navy); background: var(--tint-cool); }
+.nav .links a.active { color: var(--accent-ink); background: var(--accent-soft); font-weight: 650; }
+.nav .nav-aws { height: 22px; width: auto; margin-left: 12px; padding-left: 18px; border-left: 1px solid var(--rule); flex: none; opacity: .9; }
+.nav .nav-progress {
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  background: var(--accent); transform-origin: left center; transform: scaleX(0);
+}
+@media (max-width: 960px) {
+  .nav .wrap { gap: 12px; }
+  .nav .links { overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; mask-image: linear-gradient(90deg, #000 88%, transparent); }
+  .nav .links::-webkit-scrollbar { display: none; }
+  .nav .links a { font-size: 13.5px; padding: 6px 10px; }
+  .nav .nav-aws { display: none; }
+}
 
 /* ---------- header ---------- */
 header {
@@ -81,14 +95,8 @@ header {
 }
 header::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; background: var(--accent); }
 header .wrap { position: relative; z-index: 1; }
-.hero-brand {
-  position: absolute; top: -16px; right: 28px;
-  display: inline-flex; align-items: center; gap: 10px;
-  padding: 10px 16px 10px 14px; border-radius: 12px;
-  background: #fff; border: 1px solid var(--rule); box-shadow: var(--shadow-sm);
-}
-.hero-brand img { height: 30px; width: auto; display: block; }
-.hero-brand span { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); padding-left: 10px; border-left: 1px solid var(--rule); line-height: 1; }
+.hero-brand { position: absolute; top: -4px; right: 28px; display: block; }
+.hero-brand img { height: 30px; width: auto; display: block; opacity: .92; }
 @media (max-width: 940px) {
   .hero-brand { position: static; margin: 0 auto 22px; }
 }
