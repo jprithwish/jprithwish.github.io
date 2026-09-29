@@ -53,8 +53,7 @@
     <div class="hero-brand"><img src="static/logo-aws.svg" alt="AWS"></div>
     <span class="badge"><span class="dot"></span>Preprint &middot; 2026 <span class="sep">|</span> arXiv link coming soon</span>
     <h1 class="title"><span class="brand">MILO</span>: Automated Harness Discovery via Orchestrated Multi-Agent Evolution</h1>
-    <p class="tagline"><em>MILO (Meta-evolutionary Island Orchestration)</em> is a self-adaptive evolutionary search framework for automated harness discovery: given an agent, it discovers a stronger harness for the agent&rsquo;s model, with no retraining. Coding-agent mutators rewrite the <em>whole</em> harness, control flow included, to fit a target task distribution rather than refining prompts or skills alone, and an orchestrator evolves the search itself, revising its memory, mutators and curriculum whenever progress stalls.</p>
-    <p class="tagline-sub">The result is stronger, more efficient and reusable agents. MILO&rsquo;s harnesses outperform eight expert-built and six automatically searched harnesses on command-line tasks, paper replication and multi-file software engineering, with both a frontier and an open-weight model; transfer unchanged to a harder unseen benchmark; and reach 86.1% on Terminal-Bench&nbsp;2.1 with 26% fewer tokens than the harness they started from.</p>
+    <p class="tagline"><em>MILO (Meta-evolutionary Island Orchestration)</em> is a self-adaptive evolutionary search framework for automated harness discovery. Given an agent, it discovers a stronger harness for its model without retraining. Agentic mutators rewrite the <em>whole</em> harness, including its control flow, to fit the target task distribution, while an orchestrator conducts them across isolated islands: grafting what works between lineages, swapping in fresh mutators when one runs dry, and reshaping the curriculum, so the search itself keeps evolving toward the strongest harness. The result outperforms eight expert-built and six searched harnesses on command-line, paper-replication and software-engineering tasks, reaching 86.1% on Terminal-Bench&nbsp;2.1 with 26% fewer tokens.</p>
 
     <p class="authors">
       <span class="au"><a href="https://jprithwish.github.io/">Prithwish Jana</a><sup>1,*,&dagger;</sup>,</span>
@@ -76,17 +75,13 @@
       <span class="au"><sup>3</sup>Carnegie Mellon University</span>
       <span class="au"><sup>4</sup>Washington University in St.&nbsp;Louis</span>
     </p>
-    <p class="note">
-      <sup>*</sup>Correspondence to <a href="mailto:pjana7@gatech.edu">pjana7@gatech.edu</a>, <a href="mailto:nikosk@amazon.com">nikosk@amazon.com</a> or <a href="mailto:sahika@amazon.com">sahika@amazon.com</a>.<br>
-      <sup>&dagger;</sup>Work done while at AWS AI Labs.<br>
-      <sup>&Dagger;</sup>Senior co-authorship.
-    </p>
+    
 
-    <div class="logos">
-      <img src="static/logo-gatech.svg" alt="Georgia Institute of Technology" class="tall">
-      <img src="static/logo-aws.svg" alt="Amazon Web Services" class="short">
-      <img src="static/logo-cmu.svg" alt="Carnegie Mellon University" class="wide">
-      <img src="static/logo-washu.svg" alt="Washington University in St. Louis">
+    <div class="logos" aria-label="Affiliations">
+      <span><img src="static/logo-gatech.svg" alt="Georgia Institute of Technology" class="tall"></span>
+      <span><img src="static/logo-aws.svg" alt="Amazon Web Services" class="short"></span>
+      <span><img src="static/logo-cmu.svg" alt="Carnegie Mellon University" class="wide"></span>
+      <span><img src="static/logo-washu.svg" alt="Washington University in St. Louis"></span>
     </div>
 
     <div class="buttons">
@@ -107,6 +102,11 @@
         BibTeX
       </a>
     </div>
+    <p class="note">
+      <sup>*</sup>Correspondence to <a href="mailto:pjana7@gatech.edu">pjana7@gatech.edu</a>, <a href="mailto:nikosk@amazon.com">nikosk@amazon.com</a> or <a href="mailto:sahika@amazon.com">sahika@amazon.com</a>.<br>
+      <sup>&dagger;</sup>Work done while at AWS AI Labs.<br>
+      <sup>&Dagger;</sup>Senior co-authorship.
+    </p>
   </div>
 </header>
 
