@@ -109,11 +109,11 @@ h1.title .brand { color: var(--accent-ink); letter-spacing: .02em; }
 .note a { color: var(--ink-faint); border-bottom-color: rgba(123, 132, 148, .35); }
 
 .logos { display: flex; align-items: center; justify-content: center; gap: 40px; margin: 34px 0 4px; flex-wrap: wrap; }
-.logos img { height: 36px; width: auto; filter: grayscale(1); opacity: .72; transition: filter .25s ease, opacity .25s ease; }
+.logos img { height: 36px; width: auto; opacity: .92; transition: opacity .25s ease; }
 .logos img.tall { height: 50px; }
 .logos img.short { height: 30px; }
 .logos img.wide { height: 25px; }
-.logos img:hover, .logos:hover img { filter: none; opacity: 1; }
+.logos img:hover, .logos:hover img { opacity: 1; }
 
 /* ---------- buttons ---------- */
 .buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 30px 0 54px; }
