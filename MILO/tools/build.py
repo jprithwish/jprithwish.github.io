@@ -814,10 +814,21 @@ def main():
             missing.append(name)
             continue
         src = pat.sub(lambda m: block(name, inner), src, count=1)
+    src = stamp_assets(src)
     open(INDEX, "w", encoding="utf-8").write(src)
     print(f"wrote {INDEX}")
     if missing:
         print("markers not found:", ", ".join(missing))
+
+
+
+def stamp_assets(html):
+    """Append a build stamp to the page's own CSS/JS links so GitHub Pages' 10-minute browser cache
+    (cache-control: max-age=600) never serves a stale stylesheet or script after a push."""
+    import re as _re, time as _time
+    v = _time.strftime("%Y%m%d%H%M")
+    return _re.sub(r'((?:href|src)="(?:style\.css|app\.js|demo\.js|einstein\.js|static/demo-run\.js|static/einstein-run\.js))(?:\?v=[^"]*)?"',
+                   lambda m: m.group(1) + "?v=" + v + '"', html)
 
 
 if __name__ == "__main__":
