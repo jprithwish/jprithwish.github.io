@@ -482,7 +482,7 @@ def range_strip(model, metric="rr"):
 # ----------------------------------------------------------- cost scatter
 
 def cost_panels():
-    W, H = 1000, 520
+    W, H = 1000, 552   # the lower row's x-axis title sits at y0 + ph + 34 = 534, so the canvas must extend past it
     pw, ph = 430, 200
     x0s = [70, 560]
     y0s = [40, 300]
