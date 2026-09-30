@@ -27,11 +27,11 @@ INDEX = os.path.normpath(os.path.join(HERE, "..", "index.html"))
 
 # ----------------------------------------------------------------- palette
 # Validated with the dataviz validator (all-pairs, white surface):
-#   BLUE/RED/TEAL  worst CVD dE 8.8, normal 19.9, all >= 3:1 contrast.
+#   BLUE/RED/TEAL  worst CVD dE 9.6, normal 25.8, all >= 3:1 contrast (dataviz validator, 2026-09-30).
 #   ISL            worst CVD dE 10.7, normal 18.3, all >= 3:1 contrast.
 #   RAMP           ordinal, monotone L, light end 2.11:1.
 BLUE = "#2f6db3"   # automatically-discovered harnesses (SoTA evolutionary search)
-RED = "#d9412f"    # MILO (ours)
+RED = "#e8710a"    # MILO (ours): Amazon orange; validated with blue/teal (worst CVD dE 9.6, normal 25.8, all >= 3:1)
 TEAL = "#1a9e74"   # minimal harness (the model without harness engineering)
 GRAY = "#8b93a0"   # expert-designed harnesses (de-emphasis)
 SEED = "#3b4252"   # Best-of-3 seed
@@ -804,7 +804,7 @@ def main():
         "legend-islands": legend([("Island 1 (seed 45.0)", ISL[0]), ("Island 2 (seed 44.0)", ISL[1]), ("Island 3 (seed 39.2)", ISL[2]),
                                   ("Population best so far", "#c9ccd3"), ("Graft admitted", GOOD), ("Graft rejected", GRAY)],
                                  ["line", "line", "line", "line", "arrow", "arrow"]),
-        "legend-sota": legend([("Baseline search method", BLUE), ("MILO (ours)", RED), ("MILO, repeated for reference", "#f0b5ad")],
+        "legend-sota": legend([("Baseline search method", BLUE), ("MILO (ours)", RED), ("MILO, repeated for reference", "#fbd8bf")],
                               ["line", "line", "line"]),
     }
     missing = []

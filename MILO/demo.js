@@ -11,7 +11,7 @@
 
   var ISL = ['#2a78d6', '#7d3c98', '#d55181'];
   var ISL_NAME = ['Island 1', 'Island 2', 'Island 3'];
-  var GOOD = '#1b7f3b', REJ = '#9aa3b2', INK = '#101828', SOFT = '#475467', FAINT = '#7b8494', GRID = '#e6e9ef', RED = '#d9412f';
+  var GOOD = '#1b7f3b', REJ = '#9aa3b2', INK = '#101828', SOFT = '#475467', FAINT = '#7b8494', GRID = '#e6e9ef', RED = '#e8710a', BAD = '#c4453a';
   var W = 1000, ROUNDS = D.rounds, H;
   var STALL = [6, 14];
   var ORCH = {}; D.orchestration.forEach(function (o) { ORCH[o.round] = o; });
@@ -174,7 +174,7 @@
       if (n.kind === 'graft') els.push(el('circle', { cx: x, cy: yy, r: 8.5, fill: 'none', stroke: GOOD, 'stroke-width': 1.6, class: 'dm-node' }, gNodes));
     } else {
       els.push(el('circle', { cx: x, cy: yy, r: 3.6, fill: '#fff', stroke: REJ, 'stroke-width': 1.4, class: 'dm-node' }, gNodes));
-      els.push(el('path', { d: 'M' + (x - 1.8) + ' ' + (yy - 1.8) + 'l3.6 3.6M' + (x + 1.8) + ' ' + (yy - 1.8) + 'l-3.6 3.6', stroke: RED, 'stroke-width': 1, 'stroke-opacity': .8, class: 'dm-node' }, gNodes));
+      els.push(el('path', { d: 'M' + (x - 1.8) + ' ' + (yy - 1.8) + 'l3.6 3.6M' + (x + 1.8) + ' ' + (yy - 1.8) + 'l-3.6 3.6', stroke: BAD, 'stroke-width': 1, 'stroke-opacity': .8, class: 'dm-node' }, gNodes));
     }
     var g = el('g', {}, gNodes);  // hit area with tooltip data
     var hit = el('circle', { cx: x, cy: yy, r: 9, fill: 'transparent', class: 'hit', 'data-name': ISL_NAME[n.island] + ' · round ' + n.round + (n.kind === 'graft' ? ' · graft' : n.kind === 'seed' ? ' · seed' : ''),
@@ -259,7 +259,7 @@
     narrTag.textContent = n[0].toUpperCase(); narrLines[0].textContent = n[1]; narrLines[1].textContent = n[2]; narrLines[2].textContent = n[3] || '';
     narrLines[1].setAttribute('fill', ORCH[R] ? INK : SOFT);
     narrTag.setAttribute('fill', ORCH[R] ? RED : SOFT);
-    narrBg.setAttribute('stroke', ORCH[R] ? RED : '#e4e7ec'); narrBg.setAttribute('fill', ORCH[R] ? '#fff6f4' : '#f6f8fb');
+    narrBg.setAttribute('stroke', ORCH[R] ? RED : '#e4e7ec'); narrBg.setAttribute('fill', ORCH[R] ? '#fff7ef' : '#f6f8fb');
     readout.textContent = 'ROUND ' + R + ' / ' + ROUNDS + '   ·   POPULATION BEST ' + pct(D.pop_best[R]) + '%';
     if (slider) slider.value = R;
   }

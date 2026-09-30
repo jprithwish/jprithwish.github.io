@@ -10,7 +10,7 @@
   var ALL = window.MILO_EINSTEIN;
   if (!root || !ALL) return;
 
-  var INK = '#101828', SOFT = '#475467', FAINT = '#7b8494', GRID = '#e6e9ef', RED = '#d9412f', REDINK = '#b8321f', BLUE = '#2f6db3', GRAY = '#9aa3b2';
+  var INK = '#101828', SOFT = '#475467', FAINT = '#7b8494', GRID = '#e6e9ef', RED = '#e8710a', REDINK = '#ad4a07', BLUE = '#2f6db3', GRAY = '#9aa3b2';
   var NS = 'http://www.w3.org/2000/svg';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function el(tag, attrs, parent) {
@@ -136,7 +136,7 @@
     el('path', { d: curve(start, isStep), fill: 'none', stroke: GRAY, 'stroke-width': isStep ? 1.4 : 1, 'stroke-opacity': .8 }, gR);
     var recPath = el('path', { d: curve(vals, isStep), fill: 'none', stroke: RED, 'stroke-width': isStep ? 2 : 1.1, 'stroke-linejoin': 'round', opacity: 0 }, gR);
     var recBadge = el('g', { opacity: 0 }, gR);
-    el('rect', { x: RX0 + 10, y: RY0 + 10, width: 150, height: 22, rx: 11, fill: '#fff6f4', stroke: RED }, recBadge);
+    el('rect', { x: RX0 + 10, y: RY0 + 10, width: 150, height: 22, rx: 11, fill: '#fff7ef', stroke: RED }, recBadge);
     txt(RX0 + 85, RY0 + 25, 'new arena record', { 'text-anchor': 'middle', 'font-size': 11, fill: REDINK, 'font-weight': 700 }, recBadge);
 
     // ---- footer strip
