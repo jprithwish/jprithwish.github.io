@@ -11,7 +11,11 @@
   /* ---------- sticky nav slides in once the title has scrolled past; progress bar tracks the read ---------- */
   var nav = document.getElementById('nav');
   var progress = nav ? nav.querySelector('.nav-progress') : null;
+  var rail = document.getElementById('rail');
+  var marker = rail ? rail.querySelector('.rail-marker') : null;
+  var railLinks = rail ? Array.prototype.slice.call(rail.querySelectorAll('a[href^="#"]')) : [];
   function navState() {
+    if (rail) rail.classList.toggle('show', window.scrollY > 240);
     if (!nav) return;
     nav.classList.toggle('show', window.scrollY > 240);
     if (progress) {
@@ -36,6 +40,15 @@
     }
     if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) current = spied[spied.length - 1];
     spied.forEach(function (s) { s.a.classList.toggle('active', s === current); });
+    /* side rail: same section, plus the sliding marker */
+    if (rail) {
+      rail.classList.toggle('has-current', !!current);
+      railLinks.forEach(function (a) {
+        var on = !!current && a.getAttribute('href') === '#' + current.el.id;
+        a.classList.toggle('active', on);
+        if (on && marker) { marker.style.height = (a.offsetHeight - 10) + 'px'; marker.style.transform = 'translateY(' + (a.offsetTop + 5) + 'px)'; }
+      });
+    }
   }
   function onScroll() {
     if (spyPending) return;
