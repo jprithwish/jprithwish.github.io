@@ -101,8 +101,8 @@ b, strong { font-weight: 650; }
 .rail a:hover, .rail a:focus-visible { color: var(--navy); outline: none; }
 .rail a.active { color: var(--navy); font-weight: 650; }
 .rail a.active .rn, .rail a:hover .rn { color: var(--accent-ink); }
-@media (min-width: 1200px) { .rail { display: flex; } .nav { display: none; } }
-@media (min-width: 1200px) and (max-width: 1519px) {   /* compact rail: numbers only, the label surfaces as a chip on hover */
+@media (min-width: 1280px) { .rail { display: flex; } .nav { display: none; } }
+@media (min-width: 1280px) and (max-width: 1519px) {   /* compact rail: numbers only, the label surfaces as a chip on hover */
   .rail a .rl { position: absolute; left: 44px; top: 50%; transform: translateY(-50%) translateX(-6px); background: #fff; color: var(--navy); font-weight: 600; padding: 4px 9px; border-radius: 7px; box-shadow: var(--shadow-md); border: 1px solid var(--rule); opacity: 0; pointer-events: none; transition: opacity .16s ease, transform .16s ease; }
   .rail a:hover .rl, .rail a:focus-visible .rl { opacity: 1; transform: translateY(-50%); }
 }
@@ -232,13 +232,14 @@ figcaption b { color: var(--ink); }
 .alt figcaption { background: #fff; }
 
 /* ---------- stat band ---------- */
-.statband { background: var(--navy-deep); color: #fff; padding: 50px 0; position: relative; margin-top: 56px; }
+.statband { background: var(--navy-deep); color: #fff; padding: 46px 0 44px; position: relative; margin: 56px auto 0; width: calc(100% - 56px); max-width: calc(var(--maxw) - 56px); border-radius: 18px; overflow: hidden; box-shadow: var(--shadow-md); }
 .statband::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--accent); }
-.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; }
+.statband .wrap { padding: 0 26px; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 .stat { position: relative; padding-left: 18px; }
 .stat::before { content: ""; position: absolute; left: 0; top: 4px; bottom: 4px; width: 3px; border-radius: 2px; background: var(--accent); }
 .stat .t { display: block; font-size: 12.5px; font-weight: 650; letter-spacing: .05em; text-transform: uppercase; color: #ff9900; margin-bottom: 8px; }
-.stat .k { display: block; font-size: clamp(30px, 3vw, 40px); font-weight: 650; line-height: 1.05; letter-spacing: -.02em; color: #fff; }
+.stat .k { display: block; font-size: clamp(30px, 2.7vw, 38px); font-weight: 650; line-height: 1.05; letter-spacing: -.02em; color: #fff; }
 .stat .k.k-text { font-size: clamp(20px, 1.85vw, 25px); letter-spacing: -.01em; white-space: nowrap; }
 .stat .k small { font-size: .5em; font-weight: 600; color: #b7c2d6; letter-spacing: 0; margin-left: 4px; }
 .stat .lbl { display: block; margin-top: 10px; font-size: 14px; line-height: 1.5; color: #a9b7cc; }

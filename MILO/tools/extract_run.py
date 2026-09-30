@@ -76,7 +76,7 @@ def main():
                 "id": os.path.relpath(dirpath, islands_dir),
                 "hid": nj["hid"], "island": iid, "round": nj["round"], "admitted": bool(nj["admitted"]),
                 "kind": kind, "parent_hid": nj.get("parent_hid"), "coparent_hid": nj.get("coparent_hid"),
-                "pass": round(sum(passes) / len(passes), 4), "tokens": round(sum(toks) / len(toks) / 1000),
+                "pass": round(sum(passes) / len(passes), 6), "tokens": round(sum(toks) / len(toks) / 1000),
                 "_dir": dirpath,
             }
             nodes.append(n)
@@ -140,8 +140,8 @@ def main():
             for n in nodes:
                 if n["island"] == i and n["round"] == r and n["admitted"]:
                     cur_b = max(cur_b, n["pass"])
-            best[i].append(round(cur_b, 4))
-    pop = [round(max(best[i][r] for i in range(3)), 4) for r in range(max_round + 1)]
+            best[i].append(round(cur_b, 6))
+    pop = [round(max(best[i][r] for i in range(3)), 6) for r in range(max_round + 1)]
     seeds = {n["island"]: n["pass"] for n in nodes if n["kind"] == "seed"}
     out = {
         "source": os.path.basename(wd), "benchmark": "Terminal-Bench 2.1 (62-task high-regret search split)",
