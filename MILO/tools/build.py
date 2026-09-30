@@ -532,7 +532,13 @@ def cost_panels():
                     else:
                         b.append(txt(X + 15, Y + 4, "MILO", "pt-label pt-ours"))
                 else:
-                    b.append(dot(X, Y, 8.5, col))
+                    # same shape per class as the legend and the strip chart: diamond = minimal, square = seed, dot = the rest
+                    if cls == "minimal":
+                        b.append(diamond(X, Y, 11.5, col))
+                    elif cls == "seed":
+                        b.append(square(X, Y, 8, col))
+                    else:
+                        b.append(dot(X, Y, 8.5, col))
                     b.append(txt(X, Y + 3.3, str(i), "id-label", "middle"))
                     if clipped:
                         b.append(txt(X + 12, Y + 4, f"↑ {v:g}M", "val-label"))
