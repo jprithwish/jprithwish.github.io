@@ -154,31 +154,144 @@
   <div class="wrap">
     <div class="h2row"><span class="no">01</span><h2>Overview</h2></div>
     <p class="lead reveal">Modern agentic systems pair a model with a <em>harness</em>: the software layer that executes the model&rsquo;s actions in a stateful environment and governs its scaffolding and control flow. On long-horizon tasks the harness shapes agent performance as much as the model does. Yet harness engineering is still artisanal, and the effort must be repeated every time the model changes.</p>
+
+    <div class="anatomy reveal" aria-label="Anatomy of an agent">
+      <div class="an-tile an-model"><span class="an-k">Model <i>&Mscr;</i></span><span class="an-t">A black box with inference access only. It stays fixed: MILO never retrains it.</span></div>
+      <div class="an-arrow" aria-hidden="true"><span>proposes actions</span></div>
+      <div class="an-tile an-harness"><span class="an-tag">what MILO evolves</span><span class="an-k">Harness <i>h</i></span><span class="an-t">Prompts, tools, context and memory, plus the <b>control flow</b>: spawning sub-agents, intercepting tool calls, verifying outputs, deciding when to stop.</span></div>
+      <div class="an-arrow" aria-hidden="true"><span>executes them in</span></div>
+      <div class="an-tile an-env"><span class="an-k">Environment</span><span class="an-t">A container, repository or terminal, scored by a hidden verifier: a test suite or a rubric.</span></div>
+    </div>
+
+    <div class="fact reveal">
+      <div class="fact-num"><span class="from">35.2%</span><span class="arr">&rarr;</span><span class="to">49.6%</span></div>
+      <div class="fact-body"><b>Same model, different harness.</b> On Terminal-Bench, GPT-5 solves 35.2% of tasks with the Terminus&nbsp;2 harness and 49.6% with Codex, while consuming 35% fewer tokens. A harness can matter as much as the model, and it is far cheaper to change than model weights. Yet production harnesses take teams months to build, and because harnesses are model-specific, the work is redone with every new model.</div>
+    </div>
+
     <div class="abstract two-col-text reveal">
-      <p>On Terminal-Bench, for example, GPT-5 solves 35.2% of tasks with Terminus&nbsp;2 but 49.6% with Codex, consuming 35% fewer tokens. Designing a strong harness is therefore a low-cost, high-impact way to improve an agent. This motivates <b>automated harness discovery (AHD)</b>: given an agent, discover a stronger harness for its model. AHD is usually cast as LLM-driven evolutionary search, and because the loop is model-agnostic, rerunning it per model automates the perpetual re-tuning.</p>
-      <p>Existing search methods explore this space poorly. Most optimize only parts of the harness, such as prompts or skills, while others struggle to escape local optima because their search strategy is fixed in advance and their LLM-driven mutators exploit far more than they explore.</p>
-      <p>We present <b>MILO</b> <i>(Meta-evolutionary Island Orchestration)</i>, which co-evolves the harness and its own search strategy. Three components drive the search: <b>(i)</b> a <i>hierarchical lineage memory</i> of island-based trees that uses rejected mutations as negative evidence to prune unpromising paths and steer toward promising lineages; <b>(ii)</b> per-island <i>mutator agents</i> that combine global search history with feedback on parent weaknesses to rewrite entire harnesses; and <b>(iii)</b> an <i>orchestrator agent</i> that adapts the search by grafting and speciating lineages, reassigning mutators, and revising the curriculum.</p>
-      <p>Across Terminal-Bench&nbsp;2.1, PaperBench and DeepSWE, MILO-discovered harnesses outperform eight state-of-the-art harnesses and six search methods with frontier (Opus&nbsp;4.8) and open-weight (gpt-oss-120b) backbones. With gpt-oss-120b it reaches 15.6% pass-rate on DeepSWE, <b>20&times;</b> its initial harness, while prior search stays below 1%. Its harnesses generalize: the Terminal-Bench harness scores 2.7&times; Mini-SWE-Agent on the harder Frontier-Bench without further search.</p>
+      <p>This motivates <b>automated harness discovery (AHD)</b>: given an agent, discover a stronger harness for its model. AHD is usually cast as LLM-driven evolutionary search, a loop in which an LLM-based mutator proposes harnesses, an oracle scores them, and the results guide the next round. Because the loop is model-agnostic, rerunning it per model automates the perpetual re-tuning. Existing search methods explore this space poorly, however: most optimize only parts of the harness, such as prompts or skills, while the rest fix their search strategy in advance and inherit the exploitative bias of their LLM mutators.</p>
+      <p><b>MILO</b> <i>(Meta-evolutionary Island Orchestration)</i> co-evolves the harness and its own search strategy. A <i>hierarchical lineage memory</i> of island-based trees keeps rejected mutations as negative evidence; per-island <i>mutator agents</i> combine global search history with feedback on parent weaknesses to rewrite entire harnesses; and an <i>orchestrator agent</i> adapts the search by grafting and speciating lineages, reassigning mutators, and revising the curriculum. With gpt-oss-120b it lifts DeepSWE pass-rate to 15.6%, <b>20&times;</b> its initial harness, while prior search stays below 1%.</p>
+    </div>
+
+    <div class="defbox reveal">
+      <span class="def-tag">Problem statement &middot; Automated harness discovery</span>
+      <p class="def-lead">Given an agent <i>&langle;&Mscr;, h&rangle;</i> and a target task distribution <i>&Tscr;</i>, discover a harness <i>h<sup>&#8727;</sup></i> that advances the agent&rsquo;s accuracy&ndash;cost frontier on <i>&Tscr;</i>, with the model <i>&Mscr;</i> fixed.</p>
+      <div class="def-grid">
+        <div><b>Inputs</b><span>The agent, optionally with further seed harnesses; a benchmark sampled from <i>&Tscr;</i> and split into search and validation tasks; constraints requiring a runnable agent and no task-specific logic; a budget of rounds or wall-clock time.</span></div>
+        <div><b>Search space</b><span>Countably infinite: any harness with a runnable entry point and editable source, whether a Python program, a YAML file, or a tool and skill repository.</span></div>
+        <div><b>Output</b><span>The harness that most advances the accuracy&ndash;cost frontier on the validation split, ideally surpassing the strongest hand-built agents.</span></div>
+      </div>
     </div>
 
     <h3>Four shortcomings of existing search, four design choices</h3>
-    <div class="grid2 reveal">
-      <div class="pair">
-        <div class="prob"><span class="tag">Shortcoming 1</span><h4>Search-space exploration</h4>An LLM mutator exploits far more than it explores. It repeats the same family of edits, so the population collapses onto variants of a few designs. Prior methods either confine mutation to prompts or skills (GEPA, A-Evolve) or rewrite whole harnesses with a fixed, exploitation-biased mutator (Self-Harness, Meta-Harness).</div>
-        <div class="fix"><span class="tag">MILO</span><h4>Islands that never compete</h4>Each island grows in isolation from a distinct seed with its own mutator agent. Islands exchange successful ideas but never compete for survival, so a mutator&rsquo;s bias stays confined to its island. In one run the weakest seed produced the best harness.</div>
-      </div>
-      <div class="pair">
-        <div class="prob"><span class="tag">Shortcoming 2</span><h4>Sample-efficient search</h4>Scoring one harness takes hours, not milliseconds, so every evaluation must inform the search. Yet most methods are <i>failure-blind</i>: they retain only survivors, as a single candidate, a Pareto front, or the fittest per MAP-Elites cell, so failed directions get retried.</div>
-        <div class="fix"><span class="tag">MILO</span><h4>Memory that keeps its failures</h4>The hierarchical lineage memory keeps every seed-to-candidate path, rejected children included. Successes show which edits paid off; failures prune later mutations and push exploration toward bolder structural changes.</div>
-      </div>
-      <div class="pair">
-        <div class="prob"><span class="tag">Shortcoming 3</span><h4>Self-adaptive search</h4>Which parents are selected, how they are mutated and which candidates are kept are fixed a priori in OpenEvolve, Self-Harness and Meta-Harness, so the search cannot escape local optima. Even EvoX, the most adaptive, evolves only parent selection and mutation.</div>
-        <div class="fix"><span class="tag">MILO</span><h4>An orchestrator that rewrites the strategy</h4>When an island stalls, the orchestrator diagnoses it and revises its mutator, memory and curriculum. The search strategy evolves alongside the harnesses.</div>
-      </div>
-      <div class="pair">
-        <div class="prob"><span class="tag">Shortcoming 4</span><h4>Multi-objective fitness</h4>A harness sets not only whether an agent succeeds but also its token consumption and latency. Almost all search methods optimize accuracy alone and drift toward costly harnesses; none optimizes latency.</div>
-        <div class="fix"><span class="tag">MILO</span><h4>Pareto admission</h4>A candidate is admitted only if it advances the island&rsquo;s Pareto frontier in accuracy, tokens and latency. The discovered harnesses end up both more accurate and cheaper to run.</div>
-      </div>
+    <p class="abstract reveal" style="max-width:900px">Applied to harness discovery, prior evolutionary search falls short in four ways. MILO&rsquo;s key insight is to evolve the complete search strategy alongside the harness, through four matching design choices.</p>
+
+    <div class="choices reveal">
+      <article class="choice">
+        <div class="pict" aria-hidden="true">
+          <svg viewBox="0 0 170 120">
+            <g opacity=".95">
+              <ellipse cx="38" cy="78" rx="30" ry="22" fill="#2a78d6" fill-opacity=".10" stroke="#2a78d6" stroke-opacity=".45"/>
+              <ellipse cx="86" cy="42" rx="30" ry="22" fill="#7d3c98" fill-opacity=".10" stroke="#7d3c98" stroke-opacity=".45"/>
+              <ellipse cx="134" cy="80" rx="30" ry="22" fill="#d55181" fill-opacity=".10" stroke="#d55181" stroke-opacity=".45"/>
+              <g stroke="#2a78d6" stroke-width="1.5"><line x1="38" y1="68" x2="28" y2="84"/><line x1="38" y1="68" x2="48" y2="84"/></g>
+              <g fill="#2a78d6"><circle cx="38" cy="68" r="3.4"/><circle cx="28" cy="84" r="3"/><circle cx="48" cy="84" r="3"/></g>
+              <g stroke="#7d3c98" stroke-width="1.5"><line x1="86" y1="32" x2="76" y2="48"/><line x1="86" y1="32" x2="96" y2="48"/><line x1="96" y1="48" x2="100" y2="58"/></g>
+              <g fill="#7d3c98"><circle cx="86" cy="32" r="3.4"/><circle cx="76" cy="48" r="3"/><circle cx="96" cy="48" r="3"/><circle cx="100" cy="58" r="3"/></g>
+              <g stroke="#d55181" stroke-width="1.5"><line x1="134" y1="70" x2="124" y2="86"/><line x1="134" y1="70" x2="144" y2="86"/></g>
+              <g fill="#d55181"><circle cx="134" cy="70" r="3.4"/><circle cx="124" cy="86" r="3"/><circle cx="144" cy="86" r="3"/></g>
+              <path d="M62 62 Q70 52 78 52" fill="none" stroke="#1b7f3b" stroke-width="1.6" marker-end="url(#pm-ok)"/>
+              <path d="M112 62 Q120 74 128 76" fill="none" stroke="#1b7f3b" stroke-width="1.6" marker-end="url(#pm-ok)"/>
+            </g>
+            <defs><marker id="pm-ok" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1b7f3b"/></marker></defs>
+          </svg>
+        </div>
+        <div class="choice-body">
+          <span class="kicker">1 &middot; Search-space exploration</span>
+          <h4>Islands that share ideas but never compete</h4>
+          <p class="was"><span class="mk mk-x">&times;</span>An LLM mutator exploits far more than it explores, so populations collapse onto variants of a few designs. Prior methods confine edits to prompts or skills, or rewrite whole harnesses with a single fixed, exploitation-biased mutator.</p>
+          <p class="now"><span class="mk mk-ok">&#10003;</span>Each island grows from its own seed with its own mutator agent. Islands exchange ideas through grafts but never compete for survival, so a mutator&rsquo;s bias stays confined. In one run the weakest seed produced the best harness.</p>
+        </div>
+      </article>
+
+      <article class="choice">
+        <div class="pict" aria-hidden="true">
+          <svg viewBox="0 0 170 120">
+            <g stroke="#b9c3d3" stroke-width="1.5">
+              <line x1="85" y1="16" x2="42" y2="50"/><line x1="85" y1="16" x2="85" y2="50"/><line x1="85" y1="16" x2="128" y2="50"/>
+              <line x1="42" y1="50" x2="24" y2="88"/><line x1="42" y1="50" x2="60" y2="88"/>
+              <line x1="128" y1="50" x2="112" y2="88"/><line x1="128" y1="50" x2="146" y2="88"/>
+            </g>
+            <circle cx="85" cy="16" r="6" fill="#3b4252"/>
+            <circle cx="42" cy="50" r="6" fill="#1b7f3b"/>
+            <circle cx="128" cy="50" r="6" fill="#1b7f3b"/>
+            <circle cx="60" cy="88" r="6" fill="#1b7f3b"/>
+            <circle cx="146" cy="88" r="6" fill="#d9412f"/>
+            <g stroke="#d9412f" stroke-width="1.6" fill="#fff">
+              <circle cx="85" cy="50" r="6"/><circle cx="24" cy="88" r="6"/><circle cx="112" cy="88" r="6"/>
+            </g>
+            <g stroke="#d9412f" stroke-width="1.6" stroke-linecap="round">
+              <path d="M82 47l6 6M88 47l-6 6"/><path d="M21 85l6 6M27 85l-6 6"/><path d="M109 85l6 6M115 85l-6 6"/>
+            </g>
+            <polygon points="146,80 148.4,85.6 154,85.6 149.6,89 151.2,94.6 146,91.4 140.8,94.6 142.4,89 138,85.6 143.6,85.6" fill="#d9412f" stroke="#fff" stroke-width="1.2"/>
+            <text x="85" y="112" text-anchor="middle" font-size="9" fill="#7b8494" font-family="Inter, sans-serif">rejected children stay in memory</text>
+          </svg>
+        </div>
+        <div class="choice-body">
+          <span class="kicker">2 &middot; Sample-efficient search</span>
+          <h4>A memory that keeps its failures</h4>
+          <p class="was"><span class="mk mk-x">&times;</span>Scoring one harness takes hours, so every evaluation must inform the search. Yet most methods are <i>failure-blind</i>: they keep only survivors, whether a single candidate, a Pareto front or the fittest per MAP-Elites cell, so failed directions get retried.</p>
+          <p class="now"><span class="mk mk-ok">&#10003;</span>The lineage memory is append-only: every seed-to-candidate path is kept, rejected children included, annotated with the edit that produced it and its outcome. Successes show which edits paid off; failures prune later mutations and push mutators toward bolder structural changes.</p>
+        </div>
+      </article>
+
+      <article class="choice">
+        <div class="pict" aria-hidden="true">
+          <svg viewBox="0 0 170 120">
+            <rect x="60" y="14" width="46" height="84" fill="#f59e0b" fill-opacity=".14"/>
+            <line x1="14" y1="98" x2="160" y2="98" stroke="#c8d0db"/>
+            <path d="M14 88 H30 V72 H46 V60 H60 V60 H106" fill="none" stroke="#8b93a0" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+            <path d="M106 60 V46 H120 V36 H134 V26 H156" fill="none" stroke="#d9412f" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
+            <circle cx="106" cy="60" r="5" fill="#fff" stroke="#d9412f" stroke-width="2"/>
+            <g transform="translate(83 32)">
+              <circle r="11" fill="#fff" stroke="#33415c" stroke-width="1.5"/>
+              <path d="M-5 3 L0 -5 L5 3" fill="none" stroke="#33415c" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="0" cy="-5" r="1.6" fill="#33415c"/>
+            </g>
+            <path d="M94 34 Q104 42 106 54" fill="none" stroke="#33415c" stroke-width="1.3" stroke-dasharray="2 2.5"/>
+            <text x="83" y="110" text-anchor="middle" font-size="9" fill="#b7791f" font-family="Inter, sans-serif">stall</text>
+            <text x="140" y="16" text-anchor="middle" font-size="9" fill="#b8321f" font-family="Inter, sans-serif" font-weight="600">intervene</text>
+          </svg>
+        </div>
+        <div class="choice-body">
+          <span class="kicker">3 &middot; Self-adaptive search</span>
+          <h4>An orchestrator that rewrites the strategy</h4>
+          <p class="was"><span class="mk mk-x">&times;</span>The strategy decides which parents are selected, how they are mutated and what is kept. Most methods fix it in advance and cannot escape local optima; the most adaptive evolve only parent selection and mutation.</p>
+          <p class="now"><span class="mk mk-ok">&#10003;</span>When an island stalls, the orchestrator diagnoses it and intervenes: reassigning its mutator, grafting from a stronger island, speciating a crowded-out niche, or reshaping the curriculum toward high-regret tasks.</p>
+        </div>
+      </article>
+
+      <article class="choice">
+        <div class="pict" aria-hidden="true">
+          <svg viewBox="0 0 170 120">
+            <line x1="26" y1="100" x2="158" y2="100" stroke="#c8d0db"/><line x1="26" y1="100" x2="26" y2="12" stroke="#c8d0db"/>
+            <text x="92" y="114" text-anchor="middle" font-size="9" fill="#7b8494" font-family="Inter, sans-serif">accuracy &rarr;</text>
+            <text x="14" y="56" text-anchor="middle" font-size="9" fill="#7b8494" font-family="Inter, sans-serif" transform="rotate(-90 14 56)">&larr; cost</text>
+            <path d="M40 30 L70 44 L98 62 L124 84" fill="none" stroke="#8b93a0" stroke-width="1.6" stroke-dasharray="3 3"/>
+            <g fill="#8b93a0"><circle cx="40" cy="30" r="4.5"/><circle cx="70" cy="44" r="4.5"/><circle cx="98" cy="62" r="4.5"/><circle cx="124" cy="84" r="4.5"/></g>
+            <circle cx="60" cy="26" r="5" fill="#fff" stroke="#8b93a0" stroke-width="1.5"/><path d="M57 23l6 6M63 23l-6 6" stroke="#8b93a0" stroke-width="1.4"/>
+            <path d="M124 84 Q136 70 146 60" fill="none" stroke="#d9412f" stroke-width="1.5" stroke-dasharray="2 2.5"/>
+            <polygon points="146,50 148.9,56.4 155.8,57.1 150.7,61.8 152.2,68.6 146,65.2 139.8,68.6 141.3,61.8 136.2,57.1 143.1,56.4" fill="#d9412f" stroke="#fff" stroke-width="1.3"/>
+            <text x="150" y="42" text-anchor="middle" font-size="9" fill="#b8321f" font-family="Inter, sans-serif" font-weight="600">admitted</text>
+          </svg>
+        </div>
+        <div class="choice-body">
+          <span class="kicker">4 &middot; Multi-objective fitness</span>
+          <h4>Admission by Pareto gain</h4>
+          <p class="was"><span class="mk mk-x">&times;</span>A harness sets not only whether an agent succeeds but also its tokens and latency. Yet almost all search methods optimize accuracy alone and drift toward costly harnesses; none optimizes latency.</p>
+          <p class="now"><span class="mk mk-ok">&#10003;</span>A child is admitted only if it grows its island&rsquo;s Pareto front in accuracy, tokens and latency. The discovered harnesses are both more accurate and cheaper to run: on Terminal-Bench, 0.74&times; the seed&rsquo;s tokens with Opus&nbsp;4.8 and 0.70&times; with gpt-oss-120b.</p>
+        </div>
+      </article>
     </div>
   </div>
 </section>
@@ -192,20 +305,20 @@
       <div class="card">
         <span class="tag">Component i</span>
         <h4>Hierarchical lineage memory</h4>
-        <p>A forest of per-island trees. Each node is a harness annotated with its accuracy, cost, failure evidence and admission verdict; each edge is the source-code patch that produced the child and the gains it brought.</p>
-        <p>The memory is <b>append-only</b>: rejected children stay as negative evidence. The orchestrator can <span class="mono">Graft</span> across islands, adding a cross-island edge, or <span class="mono">Speciate</span> a crowded-out subtree into a new island.</p>
+        <p>A forest of per-island trees. Each node is a harness annotated with its accuracy, cost, failure evidence and admission verdict; each edge is the source-code patch that produced the child and the gains it brought. The memory is <b>append-only</b>: rejected children stay as negative evidence.</p>
+        <p class="adapt"><b>Self-adaptive.</b> <span class="mono">Graft</span> breeds a stalled island&rsquo;s best harness with a donor island&rsquo;s, adding a cross-island edge so the destination inherits the donor&rsquo;s capability; <span class="mono">Speciate</span> promotes a crowded-out subtree to a new island of its own.</p>
       </div>
       <div class="card">
         <span class="tag">Component ii</span>
         <h4>Evidence-driven mutator agents</h4>
-        <p>Mutators are coding agents that reason over many turns with read, write, edit, search and bash tools. Each receives the parent&rsquo;s source, its failure evidence (traces and verifier reports), and a snapshot of the island&rsquo;s lineage rendered like a directory listing.</p>
-        <p>A <b>diagnose-first workflow</b>: find why the parent fails, then apply anything from a local fix to a control-flow rewrite. The pool holds six agents: Claude Code, Codex, and DeepAgents paired with Opus&nbsp;4.8, GPT-5.5, gpt-oss-120b or Qwen3-Coder-480B.</p>
+        <p>Mutators are coding agents that reason over many tool-calling turns. Each receives the parent&rsquo;s source, its failure evidence (traces and verifier reports) and a snapshot of the island&rsquo;s lineage, and follows a <b>diagnose-first workflow</b>: find why the parent fails, then apply anything from a local fix to a control-flow rewrite. A pool of heterogeneous agents, each pairing a different model with a different scaffold, gives islands different mutation tendencies.</p>
+        <p class="adapt"><b>Self-adaptive.</b> The island&ndash;mutator assignment carries over between rounds until <span class="mono">Reassign</span> hands a stalled island a different mutator whose tendencies fit its diagnosed need.</p>
       </div>
       <div class="card">
         <span class="tag">Component iii</span>
         <h4>Meta-evolutionary orchestrator</h4>
-        <p>A single agent that observes <b>all</b> islands. Triggered when an island stalls for <span class="math">P</span> rounds, it diagnoses the bottleneck against the whole search configuration (memory, island&ndash;mutator assignment, curriculum) and intervenes with at most two moves.</p>
-        <p>By rewriting that configuration, the search self-adapts its memory, mutators and curriculum. To our knowledge, no prior evolutionary search adapts as broadly.</p>
+        <p>A single agent that observes <b>all</b> islands. Triggered when an island stalls for <span class="math">P</span> rounds, it diagnoses the bottleneck against the whole search configuration: the memory, the island&ndash;mutator assignment and the <b>curriculum</b> of search tasks. It intervenes with at most two moves.</p>
+        <p class="adapt"><b>Self-adaptive.</b> Besides <span class="mono">Graft</span>, <span class="mono">Speciate</span> and <span class="mono">Reassign</span>, <span class="mono">Curriculum</span> replaces the search set with high-<i>regret</i> tasks, those a few harnesses solve and most fail, where search helps most. By rewriting the configuration, the search adapts its memory, mutators and curriculum together.</p>
       </div>
     </div>
 
