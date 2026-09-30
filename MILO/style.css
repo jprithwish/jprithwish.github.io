@@ -371,6 +371,8 @@ figcaption b { color: var(--ink); }
 .chart .chart-title { font-family: var(--display); font-size: 19px; font-weight: 600; color: var(--navy); margin: 0 0 4px; letter-spacing: -.008em; }
 .chart .chart-sub { font-size: 14px; color: var(--ink-soft); margin: 0; line-height: 1.5; }
 .chart .chart-head .seg { flex: none; margin-bottom: 2px; }
+.chart .replay-tag { display: inline-flex; align-items: center; gap: 7px; margin: 0 0 8px; font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent-ink); }
+.chart .replay-tag i { display: inline-block; width: 0; height: 0; border-style: solid; border-width: 4.5px 0 4.5px 7px; border-color: transparent transparent transparent var(--accent); }
 .legend { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 0; padding: 14px 24px 2px; font-size: 13.5px; color: var(--ink-soft); }
 .legend span { display: inline-flex; align-items: center; gap: 7px; }
 .legend i.sw { display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: var(--c); flex: none; }
