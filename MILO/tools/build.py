@@ -506,12 +506,10 @@ def cost_panels():
                 b.append(txt(x0 - 8, sy(t) + 3.5, f"{t:g}", "tick-label", "end"))
             for t in xticks:
                 b.append(line(sx(t), y0, sx(t), y0 + ph, "tick-line"))
-                if ri == 1:
-                    b.append(txt(sx(t), y0 + ph + 16, f"{t}", "tick-label", "middle"))
+                b.append(txt(sx(t), y0 + ph + 16, f"{t}", "tick-label", "middle"))
             b.append(line(x0, y0 + ph, x0 + pw, y0 + ph, "axis-line"))
             b.append(txt(x0 - 44, y0 + ph / 2, ylab, "axis-title", "middle", f' transform="rotate(-90 {x0 - 44:.1f} {y0 + ph / 2:.1f})"'))
-            if ri == 1:
-                b.append(txt(x0 + pw / 2, y0 + ph + 34, xlab, "axis-title", "middle"))
+            b.append(txt(x0 + pw / 2, y0 + ph + 34, xlab, "axis-title", "middle"))   # every panel carries its own x-axis
             # MILO guide lines (solid, faint): nothing to the right is higher in accuracy
             mx, my = data[17][0], data[17][idx]
             b.append(f'<line x1="{sx(mx):.1f}" y1="{y0}" x2="{sx(mx):.1f}" y2="{y0 + ph}" stroke="{RED}" stroke-opacity=".28" stroke-width="1"/>')
