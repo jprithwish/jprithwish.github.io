@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MILO · one search, replayed round by round</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  body { background: #fff; }
+  .vwrap { width: 1232px; margin: 0 auto; padding: 12px 0 0; }
+  .vtitle { display: flex; align-items: baseline; gap: 14px; margin: 0 0 2px; }
+  .vtitle b { font-family: var(--display); font-size: 21px; color: var(--navy); font-weight: 600; letter-spacing: -.01em; }
+  .vtitle b .brand { color: var(--accent-ink); letter-spacing: .03em; }
+  .vtitle small { font-size: 12.5px; color: var(--ink-faint); font-weight: 500; }
+  .legend { padding: 4px 0 0; font-size: 12.5px; }
+  .demo { padding: 0; }
+  .demo-ctl { display: none; }
+</style>
+</head>
+<body>
+<div class="vwrap">
+  <div class="vtitle"><b><span class="brand">MILO</span> · one search, replayed round by round</b><small>Terminal-Bench 2.1 · gpt-oss-120b · three islands · 30 rounds · 93 candidate harnesses · jprithwish.github.io/MILO</small></div>
+  <div class="legend">
+    <span><i class="sw sw-dot" style="--c:#2a78d6"></i>Island 1</span><span><i class="sw sw-dot" style="--c:#7d3c98"></i>Island 2</span><span><i class="sw sw-dot" style="--c:#d55181"></i>Island 3</span>
+    <span><i class="sw sw-dot" style="--c:#fff; box-shadow: inset 0 0 0 1.5px #9aa3b2"></i>Rejected child (kept in memory)</span><span><i class="sw sw-arrow" style="--c:#1b7f3b"></i>Graft admitted</span><span><i class="sw sw-arrow" style="--c:#9aa3b2"></i>Graft rejected</span><span><i class="sw sw-line" style="--c:#33415c"></i>Orchestrator invoked</span>
+  </div>
+  <div id="demo" class="demo" data-autoplay></div>
+</div>
+<script src="static/demo-run.js"></script>
+<script src="demo.js"></script>
+</body>
+</html>
