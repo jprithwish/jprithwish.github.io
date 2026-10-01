@@ -1658,7 +1658,7 @@ a:hover {
   font-weight: 500;
 }
 .bio-list li { margin-bottom: 0; }
-.bio-k { font-weight: 700; color: #1a3a5c; background: #dbe8f6; border: 1px solid #bdd4ee; border-radius: 4px; padding: 0 5px; margin-right: 0; }
+.bio-k { font-weight: 700; color: #fff; background: #2a6099; border-radius: 4px; padding: 1px 7px; margin-right: 0; }
 .news-date { margin-right: 8px; }
 /* talks / teaching / services: same body size as education, news and awards */
 #invited-talks .service-desc, #teaching .service-desc, #academic-services .service-desc, #academic-services .service-line { font-size: 13.5px; }
