@@ -211,4 +211,12 @@
       });
     });
   } else if (copy) { copy.style.display = 'none'; }
+
+  /* ---------- Fig. 1 on phones: fade the right edge until the sideways-scrolling figure reaches its end ---------- */
+  Array.prototype.forEach.call(document.querySelectorAll('.figlive'), function (sc) {
+    function edge() { sc.classList.toggle('at-end', sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 2); }
+    sc.addEventListener('scroll', edge, { passive: true });
+    window.addEventListener('resize', edge);
+    edge();
+  });
 })();
