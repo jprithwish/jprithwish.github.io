@@ -243,6 +243,16 @@ figcaption b { color: var(--ink); }
 }
 .fighint { display: block; margin-top: 6px; font-size: 13.5px; line-height: 1.55; color: var(--ink-faint); }
 .fighint a { color: var(--accent-ink); border-bottom-color: rgba(173, 74, 7, .35); }
+.fighint a.peek-static { cursor: zoom-in; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; touch-action: none; }
+/* press-and-hold peek at the static figure */
+.peek { position: fixed; inset: 0; z-index: 60; display: flex; align-items: center; justify-content: center; padding: 3vh 3vw; background: rgba(0, 32, 59, .58); backdrop-filter: blur(7px) saturate(120%); -webkit-backdrop-filter: blur(7px) saturate(120%); opacity: 0; pointer-events: none; transition: opacity .14s ease-in; }
+.peek.on { opacity: 1; transition: opacity .22s ease-out; }
+.peek-card { display: flex; flex-direction: column; gap: 10px; background: #fff; border-radius: 16px; box-shadow: 0 30px 80px rgba(0, 20, 40, .35), 0 2px 10px rgba(0, 20, 40, .12); padding: 18px 18px 12px; max-width: 94vw; max-height: 92vh;
+  transform: translateY(12px) scale(.965); transition: transform .14s ease-in; }
+.peek.on .peek-card { transform: none; transition: transform .28s cubic-bezier(.2, .75, .2, 1); }   /* rises and settles on press, slips away on release */
+@media (prefers-reduced-motion: reduce) { .peek-card, .peek.on .peek-card { transform: none; transition: none; } .peek, .peek.on { transition: opacity .12s linear; } }
+.peek-card img { display: block; width: auto; height: auto; max-width: calc(94vw - 36px); max-height: calc(92vh - 62px); }
+.peek-label { font-size: 12.5px; color: var(--ink-faint); text-align: center; letter-spacing: .02em; }
 .fighint .h-touch, .fighint .h-swipe { display: none; }
 @media (hover: none) { .fighint .h-mouse { display: none; } .fighint .h-touch { display: inline; } }
 @media (hover: none) and (max-width: 760px) { .fighint .h-swipe { display: inline; } }

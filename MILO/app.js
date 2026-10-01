@@ -212,6 +212,28 @@
     });
   } else if (copy) { copy.style.display = 'none'; }
 
+  /* ---------- press-and-hold peek: the static Fig. 1 pops up while the caption link is held, and goes when released ---------- */
+  var peek = document.getElementById('peek'), peekImg = peek ? peek.querySelector('img') : null;
+  if (peek && peekImg) {
+    Array.prototype.forEach.call(document.querySelectorAll('a.peek-static'), function (a) {
+      var src = a.getAttribute('href'), held = false;
+      function load() { if (!peekImg.getAttribute('src')) peekImg.src = src; }
+      function show() { load(); held = true; peek.classList.add('on'); peek.setAttribute('aria-hidden', 'false'); }
+      function hide() { held = false; peek.classList.remove('on'); peek.setAttribute('aria-hidden', 'true'); }
+      a.addEventListener('pointerenter', load);                     // start fetching before the press
+      var fig = a.closest('figure');                                  // and already when the figure scrolls into view, so touch users never see an empty card
+      if (fig && 'IntersectionObserver' in window) { var pio = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { load(); pio.disconnect(); } }, { rootMargin: '200px' }); pio.observe(fig); }
+      a.addEventListener('pointerdown', function (e) { if (e.button === 0) { e.preventDefault(); show(); } });
+      ['pointerup', 'pointercancel'].forEach(function (t) { window.addEventListener(t, function () { if (held) hide(); }); });
+      window.addEventListener('blur', function () { if (held) hide(); });
+      a.addEventListener('click', function (e) { if (!e.metaKey && !e.ctrlKey && e.button === 0) e.preventDefault(); });   // plain click never navigates; modifier-click still opens the SVG
+      a.addEventListener('contextmenu', function (e) { if (held) e.preventDefault(); });                                   // long-press on touch must not pop the menu
+      a.addEventListener('keydown', function (e) { if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); if (!e.repeat) show(); } });
+      a.addEventListener('keyup', function (e) { if (e.key === ' ' || e.key === 'Enter') hide(); });
+      a.addEventListener('blur', hide);
+    });
+  }
+
   /* ---------- Fig. 1 on phones: fade the right edge until the sideways-scrolling figure reaches its end ---------- */
   Array.prototype.forEach.call(document.querySelectorAll('.figlive'), function (sc) {
     function edge() { sc.classList.toggle('at-end', sc.scrollLeft + sc.clientWidth >= sc.scrollWidth - 2); }
