@@ -831,7 +831,7 @@ def stamp_assets(html):
     (cache-control: max-age=600) never serves a stale stylesheet or script after a push."""
     import re as _re, time as _time
     v = _time.strftime("%Y%m%d%H%M")
-    return _re.sub(r'((?:href|src)="(?:style\.css|app\.js|demo\.js|einstein\.js|static/demo-run\.js|static/einstein-run\.js))(?:\?v=[^"]*)?"',
+    return _re.sub(r'((?:href|src)="(?:style\.css|app\.js|demo\.js|einstein\.js|static/demo-run\.js|static/einstein-run\.js|static/milo-method\.html))(?:\?v=[^"]*)?"',
                    lambda m: m.group(1) + "?v=" + v + '"', html)
 
 
