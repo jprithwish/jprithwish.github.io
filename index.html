@@ -25,25 +25,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=11" />
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,400;1,8..60,500&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css?v=12" />
 </head>
 <body>
 
-  <!-- Campus banner (name & affiliation are in the sidebar; research tags are in the bio) -->
-  <header class="page-header">
-    <div class="banner-image-wrap">
-      <img
-        src="images/gatech_banner.jpg?v=1"
-        alt="Georgia Institute of Technology"
-        class="banner-image"
-        width="1920"
-        height="400"
-        decoding="async"
-        fetchpriority="high"
-      />
-    </div>
-  </header>
 
   <!-- ===== MAIN LAYOUT ===== -->
   <div class="container">
@@ -59,7 +45,7 @@
 
         <img src="images/profile1.jpg?v=1" alt="Prithwish Jana" class="profile-photo" />
 
-        <p class="sidebar-position">Ph.D. Candidate in Computer Science,</p>
+        <p class="sidebar-position">Ph.D. Candidate in Computer Science</p>
         <!-- <p class="sidebar-inst">School of CS, College of Computing</p> -->
         <p class="sidebar-inst">Georgia Institute of Technology</p>
         <p class="sidebar-inst muted">Atlanta, USA</p>
@@ -135,15 +121,17 @@
         I spent one year of my Ph.D. at the
         <a href="https://uwaterloo.ca/" target="_blank">University of Waterloo</a>, Canada.
       </p>
-      <p>I build AI systems that can <strong>reason</strong>, <strong>verify</strong>, and <strong>self-correct</strong>: grounding the empirical power of large language models (LLMs) in symbolic and formal frameworks, with the long-term goal of systems that are not just <strong>capable</strong>, but can <strong>certify their own correctness</strong>.</p>
+      <p class="lede">I build AI systems that can <strong>reason</strong>, <strong>verify</strong>, and <strong>self-correct</strong>: grounding the empirical power of large language models (LLMs) in symbolic and formal frameworks, with the long-term goal of systems that are not just <strong>capable</strong>, but can <strong>certify their own correctness</strong>.</p>
       <p>
-        My research lies at the intersection of <strong>automated reasoning</strong> and <strong>machine learning</strong>,
-        building <strong>neuro-symbolic AI</strong> that couples LLMs with formal methods, solvers, and verifiers.
-        My expertise spans <strong>LLM post-training</strong> via <strong>reinforcement learning from symbolic feedback</strong>,
-        <strong>semantic alignment</strong>, and <strong>evolutionary search</strong>, applied broadly across
-        <strong>AI for software engineering</strong> (AI4SE) and <strong>AI for mathematics</strong> (AI4Math):
-        <strong>self-improving coding agents</strong> that evolve their own harnesses, and auto-formalization and proof synthesis in
-        <a href="https://lean-lang.org/" target="_blank">Lean</a>.
+        My research lies at the intersection of <strong>automated reasoning</strong> and <strong>machine learning</strong>:
+        I build <strong>neuro-symbolic AI</strong> that couples LLMs with formal methods, solvers, and verifiers.
+      </p>
+      <ul class="bio-list">
+        <li><span class="bio-k">Methods.</span> <strong>LLM post-training</strong> via <strong>reinforcement learning from symbolic feedback</strong>, <strong>semantic alignment</strong>, and <strong>evolutionary search</strong>.</li>
+        <li><span class="bio-k">AI for software engineering.</span> <strong>Self-improving coding agents</strong> that evolve their own harnesses.</li>
+        <li><span class="bio-k">AI for mathematics.</span> Auto-formalization and proof synthesis in <a href="https://lean-lang.org/" target="_blank">Lean</a>.</li>
+      </ul>
+      <p>
         My work has appeared at <strong>ICLR</strong>, <strong>ICSE</strong>, <strong>IJCAI</strong>, <strong>ECAI</strong>, and <strong>WWW</strong>,
         including a <strong>Distinguished Paper Award at ICSE 2026</strong>.
       </p>
@@ -166,8 +154,8 @@
         (<strong>University Gold Medalist</strong>, 2020), graduating at the top of my class at both the institutes.
         I have interned twice at <a href="https://aws.amazon.com/" target="_blank">AWS AI Labs</a> (Amazon, Seattle) as an <strong>Applied Scientist II</strong>:
         in Summer 2026 with the Kiro Science team, leading R&amp;D of <a href="https://jprithwish.github.io/MILO/" target="_blank"><strong>MILO</strong></a>, an evolutionary search framework for
-        automated harness discovery and self-improving coding agents (<a href="https://arxiv.org/abs/2609.38349" target="_blank">first-author preprint</a>),
-        and in Summer 2025 with the Next Gen DevX team, building <strong>TerraFormer</strong>, a verifier-guided coding agent for Infrastructure-as-Code
+        automated harness discovery and self-improving coding agents (<a href="https://arxiv.org/abs/2609.38349" target="_blank">preprint</a>),
+        and in Summer 2025 with the Next Gen DevX team, building <a href="https://arxiv.org/abs/2601.08734" target="_blank"><strong>TerraFormer</strong></a>, a verifier-guided coding agent for Infrastructure-as-Code
         (<strong>ICSE 2026 Distinguished Paper</strong>).
         I am also a recipient of the
         Reliance Foundation Scholarship for AI &amp; CS (2021), and prestigious national awards
@@ -312,7 +300,7 @@
 
     <li class="news-item">
       <span class="news-date">Sep 2026</span>
-      <span class="news-text">Our first-author preprint <strong>MILO: Automated Harness Discovery via Orchestrated Multi-Agent Evolution</strong> is on arXiv, with an interactive <a href="https://jprithwish.github.io/MILO/" target="_blank" rel="noopener noreferrer">project page</a>: new SoTA on Terminal-Bench 2.1, PaperBench and DeepSWE, and three new records on EinsteinArena&rsquo;s open math problems.
+      <span class="news-text">Our preprint <strong>MILO: Automated Harness Discovery via Orchestrated Multi-Agent Evolution</strong> is on arXiv, with an interactive <a href="https://jprithwish.github.io/MILO/" target="_blank" rel="noopener noreferrer">project page</a>: new SoTA on Terminal-Bench 2.1, PaperBench and DeepSWE, and three new records on EinsteinArena&rsquo;s open math problems.
       <a href="https://arxiv.org/abs/2609.38349" target="_blank" rel="noopener noreferrer">[arXiv]</a>
       <a href="https://huggingface.co/papers/2609.38349" target="_blank" rel="noopener noreferrer">[Hugging Face]</a></span>
     </li>
@@ -630,9 +618,6 @@
           <!-- During PhD -->
           <h3 class="award-subheading">During Ph.D.</h3>
 
-          <article class="award-block">
-            <p class="award-text"><span class="label"><strong>ICLR 2026 Travel Grant</strong></span> — Travel grant to attend the 14th International Conference on Learning Representations in person; Rio de Janeiro, Brazil (2026)</p>
-          </article>
 
           <article class="award-block">
             <p class="award-text"><span class="label"><strong>Distinguished Paper Award, ICSE 2026</strong></span> — One of 3 papers recognized among 74 accepted in the SEIP track at the IEEE/ACM 48th Int'l Conference on Software Engineering (2026)</p>
@@ -650,13 +635,7 @@
             <p class="award-text"><span class="label"><strong>Lunch with a EurAI Fellow Invitee, ECAI 2024</strong></span> — Invited for a select Ph.D. lunch discussion with Prof. Mehdi Dastani (EurAI Fellow; Chair, ECAI 2025) (2024)</p>
           </article>
 
-          <article class="award-block">
-            <p class="award-text"><span class="label"><strong>IJCAI 2024 Travel Grant</strong></span> — Travel grant to attend the 33rd International Joint Conference on AI; Jeju Island, South Korea (2024)</p>
-          </article>
 
-          <article class="award-block">
-            <p class="award-text"><span class="label"><strong>CAV 2024 Travel Scholarship</strong></span> — Full scholarship to attend the 36th International Conference on Computer-Aided Verification; Montréal, Canada (2024)</p>
-          </article>
 
           <!-- During Master's -->
           <h3 class="award-subheading">During Master's</h3>
