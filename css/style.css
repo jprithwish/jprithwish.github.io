@@ -1650,13 +1650,15 @@ a:hover {
 }
 /* ===== Additions for the CV-aligned text (2026-10) ===== */
 .bio-list {
-  margin: 0 0 12px 0;
+  margin: -6px 0 12px 0;
   padding: 0 0 0 1.25rem;
   font-size: 14.5px;
-  line-height: 1.72;
+  line-height: 1.6;
   color: var(--text-primary);
   font-weight: 500;
 }
-.bio-list li { margin-bottom: 4px; }
+.bio-list li { margin-bottom: 0; }
 .bio-k { font-weight: 700; color: #1a3a5c; }
-.news-date::after { content: " \2014"; font-weight: 500; color: var(--text-secondary); }
+.news-date { margin-right: 8px; }
+/* talks / teaching / services: same body size as education, news and awards */
+#invited-talks .service-desc, #teaching .service-desc, #academic-services .service-desc, #academic-services .service-line { font-size: 13.5px; }
