@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   btn.style.cssText = `
     position: fixed; bottom: 28px; right: 28px;
     width: 38px; height: 38px;
-    background: #003057; color: #fff;
+    background: #2a6099; color: #fff;
     border: none; border-radius: 50%;
     font-size: 16px; font-weight: 700;
     cursor: pointer; opacity: 0;
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  btn.addEventListener('mouseenter', () => { btn.style.background = '#8a6d1f'; });
-  btn.addEventListener('mouseleave', () => { btn.style.background = '#003057'; });
+  btn.addEventListener('mouseenter', () => { btn.style.background = '#c0562a'; });
+  btn.addEventListener('mouseleave', () => { btn.style.background = '#2a6099'; });
 
 });
