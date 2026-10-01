@@ -187,6 +187,8 @@ h1.title .brand { color: var(--accent-ink); letter-spacing: .02em; }
 .btn-arxiv  { --brand: #b31b1b; --brand-edge: #e8c4c4; }
 .btn-pdf    { --brand: #475569; --brand-edge: #cfd6e0; }
 .btn-github { --brand: #24292f; --brand-edge: #ccd1d8; }
+.btn-hf     { --brand: #7a5200; --brand-edge: #efd88f; }
+.btn-hf:hover { background: #ffd21e; border-color: #e8bb00; color: #1f2328; }
 .btn-cite   { --brand: var(--navy); --brand-edge: #cdd4de; }
 .btn.soon { border-style: dashed; box-shadow: none; cursor: default; pointer-events: none; opacity: .72; }
 .btn.soon .tag-soon {
