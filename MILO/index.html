@@ -121,13 +121,12 @@
       <sup>&Dagger;</sup>Senior co-authorship.
     </p>
     <div class="brief reveal">
-      <span class="tag">In brief</span>
-      <ul>
-        <li>Multiple agentic mutators, each evolving its own island of candidates, rewrite <em>whole</em> harnesses, including their control flow, to fit the target task distribution, orchestrated by a meta-agent that grafts what works between islands, swaps in fresh mutators when one runs dry, and reshapes the curriculum, so the search itself keeps evolving toward the strongest harness.</li>
-        <li>MILO&rsquo;s harnesses outperform eight expert-built and six searched harnesses on command-line, paper-replication and software-engineering tasks.</li>
-        <li>On Terminal-Bench&nbsp;2.1 they reach 86.1%, above the leaderboard&rsquo;s top entry, with 26% fewer tokens than their seed.</li>
-        <li>On EinsteinArena&rsquo;s open math problems, MILO sets three new records, surpassing AlphaEvolve, TTT-Discover and EvoX.</li>
-      </ul>
+      <span class="tag">TL;DR</span>
+      <ol>
+        <li><b>Automated harness discovery (AHD) via diversity-preserving, prune-inducing, exploratory search.</b> We formalize harness engineering as strategy-level discovery of a solver (a harness) generalizing over tasks and propose MILO, an AHD framework. Its memory is partitioned into lineages (<em>islands</em>) sharing ideas but never competing, so distinct harnesses survive the exploitative bias of mutator agents (<em>diversity-preserving</em>). It retains rejected candidates, so mutators avoid failed patterns (<em>prune-inducing</em>) and pursue bolder structural changes (<em>exploratory</em>).</li>
+        <li><b>Self-adaptive search via a meta-evolutionary orchestrator agent.</b> We introduce an orchestrator in evolutionary search that detects and escapes local optima by evolving the search strategy: mutators, memory, and curriculum. To our knowledge, no prior evolutionary search adapts as broadly.</li>
+        <li><b>State-of-the-art results on software engineering and open mathematical problems.</b> MILO outperforms eight SoTA harnesses and six evolutionary search methods on Terminal-Bench&nbsp;2.1, PaperBench, and DeepSWE with Opus&nbsp;4.8 and gpt-oss-120b. With gpt-oss-120b, it reaches 15.6% on DeepSWE, 20&times; its initial harness, while prior search stays below 1%. Its harnesses generalize: the Terminal-Bench&nbsp;2.1 harness scores 2.7&times; Mini-SWE-Agent on the harder Frontier-Bench without further search. On EinsteinArena, MILO sets new records on three open problems, surpassing the best-known bounds, including those of AlphaEvolve, TTT-Discover, and EvoX.</li>
+      </ol>
     </div>
   </div>
 </header>
