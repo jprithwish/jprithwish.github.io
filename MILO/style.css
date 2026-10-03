@@ -662,15 +662,14 @@ footer a { color: var(--ink-faint); }
 }
 
 
-/* ---------- in-brief card and paragraph cards (2026-10-03) ---------- */
-.brief { max-width: 900px; margin: -12px auto 40px; text-align: left; background: #fff; border: 1px solid var(--rule); border-radius: 18px; padding: 22px 28px 20px; box-shadow: var(--shadow-md); }
-.brief .tag { display: block; font-family: var(--sans); font-size: 12px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 10px; }
-.brief ol { margin: 0; padding-left: 22px; font-size: 16px; line-height: 1.62; color: var(--ink-soft); }
-.brief li { margin: 0 0 10px; }
-.brief li:last-child { margin: 0; }
-.brief li b { color: var(--ink); }
-.brief li em { color: var(--ink); font-style: italic; }
-.brief li::marker { font-family: var(--sans); font-weight: 700; color: var(--accent-ink); }
+/* ---------- TL;DR tiles and paragraph cards (2026-10-03) ---------- */
+.tldr3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1040px; margin: -10px auto 44px; text-align: left; }
+.t3 { background: #fff; border: 1px solid var(--rule); border-radius: 18px; padding: 20px 22px 18px; box-shadow: var(--shadow-md); display: flex; flex-direction: column; }
+.t3 .tag { font-family: var(--sans); font-size: 11.5px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 10px; }
+.t3 b { font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1.3; color: var(--ink); margin-bottom: 10px; }
+.t3 p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink-soft); }
+.t3 p em { color: var(--ink); font-style: italic; }
+@media (max-width: 900px) { .tldr3 { grid-template-columns: 1fr; } }
 .cards2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .cards2 p { background: var(--tint); border: 1px solid var(--rule); border-radius: 16px; padding: 20px 22px; margin: 0; }
 @media (max-width: 760px) { .cards2 { grid-template-columns: 1fr; } }
