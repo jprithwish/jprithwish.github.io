@@ -190,7 +190,7 @@ tr.total td { font-weight: 700; color: var(--ink); border-top: 2px solid var(--r
 /* ---- full results table: quiet rules, one accent, numbers lead ---- */
 .tablewrap.full table { font-size: 12.5px; }
 .tablewrap.full th, .tablewrap.full td { padding: 3px 6px; line-height: 1.45; border-top: 0; border-bottom: 1px solid var(--rule-soft); vertical-align: middle; white-space: nowrap; }
-.tablewrap.full th:first-child, .tablewrap.full td:first-child { padding-left: 16px; min-width: 360px; color: var(--ink); }
+.tablewrap.full th.sys, .tablewrap.full td:first-child { padding-left: 16px; min-width: 360px; color: var(--ink); }
 .tablewrap.full th:last-child, .tablewrap.full td:last-child { padding-right: 16px; }
 .tablewrap.full thead th { background: var(--surface); color: var(--ink); text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 12.5px; }
 .tablewrap.full thead tr:first-child th { text-align: center; padding-top: 10px; padding-bottom: 1px; border-bottom: 0; vertical-align: bottom; }
