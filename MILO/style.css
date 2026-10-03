@@ -698,3 +698,4 @@ footer a { color: var(--ink-faint); }
 .tldr li li { font-size: 15.5px; margin: 0 0 6px; padding-left: 20px; }
 .tldr li li::before { width: 5px; height: 5px; top: .72em; background: var(--ink-faint); }
 .tldr li li:last-child { margin: 0; }
+.tldr .after { display: block; margin-top: 8px; }
