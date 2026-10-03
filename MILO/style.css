@@ -272,14 +272,24 @@ figcaption b { color: var(--ink); }
 .stat::before { content: none; }
 .stat .t { display: block; font-size: 12px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 10px; }
 .stat .k { display: block; font-family: var(--display); font-size: clamp(34px, 3vw, 44px); font-weight: 700; line-height: 1; letter-spacing: -.015em; color: var(--navy); }
-.stat .k.k-rows { font-size: 22px; display: flex; flex-direction: column; gap: 10px; }
-.stat .k-rows .row { display: block; white-space: nowrap; line-height: 1.1; }
-.stat .k-rows .row em { display: block; font-family: var(--sans); font-style: normal; font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 3px; }
-.stat .k-rows .row small { display: block; font-family: var(--sans); font-size: 12.5px; font-weight: 500; color: var(--ink-soft); margin: 4px 0 0; letter-spacing: 0; white-space: normal; }
+.gains { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 14px; margin-top: 2px; }
+.gains .bk { grid-column: 1 / -1; font-family: var(--sans); font-size: 11.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-ink); margin-top: 6px; }
+.gains .bk:first-child { margin-top: 0; }
+.gains .g { display: flex; flex-direction: column; min-width: 0; }
+.gains .b { font-family: var(--sans); font-size: 11px; color: var(--ink-faint); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.gains .v { font-family: var(--display); font-size: 24px; font-weight: 700; line-height: 1.05; color: var(--navy); margin: 2px 0 5px; letter-spacing: -.01em; }
+.gains .bar { position: relative; display: block; height: 5px; border-radius: 3px; background: var(--rule-soft); overflow: hidden; }
+.gains .bar i { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 3px; background: var(--navy); }
+.gains .bar i.pr { background: var(--accent); opacity: .55; height: 100%; }
+.gains .p { font-family: var(--sans); font-size: 11px; color: var(--ink-faint); margin-top: 5px; white-space: nowrap; }
+.records { list-style: none; margin: 12px 0 0; padding: 0; }
+.records li { display: flex; flex-direction: column; margin: 0 0 7px; line-height: 1.35; }
+.records .nm { font-family: var(--sans); font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.records .bd { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
 .stat .k small { display: block; font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--accent-ink); letter-spacing: 0; margin: 6px 0 0; }
 .stat .lbl { display: block; margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
 .stat .lbl b { color: var(--ink); font-weight: 600; }
-@media (max-width: 900px) { .stats { grid-template-columns: 1fr 1fr; row-gap: 22px; } .stat-wide { grid-column: 1 / -1; } .stat + .stat { border-left: 0; padding-left: 0; } .stat:nth-child(even) { border-left: 1px solid var(--rule); padding-left: 22px; } }
+@media (max-width: 900px) { .stats { grid-template-columns: 1fr 1fr; row-gap: 22px; } .stat-wide { grid-column: 1 / -1; } .gains .b, .gains .p { white-space: normal; } .stat + .stat { border-left: 0; padding-left: 0; } .stat:nth-child(even) { border-left: 1px solid var(--rule); padding-left: 22px; } }
 
 
 /* ---------- overview: anatomy strip, fact callout, problem box, design choices ---------- */
