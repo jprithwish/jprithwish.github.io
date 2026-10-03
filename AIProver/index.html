@@ -1,215 +1,257 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js): same property as the home page -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DLE30EBY5E"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-DLE30EBY5E');
-  </script>
-
+  <script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-DLE30EBY5E');</script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AIProver: Agentic Auto-Formalization of Mathematical Research via Certificate-Driven Evolving Harness</title>
-  <meta name="description" content="AIProver is an agentic framework for proof auto-formalization and proof synthesis that jointly post-trains a 119B open-weight model and evolves its tool-calling harness with HarnessEvolve. On LoCoBench, a 58.9k-instance research-level benchmark, it lifts semantic correctness from 15.7% to 36.7% standalone, and lifts Claude Code and Codex to 79.8% and 62.4% as a skill, at lower cost than prior Lean agents.">
+  <meta name="description" content="AIProver is an agentic framework for autonomous proof auto-formalization and proof synthesis that jointly post-trains a 119B open-weight language model and evolves its agentic, tool-calling harness with HarnessEvolve. On LoCoBench, 58.9k research-level instances, it lifts pass@4 semantic correctness over its Leanstral-1.5 base from 15.7% to 36.7%, and as a Claude Code and Codex skill lifts their semantic correctness from 41.9% and 34.1% to 79.8% and 62.4%.">
   <meta name="author" content="Prithwish Jana">
   <meta property="og:type" content="article">
   <meta property="og:title" content="AIProver: Agentic Auto-Formalization of Mathematical Research via Certificate-Driven Evolving Harness">
-  <meta property="og:description" content="A post-trained open-weight Lean agent whose harness is evolved by certificate-driven search. 36.7% semantic correctness standalone on research-level mathematics, 79.8% as a Claude Code skill, on the accuracy-cost Pareto frontier.">
+  <meta property="og:description" content="An open-weight Lean agent whose model is post-trained and whose harness is evolved by certificate-driven search. 36.7% semantic correctness standalone on research-level mathematics; 79.8% as a Claude Code skill; on the accuracy-cost Pareto frontier.">
   <meta property="og:image" content="https://jprithwish.github.io/AIProver/static/aiprover_fullpipeline.png">
   <meta property="og:url" content="https://jprithwish.github.io/AIProver/">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="static/favicon.svg" type="image/svg+xml">
   <link rel="canonical" href="https://jprithwish.github.io/AIProver/">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261003">
-  <noscript><style>.reveal{opacity:1;transform:none}</style></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=20261003b">
+  <noscript><style>.reveal{opacity:1;transform:none}.steps .ctl{display:none}</style></noscript>
 </head>
 <body>
 
-<nav class="nav" id="nav" aria-label="Page sections">
-  <div class="wrap">
+<nav class="nav" id="nav" aria-label="Sections">
+  <div class="wide">
     <a class="mark" href="#top"><img src="static/favicon.svg" alt="">AIProver</a>
     <span class="links">
-      <a href="#overview">Overview</a>
-      <a href="#method">Method</a>
-      <a href="#locobench">LoCoBench</a>
-      <a href="#results">Results</a>
-      <a href="#cost">Cost</a>
-      <a href="#bibtex">BibTeX</a>
+      <a href="#problem">Problem</a><a href="#approach">Approach</a><a href="#components">Components</a><a href="#locobench">LoCoBench</a><a href="#results">Results</a><a href="#cost">Cost</a><a href="#skill">Skill</a><a href="#bibtex">BibTeX</a>
     </span>
   </div>
-  <span class="nav-progress" aria-hidden="true"></span>
+  <span class="progress" aria-hidden="true"></span>
 </nav>
-<aside class="rail" id="rail" aria-label="Page sections">
-  <span class="rail-marker" aria-hidden="true"></span>
-  <a href="#overview"><span class="rn">01</span><span class="rl">Overview</span></a>
-  <a href="#method"><span class="rn">02</span><span class="rl">Method</span></a>
-  <a href="#locobench"><span class="rn">03</span><span class="rl">LoCoBench</span></a>
-  <a href="#results"><span class="rn">04</span><span class="rl">Results</span></a>
-  <a href="#cost"><span class="rn">05</span><span class="rl">Cost</span></a>
-  <a href="#bibtex"><span class="rn">06</span><span class="rl">BibTeX</span></a>
-</aside>
 
 <header id="top">
-  <div class="wrap">
-    <span class="badge"><span class="dot"></span>Preprint &middot; 2026 <span class="sep">|</span> arXiv link coming soon</span>
-    <h1 class="title"><span class="brand">AIProver</span>: Agentic Auto-Formalization of Mathematical Research via Certificate-Driven Evolving Harness</h1>
-    <p class="tagline"><em>AIProver</em> is an agentic framework for autonomous proof auto-formalization and proof synthesis: it translates natural-language theorems and proofs into Lean and closes the proofs. It jointly <em>post-trains</em> a 119B open-weight language model and <em>evolves</em> the tool-calling harness around it. Verifiers for type correctness, proof completeness and semantic correctness return graded rewards and diagnostic certificates, which drive reinforcement learning via symbolic feedback and <em>HarnessEvolve</em>, a certificate-driven evolutionary search over the whole harness control flow that re-tailors the harness to the updated model.</p>
-    <p class="tagline tagline-result">On <em>LoCoBench</em>, a new 58.9k-instance benchmark of research-level mathematics, AIProver lifts semantic correctness over its Leanstral-1.5 base from 15.7% to 36.7% and outperforms every other open-weight system and Aristotle. As a Claude Code and Codex skill, it lifts the hosts from 41.9% and 34.1% to 79.8% and 62.4%, more accurate and cheaper than Numina-Lean-Agent and OpenGauss in the same role.</p>
+  <div class="wide">
+    <div class="venue">Preprint &middot; 2026</div>
+    <h1><span class="brand">AIProver</span>: Agentic Auto-Formalization of Mathematical Research via Certificate-Driven Evolving Harness</h1>
 
     <p class="authors">
-      <span class="au"><a href="https://jprithwish.github.io/">Prithwish Jana</a><sup>1,*</sup>,</span>
-      <span class="au">Viet Bach Hoang<sup>1,&dagger;</sup>,</span>
-      <span class="au">Logan Luna<sup>1,&dagger;</sup>,</span>
-      <span class="au">Viresh Pati<sup>2,&dagger;</sup>,</span>
-      <span class="au">Akash Singirikonda<sup>1,&dagger;</sup>,</span>
-      <span class="au">Cy Xie<sup>3,&dagger;</sup>,</span>
-      <span class="au">Lisa Carbone<sup>4,&sect;</sup>,</span>
-      <span class="au">Wuyang Chen<sup>5,&sect;</sup>,</span>
-      <span class="au">Walter Moreira<sup>6,&sect;</sup>,</span>
-      <span class="au">Joe Stubbs<sup>6,&sect;</sup>,</span>
-      <span class="au">Sriram Vishwanath<sup>1,&sect;</sup>,</span>
-      <span class="au">Vijay Ganesh<sup>1</sup></span>
+      <span data-author="Prithwish Jana"><a href="https://jprithwish.github.io/">Prithwish Jana</a><sup>1,*</sup></span>
+      <span data-author="Viet Bach Hoang">Viet Bach Hoang<sup>1,&dagger;</sup></span>
+      <span data-author="Logan Luna"><a href="https://logan-cole-luna.github.io/" target="_blank" rel="noopener">Logan Luna</a><sup>1,&dagger;</sup></span>
+      <span data-author="Viresh Pati"><a href="https://github.com/vireshpati" target="_blank" rel="noopener">Viresh Pati</a><sup>2,&dagger;</sup></span>
+      <span data-author="Akash Singirikonda"><a href="https://scholar.google.com/citations?user=L9VOlX0AAAAJ" target="_blank" rel="noopener">Akash Singirikonda</a><sup>1,&dagger;</sup></span>
+      <span data-author="Cy Xie">Cy Xie<sup>3,&dagger;</sup></span><br class="a-break">
+      <span data-author="Lisa Carbone"><a href="https://sites.math.rutgers.edu/~carbonel/" target="_blank" rel="noopener">Lisa Carbone</a><sup>4,&sect;</sup></span>
+      <span data-author="Wuyang Chen"><a href="https://chenwydj.github.io/" target="_blank" rel="noopener">Wuyang Chen</a><sup>5,&sect;</sup></span>
+      <span data-author="Walter Moreira"><a href="https://tacc.utexas.edu/about/staff-directory/walter-moreira/" target="_blank" rel="noopener">Walter Moreira</a><sup>6,&sect;</sup></span>
+      <span data-author="Joe Stubbs"><a href="https://tacc.utexas.edu/about/staff-directory/joe-stubbs/" target="_blank" rel="noopener">Joe Stubbs</a><sup>6,&sect;</sup></span>
+      <span data-author="Sriram Vishwanath"><a href="https://ece.gatech.edu/directory/sriram-vishwanath" target="_blank" rel="noopener">Sriram Vishwanath</a><sup>1,&sect;</sup></span>
+      <span data-author="Vijay Ganesh"><a href="https://vganesh1.github.io/" target="_blank" rel="noopener">Vijay Ganesh</a><sup>1</sup></span>
     </p>
-    <p class="affil">
-      <span class="au"><sup>1</sup>Georgia Institute of Technology</span>
-      <span class="au"><sup>2</sup>University of Pennsylvania</span>
-      <span class="au"><sup>3</sup>Foothill College</span>
-      <span class="au"><sup>4</sup>Rutgers University</span>
-      <span class="au"><sup>5</sup>Simon Fraser University</span>
-      <span class="au"><sup>6</sup>University of Texas at Austin</span>
+    <p class="affils">
+      <span><sup>1</sup>Georgia Institute of Technology</span><span><sup>2</sup>University of Pennsylvania</span><span><sup>3</sup>Foothill College</span><br class="a-break">
+      <span><sup>4</sup>Rutgers University</span><span><sup>5</sup>Simon Fraser University</span><span><sup>6</sup>University of Texas at Austin</span>
     </p>
+    <div class="logos" aria-label="Affiliations">
+      <img src="static/logos/gatech.svg" alt="Georgia Institute of Technology" class="short">
+      <img src="static/logos/upenn.svg" alt="University of Pennsylvania" class="tall">
+      <img src="static/logos/foothill.svg" alt="Foothill College">
+      <img src="static/logos/rutgers.svg" alt="Rutgers University" class="tall">
+      <img src="static/logos/sfu.svg" alt="Simon Fraser University">
+      <img src="static/logos/utaustin.svg" alt="The University of Texas at Austin">
+    </div>
 
     <div class="buttons">
-      <a class="btn btn-arxiv soon" href="#" aria-disabled="true">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-        arXiv <span class="tag-soon">soon</span>
-      </a>
-      <a class="btn btn-github" href="https://github.com/PrithwishJana/AIProver" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-        Code
-      </a>
-      <a class="btn btn-cite" href="#bibtex">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-        BibTeX
-      </a>
+      <a class="btn soon" href="#" aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3h11l5 5v13H4z"/><path d="M15 3v5h5"/></svg>Paper <span class="tag">soon</span></a>
+      <a class="btn soon" href="#" aria-disabled="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>Code <span class="tag">soon</span></a>
+      <a class="btn" href="#bibtex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 4h9l5 5v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z"/><path d="M9 13h6M9 17h6"/></svg>BibTeX</a>
     </div>
-    <p class="note">
-      <sup>*</sup>Correspondence to <a href="mailto:pjana7@gatech.edu">pjana7@gatech.edu</a>.<br>
-      <sup>&dagger;</sup>Equal contribution, sorted by last name.<br>
-      <sup>&sect;</sup>Equal senior authorship, sorted by last name.
+    <p class="notes">
+      <sup>*</sup>Corresponding author: <a href="mailto:pjana7@gatech.edu">pjana7@gatech.edu</a>.
+      &nbsp;<sup>&dagger;</sup>Equal contribution, sorted by last name.
+      &nbsp;<sup>&sect;</sup>Equal senior authorship, sorted by last name.
     </p>
+
+    <div class="tldr reveal">
+      <span class="tag">TL;DR</span>
+      <ol>
+        <li><b>A proof auto-formalization agent with an evolving harness.</b> AIProver post-trains an open-weight LLM and simultaneously evolves its harness. Verifiers for completeness, type- and semantic correctness return a fine-grained reward and certificate, so reinforcement learning and HarnessEvolve learn from partial success. Per round, HarnessEvolve adapts the harness control flow to the model, then RL post-trains the model within it.</li>
+        <li><b>LoCoBench, a research-level benchmark.</b> 58.9k instances (18.8k NL&ndash;Lean, 40.1k NL&ndash;Mizar) in algebraic structures; foundations, logic &amp; complexity; and number theory, with 771 validation instances from Mizar theorems with the longest proofs and a bounded-arithmetic textbook: NL theorem&ndash;proof pairs with no Lean formalizations online to retrieve or imitate.</li>
+        <li><b>State-of-the-art results against 39 systems.</b> As a standalone agent built from Leanstral-1.5, AIProver lifts pass@4 semantic correctness from 15.7% to 36.7%, beating the best open-weight system OpenGauss (21.5%) and Aristotle (18.4%). In conjunction with coding agents, AIProver+Claude Code reaches 79.8% vs. 41.9% for Claude Code alone, and AIProver+Codex 62.4% vs. 34.1%, at lower cost than Numina-Lean-Agent and OpenGauss in the same role.</li>
+      </ol>
+    </div>
+    <div class="glancecard reveal">
+      <div class="fighead"><span class="fk">At a glance</span><span class="ft">Semantic correctness with full proofs on LoCoBench-Val, pass@4, before and with AIProver in each of its three roles</span></div>
+      <svg class="glance" viewBox="0 0 760 242" role="img" aria-label="Semantic correctness with full proofs, before and with AIProver, in three roles">
+<text x="0" y="30" font-size="13" font-weight="700" fill="#15161a">Standalone</text>
+<text x="240" y="51" text-anchor="end" font-size="12" fill="#6b6f78">Leanstral-1.5 in the seed harness</text>
+<rect x="250" y="41" width="69.1" height="12" rx="6" fill="#d9d6cd"/>
+<text x="327.1" y="51" font-size="12" fill="#6b6f78">15.7%</text>
+<text x="240" y="71" text-anchor="end" font-size="12" font-weight="600" fill="#15161a">AIProver</text>
+<rect x="250" y="61" width="161.5" height="12" rx="6" fill="#737373"/>
+<text x="419.5" y="71" font-size="12.5" font-weight="700" fill="#15161a">36.7%</text>
+<line x1="344.6" y1="58" x2="344.6" y2="76" stroke="#15161a" stroke-width="1.5" stroke-dasharray="2 2"/>
+<text x="344.6" y="85" text-anchor="middle" font-size="10.5" fill="#6b6f78">best prior open-weight: OpenGauss 21.5%</text>
+<text x="0" y="104" font-size="13" font-weight="700" fill="#15161a">With Codex (GPT-5.6-Sol)</text>
+<text x="240" y="125" text-anchor="end" font-size="12" fill="#6b6f78">Codex alone</text>
+<rect x="250" y="115" width="150.0" height="12" rx="6" fill="#d9d6cd"/>
+<text x="408.0" y="125" font-size="12" fill="#6b6f78">34.1%</text>
+<text x="240" y="145" text-anchor="end" font-size="12" font-weight="600" fill="#15161a">AIProver + Codex</text>
+<rect x="250" y="135" width="274.6" height="12" rx="6" fill="#2a78d6"/>
+<text x="532.6" y="145" font-size="12.5" font-weight="700" fill="#15161a">62.4%</text>
+<line x1="445.8" y1="132" x2="445.8" y2="150" stroke="#15161a" stroke-width="1.5" stroke-dasharray="2 2"/>
+<text x="445.8" y="159" text-anchor="middle" font-size="10.5" fill="#6b6f78">best prior harness: Numina-Lean-Agent 44.5%</text>
+<text x="0" y="178" font-size="13" font-weight="700" fill="#15161a">With Claude Code (Opus 5)</text>
+<text x="240" y="199" text-anchor="end" font-size="12" fill="#6b6f78">Claude Code alone</text>
+<rect x="250" y="189" width="184.4" height="12" rx="6" fill="#d9d6cd"/>
+<text x="442.4" y="199" font-size="12" fill="#6b6f78">41.9%</text>
+<text x="240" y="219" text-anchor="end" font-size="12" font-weight="600" fill="#15161a">AIProver + Claude Code</text>
+<rect x="250" y="209" width="351.1" height="12" rx="6" fill="#e08a1e"/>
+<text x="609.1" y="219" font-size="12.5" font-weight="700" fill="#15161a">79.8%</text>
+<line x1="569.0" y1="206" x2="569.0" y2="224" stroke="#15161a" stroke-width="1.5" stroke-dasharray="2 2"/>
+<text x="569.0" y="233" text-anchor="middle" font-size="10.5" fill="#6b6f78">best prior harness: Numina-Lean-Agent 72.5%</text>
+</svg>
+      <p class="caption">Grey bars are the host or base model on its own; coloured bars add AIProver; the dashed tick marks the best prior Lean harness in the same role.</p>
+    </div>
+    <div class="chips reveal" aria-label="Facts">
+      <span class="chip"><b>Model</b> Leanstral-1.5, 119B-A6B, open-weight</span>
+      <span class="chip"><b>Target</b> Lean 4 + Mathlib</span>
+      <span class="chip"><b>Benchmark</b> LoCoBench, 58.9k instances</span>
+      <span class="chip"><b>Baselines</b> 39 systems</span>
+      <span class="chip"><b>Hosts</b> Claude Code, Codex</span>
+      <span class="chip"><b>Verifiers</b> Lean kernel, BEq<sup>+</sup></span>
+    </div>
   </div>
 </header>
 
-<section class="teaser">
+<section id="problem">
   <div class="wrap">
-    <figure class="reveal">
-      <img src="static/aiprover_fullpipeline.svg" alt="Overview of AIProver: Phase 1 bootstraps the agent by evolving the harness with HarnessEvolve and fine-tuning the model with SAM; Phase 2 interleaves HarnessEvolve and RLSF post-training for K rounds." width="722" height="604" style="max-width:640px;display:block;margin:0 auto">
-      <figcaption>
-        <span class="fignum">Fig. 1</span><b>Overview of AIProver.</b>
-        An agent is a pair &lang;model&nbsp;<i>&Mscr;</i>, harness&nbsp;<i>&Hscr;</i>&rang;. <b>Phase&nbsp;1 (bootstrap)</b> evolves the seed harness <i>&Hscr;</i><sub>0</sub> into <i>&Hscr;</i><sub>1</sub> under the base model and fine-tunes the model into a <i>semantic alignment model</i> (SAM). <b>Phase&nbsp;2 (interleave)</b> then alternates for <i>K</i> rounds: HarnessEvolve re-tailors the harness to the current model, and RLSF post-trains the model inside the frozen new harness, so each update builds on the other&rsquo;s latest gain. Every round is gated: the new pair is kept only if its held-out fitness improves.
-      </figcaption>
-    </figure>
+    <p class="kicker">01 &middot; Problem</p>
+    <h2>Research mathematics needs an affordable, autonomous auto-formalizer</h2>
+    <p class="lead reveal">AI agents for mathematics are making rapid progress, with headline results such as the resolution of the Navier&ndash;Stokes conjecture and the complete formalization of Fermat&rsquo;s last theorem. Key to this success is <b>auto-formalization</b>, the translation of natural language (NL) theorems and proofs into formal language (FL) counterparts. Research mathematics involves long chains of interdependent definitions, lemmas and proofs often absent from libraries such as Mathlib, so recent work wraps the LLM in a <b>harness</b>: a stateful multi-turn loop with Lean and search tools in which the agent iterates until the proof checks. Despite this progress, these agentic systems share five limitations.</p>
+    <ol class="issues reveal">
+      <li><b>Cost</b>Claude&rsquo;s FLT formalization took eleven days and six billion output tokens, resources at frontier rates beyond typical academic budgets.</li>
+      <li><b>Human-in-the-loop dependence</b>Mathematicians supplied Fermat&rsquo;s FL target statements and stayed involved; Gauss ran on an expert-built, iteratively refined harness; Meta&rsquo;s AutoformBot calls human involvement essential.</li>
+      <li><b>Jagged intelligence</b>Frontier models excel at many tasks yet falter on unfamiliar ones: strong local proof repair but poor definitions and interfaces, and no model proves over 20% of ArXivLean&rsquo;s recent research theorems.</li>
+      <li><b>Semantic drift</b>Lean checks the FL proof against the FL theorem, not the NL one, so compiled code may prove the wrong theorem or silently patch a flawed NL proof step.</li>
+      <li><b>Lack of accessibility</b>Headline results often rest on non-public models, so the auto-formalization and proof synthesis (AFPS) process cannot be cross-checked.</li>
+    </ol>
+    <h3>The goal</h3>
+    <div class="callout reveal">An <i>affordable, autonomous</i> <b>AI agent for semantically correct and faithful proof auto-formalization of research-level mathematics</b>, serving <i>standalone</i> as an open-source platform that makes research-level formalization accessible to all, and <i>in conjunction with</i> frontier agents as a Lean specialist pushing their accuracy&ndash;cost frontier.</div>
+    <div class="tiles four reveal">
+      <div class="tile"><span class="h">(a) Faithful</span>Produce a full Lean counterpart preserving each theorem&rsquo;s meaning and proof&rsquo;s reasoning.</div>
+      <div class="tile"><span class="h">(b) Unattended</span>Run without a mathematician in the loop.</div>
+      <div class="tile"><span class="h">(c) Open-weight</span>Use an open-weight model via a model-agnostic training and harness recipe.</div>
+      <div class="tile"><span class="h">(d) A skill</span>Be a sub-agent or skill of frontier agents, which will likely stay the most expensive models.</div>
+    </div>
+    <h3>Four issues, four answers</h3>
+    <div class="pairs reveal">
+      <div class="pair"><span class="h">Issue 1 &middot; NL&ndash;FL semantic alignment</span><p>A decoder-only LLM is fine-tuned to maximize the next-token likelihood of a reference output, so it never learns that an NL theorem and its FL counterpart are the same mathematical object in two syntactic forms.</p><div class="ans"><b>Semantic Alignment Model (SAM).</b> The LLM itself internalizes the equivalence: a contrastive term aligns the NL and FL views in a shared semantic space.</div></div>
+      <div class="pair"><span class="h">Issue 2 &middot; Fine-grained training signal</span><p>Most AFPS models are trained with RL on Lean&rsquo;s binary verdict, which never compares the output with the NL input or the reference FL: a formalization that compiles but proves the wrong theorem counts as success.</p><div class="ans"><b>Reward ladder with certificates.</b> Four verifier checks return a graded reward and a diagnostic certificate, so RL and harness search learn from partial success.</div></div>
+      <div class="pair"><span class="h">Issue 3 &middot; Research-level training data</span><p>Gold NL&ndash;Lean theorem&ndash;proof pairs barely exist: ShadowBench (178) and ArXivLean (41) are evaluation sets. Mizar holds decades of verified research mathematics, but in neither NL nor Lean.</p><div class="ans"><b>LoCoBench.</b> 58.9k instances from Mathlib, CSLib, the Mizar library and a textbook, with a 771-instance validation split that has no Lean formalization online.</div></div>
+      <div class="pair"><span class="h">Issue 4 &middot; AFPS-tailored harness</span><p>Harnesses such as LeanMarathon and Numina-Lean-Agent retain the control flow of Claude Code and Codex, built for software engineering; it is suboptimal for Lean proving and for open-weight models, and hand-tailoring takes months.</p><div class="ans"><b>HarnessEvolve.</b> A certificate-driven evolutionary search over the whole harness control flow re-tailors the harness to the updated model.</div></div>
+    </div>
+
+    <h3>The task <small>proof auto-formalization, under four properties</small></h3>
+    <p class="reveal">The input is a self-contained NL passage: a theorem, possibly in several parts, with the definitions and assumptions it relies on, and its proof, possibly through intermediate lemmas. The goal is an <i>equivalent</i> Lean pair, subject to four properties. Lean mechanically certifies (a) and (b); (c) and (d) compare the formalization with its NL source, which is undecidable and so requires a judge.</p>
+    <div class="problem reveal" aria-label="Proof auto-formalization">
+      <div class="pcard nl"><div class="h"><i>M</i><sub>NL</sub> &middot; natural language</div>
+        <div class="row"><span class="sym"><i>T</i><sub>NL</sub></span><span>theorem: definitions, assumptions and claims</span></div>
+        <div class="row"><span class="sym"><i>P</i><sub>NL</sub></span><span>proof: steps and intermediate lemmas</span></div>
+      </div>
+      <div class="parrow"><span class="big">&rarr;</span>proof auto-formalization</div>
+      <div class="pcard fl"><div class="h"><i>M&#770;</i><sub>FL</sub> &middot; Lean 4</div>
+        <div class="row"><span class="sym"><i>T&#770;</i><sub>FL</sub></span><span>definitions and the theorem as a type</span></div>
+        <div class="row"><span class="sym"><i>P&#770;</i><sub>FL</sub></span><span>tactics and auxiliary lemmas as a term of that type</span></div>
+      </div>
+    </div>
+    <ul class="checks reveal">
+      <li><span class="who">Lean certifies</span><b>(a) Type-correctness</b>Lean&rsquo;s kernel accepts the file: every definition and tactic step resolves and the proof term type-checks.</li>
+      <li><span class="who">Lean certifies</span><b>(b) Completeness</b>The proof uses no placeholder such as <code>sorry</code>, <code>admit</code> or an empty <code>by</code> block, and no axioms beyond Lean&rsquo;s standard ones.</li>
+      <li><span class="who judge">Judge</span><b>(c) Semantic correctness</b>The formal theorem states exactly <i>T</i><sub>NL</sub> under the same definitions, neither adding assumptions nor dropping conditions.</li>
+      <li><span class="who judge">Judge</span><b>(d) Proof faithfulness</b>The formal proof follows the proof strategy of <i>P</i><sub>NL</sub>, including its intermediate lemmas, without new assumptions.</li>
+    </ul>
   </div>
 </section>
 
-<section class="statband">
+<section id="approach">
   <div class="wrap">
-    <div class="stats reveal">
-      <div class="stat">
-        <span class="t">Standalone, open-weight</span>
-        <span class="k">36.7<small>% TC+SC</small></span>
-        <span class="lbl"><b>Up from 15.7%</b> with the same Leanstral-1.5 base in the seed harness; OpenGauss reaches 21.5% and Aristotle 18.4%.</span>
-      </div>
-      <div class="stat">
-        <span class="t">As a Claude Code skill</span>
-        <span class="k">79.8<small>%</small></span>
-        <span class="lbl"><b>Claude Code alone: 41.9%.</b> Numina-Lean-Agent lifts it to 72.5% and OpenGauss to 54.3%.</span>
-      </div>
-      <div class="stat">
-        <span class="t">As a Codex skill</span>
-        <span class="k">62.4<small>%</small></span>
-        <span class="lbl"><b>Codex alone: 34.1%.</b> Numina-Lean-Agent lifts it to 44.5% and OpenGauss to 41.9%.</span>
-      </div>
-      <div class="stat">
-        <span class="t">Cheaper, not just better</span>
-        <span class="k">24<small>% lower cost</small></span>
-        <span class="lbl"><b>$1.55 per attempt</b> with Claude Code against $2.03 for Numina-Lean-Agent; $0.85 against $1.08 with Codex.</span>
-      </div>
+    <p class="kicker">02 &middot; Approach</p>
+    <h2>AIProver post-trains the model and evolves the harness together</h2>
+    <div class="callout def reveal"><span class="h">Definition &middot; agents and harnesses</span>An agent <i>A</i> = &lang;<i>M</i>, <i>H</i>&rang; pairs an LLM <i>M</i> with a <b>harness</b> <i>H</i>, the software layer that executes the actions <i>M</i> proposes in a stateful environment. It governs the agent&rsquo;s context, tools, memory and control flow: the system prompt, how tool calls are handled, what state persists across turns, and when it stops. <b>AIProver optimizes the full agent</b>, post-training <i>M</i> and evolving <i>H</i>.</div>
+    <p class="lead reveal">Bootstrap first, then alternate: HarnessEvolve re-tailors the harness to the current model, and Agentic RLSF post-trains the model inside the new harness, so each update builds on the other&rsquo;s latest gain. Harness and model use disjoint training subsets, and every round is gated on held-out fitness.</p>
+  </div>
+  <div class="wide">
+    <div class="fighead wideh"><span class="fk">Fig. 1 &middot; Walkthrough</span><span class="ft">The co-evolution loop: bootstrap, then interleave HarnessEvolve and Agentic RLSF for <i>K</i> gated rounds</span></div>
+    <div class="pipe reveal" id="pipe">
+      <svg viewBox="0 0 680 330" role="img" aria-label="AIProver training loop: Phase 1 bootstraps the harness with HarnessEvolve and the model with SAM; Phase 2 alternates HarnessEvolve and Agentic RLSF for K gated rounds.">
+        <text class="phase" x="16" y="22">PHASE 1 &middot; BOOTSTRAP</text>
+        <text class="phase" x="302" y="22">PHASE 2 &middot; INTERLEAVE, K ROUNDS</text>
+        <rect class="frame" x="12" y="30" width="276" height="100" rx="12"/>
+        <rect class="frame" x="298" y="30" width="370" height="100" rx="12"/>
+        <!-- operators -->
+        <g id="op-he1"><rect class="op" x="26" y="50" width="118" height="56" rx="10"/><text class="lbl" x="85" y="73" text-anchor="middle">HarnessEvolve</text><text class="sub" x="85" y="91" text-anchor="middle">H&#8320; &rarr; H&#8321; (M&#8320; frozen)</text></g>
+        <rect class="pulse" data-for="op-he1" x="26" y="50" width="118" height="56" rx="10" style="transform-origin:85px 78px"/>
+        <g id="op-sam"><rect class="op" x="160" y="50" width="118" height="56" rx="10"/><text class="lbl" x="219" y="73" text-anchor="middle">SAM fine-tuning</text><text class="sub" x="219" y="91" text-anchor="middle">M&#8320; &rarr; M&#8321; (H&#8321; fixed)</text></g>
+        <rect class="pulse" data-for="op-sam" x="160" y="50" width="118" height="56" rx="10" style="transform-origin:219px 78px"/>
+        <g id="op-he2"><rect class="op" x="312" y="50" width="112" height="56" rx="10"/><text class="lbl" x="368" y="73" text-anchor="middle">HarnessEvolve</text><text class="sub" x="368" y="91" text-anchor="middle">H&#7522; &rarr; H&#7522;&#8330;&#8321; (M&#7522; frozen)</text></g>
+        <rect class="pulse" data-for="op-he2" x="312" y="50" width="112" height="56" rx="10" style="transform-origin:368px 78px"/>
+        <g id="op-rl"><rect class="op" x="440" y="50" width="112" height="56" rx="10"/><text class="lbl" x="496" y="73" text-anchor="middle">Agentic RLSF</text><text class="sub" x="496" y="91" text-anchor="middle">M&#7522; &rarr; M&#7522;&#8330;&#8321; (H&#7522;&#8330;&#8321; frozen)</text></g>
+        <rect class="pulse" data-for="op-rl" x="440" y="50" width="112" height="56" rx="10" style="transform-origin:496px 78px"/>
+        <g id="op-gate"><rect class="op" x="568" y="50" width="88" height="56" rx="10"/><text class="lbl" x="612" y="73" text-anchor="middle">Gate</text><text class="sub" x="612" y="91" text-anchor="middle">held-out fitness &uarr;?</text></g>
+        <rect class="pulse" data-for="op-gate" x="568" y="50" width="88" height="56" rx="10" style="transform-origin:612px 78px"/>
+        <!-- flow arrows -->
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#b7b4ab"/></marker><marker id="ah-on" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0f6e63"/></marker></defs>
+        <path id="a1" class="arrow" d="M144 78 H160"/>
+        <path id="a2" class="arrow" d="M278 78 H312"/>
+        <path id="a3" class="arrow" d="M424 78 H440"/>
+        <path id="a4" class="arrow" d="M552 78 H568"/>
+        <path id="a5" class="arrow" d="M612 106 V120 H368 V106"/>
+        <text class="frozen" x="490" y="131" text-anchor="middle">keep &lang;M&#7522;&#8330;&#8321;, H&#7522;&#8330;&#8321;&rang; if fitness improves, else roll back</text>
+        <!-- the agent -->
+        <rect x="190" y="178" width="300" height="118" rx="14" fill="none" stroke="#d9d6cd" stroke-width="1.4"/>
+        <text class="lbl" x="340" y="200" text-anchor="middle">Agent A = &lang;M, H&rang;</text>
+        <rect class="box model" x="206" y="212" width="128" height="66" rx="10"/>
+        <text class="sub" x="270" y="232" text-anchor="middle">open-weight LLM</text>
+        <text class="ver" x="270" y="262" text-anchor="middle">M<tspan id="m-ver" font-size="13" baseline-shift="sub">0</tspan></text>
+        <rect class="box harness" x="346" y="212" width="128" height="66" rx="10"/>
+        <text class="sub" x="410" y="232" text-anchor="middle">tool-calling harness</text>
+        <text class="ver" x="410" y="262" text-anchor="middle">H<tspan id="h-ver" font-size="13" baseline-shift="sub">0</tspan></text>
+        <text class="frozen" x="340" y="316" text-anchor="middle"><tspan id="round">start</tspan></text>
+        <!-- update arrows from the phase boxes into the agent -->
+        <path class="arrow" d="M340 130 V178" marker-end="url(#ah)" style="stroke:#d9d6cd"/>
+      </svg>
+      <ol class="steps" aria-label="Walkthrough">
+        <li data-step="0" data-n="00"><b>Start</b>Leanstral-1.5 (119B-A6B) as M&#8320;, inside a seed harness H&#8320; adapted from Mistral&rsquo;s Vibe with Lean LSP tools.</li>
+        <li data-step="1" data-n="01"><b>Bootstrap the harness</b>HarnessEvolve evolves H&#8320; into H&#8321; under the frozen base model.</li>
+        <li data-step="2" data-n="02"><b>Bootstrap the model</b>SAM fine-tuning turns M&#8320; into M&#8321; on the labelled NL&ndash;Lean pairs of LoCoBench-Train.</li>
+        <li data-step="3" data-n="03"><b>Round <i>i</i>: evolve</b>With M&#7522; frozen, HarnessEvolve re-tailors the harness to the updated model.</li>
+        <li data-step="4" data-n="04"><b>Round <i>i</i>: post-train</b>With H&#7522;&#8330;&#8321; frozen, Agentic RLSF post-trains M&#7522; into M&#7522;&#8330;&#8321; inside it.</li>
+        <li data-step="5" data-n="05"><b>Gate and repeat</b>The new pair is kept only if its held-out fitness improves, else rolled back. K rounds.</li>
+        <li class="ctl"><button type="button">Pause</button><span>Click a step to jump to it.</span></li>
+      </ol>
     </div>
+    <p class="tnote">Harness and model are updated in alternation, never at once, so each update sees the other&rsquo;s latest state.</p>
   </div>
 </section>
 
-<section id="overview">
+<section id="components">
   <div class="wrap">
-    <div class="h2row"><span class="no">01</span><h2>Overview</h2></div>
-    <p class="lead reveal">Proof auto-formalization translates natural-language (NL) theorems and proofs into a formal language (FL) such as Lean, where a trusted kernel checks every step. AI agents have begun to do this at research scale, but the systems that succeed share limitations: they run on <b>frontier models at frontier prices</b>, lean on <b>mathematicians in the loop</b>, use <b>hand-built harnesses</b> that are never adapted to the model inside them, and treat <b>compilation as success</b> even when the formal statement no longer means what the paper said.</p>
-
-    <div class="anatomy reveal" aria-label="Anatomy of the agent">
-      <div class="an-tile an-model"><span class="an-k">Model <i>&Mscr;</i></span><span class="an-t">An open-weight LLM (Leanstral-1.5, 119B-A6B). AIProver <b>post-trains</b> it: SAM fine-tuning, then reinforcement learning with symbolic feedback.</span></div>
-      <div class="an-arrow" aria-hidden="true"><span>acts through</span></div>
-      <div class="an-tile an-harness"><span class="an-tag">what HarnessEvolve evolves</span><span class="an-k">Harness <i>&Hscr;</i></span><span class="an-t">Prompts, Lean tools, search tools and the <b>control flow</b> of the multi-turn loop. A program, so the search space is countably infinite.</span></div>
-      <div class="an-arrow" aria-hidden="true"><span>scored by</span></div>
-      <div class="an-tile an-env"><span class="an-k">Verifiers</span><span class="an-t">The Lean kernel, a <code>sorry</code>/axiom audit, and BEq<sup>+</sup> equivalence checking. They return a <b>reward</b> and a <b>certificate</b> that says what went wrong.</span></div>
+    <p class="kicker">03 &middot; Components</p>
+    <h2>One graded reward and one certificate drive both the model&rsquo;s and the harness&rsquo;s search</h2>
+    <p class="lead reveal">A candidate formalization is scored with four <b>checks</b>, ordered so that each presupposes the preceding one. Every check returns a value and a <b>certificate</b> from the verifier. The reward is the per-rollout signal for RLSF and, averaged over tasks, a harness&rsquo;s fitness; the certificate is what HarnessEvolve&rsquo;s mutator reads as feedback.</p>
+    <div class="tiles four reveal">
+      <div class="tile"><span class="h">(1) Type-correctness &middot; TC</span>Lean accepts the file: every definition and tactic step resolves and the kernel type-checks the proof term.<span class="cert">Certificate: Lean&rsquo;s diagnostics verbatim, each error&rsquo;s position, the failing tactic with its open goals, or the expected versus actual type.</span></div>
+      <div class="tile"><span class="h">(2) Completeness &middot; CP</span>Every goal is closed without a placeholder, and no axioms beyond Lean&rsquo;s standard ones: a check for <code>sorry</code> and an audit with <code>#print axioms</code> that fails on <code>native_decide</code> or an agent-introduced axiom.<span class="cert">Certificate: the placeholder&rsquo;s position or the violating axiom.</span></div>
+      <div class="tile"><span class="h">(3) Semantic correctness &middot; SC</span>The formal theorem states the same theorem as the gold one, tested as logical equivalence with an extended BEq<sup>+</sup> that proves each direction in Lean. One direction alone gives <i>v</i><sub>SC</sub> = 0.5; both give 1.<span class="cert">Certificate: both verdicts and, on a miss, their asymmetry.</span></div>
+      <div class="tile"><span class="h">(4) Length fidelity &middot; LF</span>How close the proof&rsquo;s length is to the gold one, with 60 characters of slack. A far shorter proof relies on heavy automation like <code>grind</code>; a longer one meanders; both are less human-readable.<span class="cert">Certificate: the length ratio.</span></div>
     </div>
-
-    <div class="fact reveal">
-      <div class="fact-num"><span class="from">15.7%</span><span class="arr">&rarr;</span><span class="to">36.7%</span></div>
-      <div class="fact-body"><b>Same base model, post-trained inside an evolved harness.</b> Leanstral-1.5 in the seed harness proves 15.7% of LoCoBench-Val theorems semantically correctly. After HarnessEvolve and interleaved RLSF it proves 36.7%, more than any other open-weight system and more than the closed-source Aristotle.</div>
-    </div>
-
-    <div class="abstract two-col-text reveal">
-      <p><b>Four challenges</b> stand between current agents and research-level auto-formalization. <b>Semantic alignment:</b> a decoder trained on language modelling alone treats an NL proof and its Lean counterpart as two unrelated strings. <b>Faithful supervision:</b> a binary compiles/does-not-compile signal hides partial progress and rewards vacuous statements. <b>Research-level data:</b> no dataset offers NL theorem&ndash;proof pairs at scale beyond competition mathematics. <b>A model-tailored harness:</b> expert-written harnesses are fixed, while the model inside them keeps changing.</p>
-      <p><b>AIProver</b> answers each in turn. A <i>semantic alignment model</i> (SAM) is fine-tuned so that the NL and FL views of a theorem land at the same point of a shared space. A <i>graded reward ladder</i> with diagnostic certificates lets reinforcement learning and harness search learn from partial success. <i>LoCoBench</i> supplies 58.9k research-level instances with an out-of-distribution validation split. And <i>HarnessEvolve</i> searches over the whole harness program with a coding agent as the mutator, keeping rejected designs as negative evidence so that later mutations steer away from what already failed.</p>
-    </div>
-
-    <div class="defbox reveal">
-      <span class="def-tag">Problem statement &middot; Proof auto-formalization and proof synthesis (AFPS)</span>
-      <p class="def-lead">Given a natural-language theorem and proof <i>&Mscr;</i><sub>NL</sub>, produce a Lean theorem and proof <i>&Mscr;</i><sub>FL</sub> that <b>compiles</b>, is <b>complete</b> (no <code>sorry</code>, no extra axioms), and <b>states the same theorem</b> as the source.</p>
-      <div class="def-grid">
-        <div><b>Type correctness (TC)</b><span>Lean accepts the file: every definition and tactic step resolves and the kernel type-checks the proof term.</span></div>
-        <div><b>Completeness (CP)</b><span>Every goal is closed without a placeholder, and the proof uses no axioms beyond Lean&rsquo;s standard ones.</span></div>
-        <div><b>Semantic correctness (SC)</b><span>The formal statement is logically equivalent to the gold one, tested with an extended BEq<sup>+</sup> that tries to prove each direction, so variable names, hypothesis order or lemma choice do not matter.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="method" class="alt">
-  <div class="wrap">
-    <div class="h2row"><span class="no">02</span><h2>Method</h2></div>
-    <p class="lead reveal">Four components drive AIProver: two post-train the model, one evolves the harness, and one reward with certificates ties them together. Model and harness are updated in alternation, never at once, so each update sees the other&rsquo;s latest state.</p>
-
-    <div class="grid3 reveal">
-      <div class="card">
-        <span class="tag">Model &middot; cold start</span>
-        <h4>Semantic Alignment Model (SAM)</h4>
-        <p>A decoder-only LLM fine-tuned with low-rank adapters so that an NL theorem&ndash;proof and its Lean formalization are represented as the <i>same mathematical object</i>. Two forward passes give two views: the hidden state at a reserved <code>[PRED]</code> token after the NL text, and the final state of the Lean text alone. A contrastive loss pulls matched views together while the language-modelling loss keeps the model generative.</p>
-        <p class="adapt"><b>Effect.</b> The cosine of matched NL&ndash;FL pairs rises from 0.11 to 0.75, and RLSF mostly keeps it (0.64). SAM is the aligned starting point from which both RLSF and HarnessEvolve proceed.</p>
-      </div>
-      <div class="card">
-        <span class="tag">Harness &middot; search</span>
-        <h4>HarnessEvolve</h4>
-        <p>Evolves the harness while the model is frozen. A <i>search memory</i> is a tree rooted at the current harness; every evaluated harness is kept, accepted or rejected, with its fitness, per-instance rewards, certificates and the source diff that produced it. Each round, a UCB rule picks a parent, a coding agent rewrites it into a child guided by the certificates and by the rejected designs nearby, and the child is scored on the training split.</p>
-        <p class="adapt"><b>Negative evidence.</b> As conflict-driven clause learning does in SAT solvers, the mutator conditions on every refuted design, not only on the parent, so the search stops revisiting dead ends.</p>
-      </div>
-      <div class="card">
-        <span class="tag">Model &middot; post-training</span>
-        <h4>Agentic RLSF</h4>
-        <p><i>Reinforcement learning via symbolic feedback</i> for multi-turn agents. An episode is one run of the agent inside the frozen new harness: reasoning, tool calls and observations, turn after turn. Only the Lean file written at the end is rewarded, by sound symbolic tools (the Lean kernel and BEq<sup>+</sup>) instead of a learned reward model. Optimized with GRPO over groups of rollouts, with gradients only on the tokens the model generated.</p>
-        <p class="adapt"><b>Why a ladder, not a bit.</b> With outcome supervision, a binary compile reward leaves almost every rollout at zero. The graded ladder below gives credit for ill-typed, incomplete and semantically-off proofs in proportion to how close they came.</p>
-      </div>
-    </div>
-
-    <h3>Reward ladder <span class="qual">one reward and one certificate per instance, shared by RLSF and HarnessEvolve</span></h3>
-    <div class="tablewrap small reveal"><table class="mini">
+    <div class="tablewrap reveal"><table>
       <thead><tr><th>Outcome</th><th>TC</th><th>CP</th><th>SC</th><th>Reward <i>r</i></th></tr></thead>
       <tbody>
         <tr><td>No answer</td><td>&ndash;</td><td>&ndash;</td><td>&ndash;</td><td class="mono">0</td></tr>
@@ -219,168 +261,238 @@
         <tr><td>Solved</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td><td class="mono">1 &minus; 0.10&thinsp;(1 &minus; <i>v</i><sub>LF</sub>)</td></tr>
       </tbody>
     </table></div>
-    <p class="kicker reveal"><i>v</i><sub>SC</sub> &isin; {0, 0.5, 1} is the semantic-correctness verdict of BEq<sup>+</sup> (one direction or both); <i>v</i><sub>LF</sub> is a length-fidelity term that penalizes proofs far shorter or longer than the gold one. The certificate carries Lean&rsquo;s diagnostics, the failed goals and the equivalence verdict, so a mutator or a policy can see <i>why</i> a candidate scored as it did.</p>
+    <p class="tnote">The reward ladder (Table 1 of the paper). A matched theorem outweighs completeness, as a flawless proof of the wrong theorem is not useful; a solved instance loses at most 0.10 for length. The certificate states the verdict and <i>r</i>, then concatenates the checks&rsquo; certificates in ladder order, so the first failing check is the first to fix.</p>
 
-    <h3>The co-evolution loop <span class="qual">bootstrap, then <i>K</i> interleaved and gated rounds</span></h3>
-    <div class="stepper reveal">
-      <div class="step"><h5>Bootstrap the harness</h5><p>HarnessEvolve takes the seed harness <i>&Hscr;</i><sub>0</sub> (Mistral&rsquo;s Vibe with Lean LSP tools) to <i>&Hscr;</i><sub>1</sub> under the base model <i>&Mscr;</i><sub>0</sub>.</p></div>
-      <div class="step"><h5>Bootstrap the model</h5><p>SAM fine-tuning turns <i>&Mscr;</i><sub>0</sub> into <i>&Mscr;</i><sub>1</sub> on the labelled NL&ndash;Lean pairs of LoCoBench-Train.</p></div>
-      <div class="step"><h5>Round <i>i</i>: evolve</h5><p>With <i>&Mscr;</i><sub>i</sub> frozen, HarnessEvolve re-tailors <i>&Hscr;</i><sub>i</sub> &rarr; <i>&Hscr;</i><sub>i+1</sub> on its own training subset.</p></div>
-      <div class="step"><h5>Round <i>i</i>: post-train</h5><p>With <i>&Hscr;</i><sub>i+1</sub> frozen, RLSF post-trains <i>&Mscr;</i><sub>i</sub> &rarr; <i>&Mscr;</i><sub>i+1</sub> on a disjoint subset. The new pair is kept only if held-out fitness improves; otherwise it is rolled back.</p></div>
+    <h3>HarnessEvolve <small>certificate-driven evolutionary search</small></h3>
+    <p class="reveal">HarnessEvolve evolves the current harness while the model stays frozen. A harness is a finite but arbitrarily long program, so the search is over a countably infinite space for the harness maximizing the fitness on the training set. Each round grows a <b>search memory</b> by one node through four stages.</p>
+    <div class="callout reveal"><span class="h">Search memory &middot; a tree that keeps every verdict</span>
+      <ul>
+        <li><b>A node</b> stores a harness with its fitness, its per-instance rewards and certificates, and its verdict: accepted or rejected.</li>
+        <li><b>An edge</b> stores the source diff between parent and child and their fitness difference.</li>
+        <li><b>Every evaluated harness is kept</b>, so the mutator learns which changes raised fitness from the accepted ones and which to avoid from the rejected ones, as conflict-driven clause learning in SAT solvers learns a clause from every refuted assignment.</li>
+      </ul></div>
+    <ol class="stages reveal">
+      <li><b>Parent selection</b>An upper-confidence rule, as in UCB1 and UCT, picks an accepted node, exploiting high-fitness nodes while exploring rarely expanded ones; its exploration weight rises with each consecutive non-accepting round.</li>
+      <li><b>Mutation</b>A frontier coding agent rewrites the parent into a child. The tree, with every node&rsquo;s fitness and certificates, shows which edits raised fitness and which did not, so it avoids refuted hypotheses and changes the control flow where the certificates show recurring failures.</li>
+      <li><b>Rollout and fitness</b>The child harness runs with the frozen model on every training instance, <i>k</i> times each to average out stochasticity; the fitness is the mean reward, and the certificates are stored in memory.</li>
+      <li><b>Acceptance</b>The child is accepted if its fitness beats the best so far, else rejected, and is added to the memory in either case. After <i>R</i> rounds, the best accepted harness goes to RLSF.</li>
+    </ol>
+
+    <div class="cards reveal">
+      <div class="card">
+        <span class="tag">Model &middot; cold start</span>
+        <h4>Semantic Alignment Model (SAM)</h4>
+        <p>A decoder-only LLM fine-tuned to represent <i>M</i><sub>NL</sub> and <i>M</i><sub>FL</sub> as the same mathematical object, which language modeling alone does not induce. A contrastive term is optimized jointly with the language-modeling loss, aligning the two in an NL/FL shared semantic space. Two forward passes yield two views: the hidden state at a reserved <code>[PRED]</code> token after the NL text, where generation of the Lean begins, and the final state of the Lean text alone, so the views align on meaning alone.</p>
+        <p class="eff"><b>Effect.</b> The cosine of matched NL&ndash;FL pairs rises from 0.11 to 0.75, and RLSF mostly keeps it (0.64). SAM remains a generative LLM, but conditions generation on semantic meaning rather than structural form alone.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Model &middot; post-training</span>
+        <h4>Agentic RLSF</h4>
+        <p><i>Reinforcement learning via symbolic feedback</i> for multi-turn agents. An episode is one run of the agent inside the frozen new harness: the model attempts auto-formalization by reasoning, calling tools and observing their results, turn after turn. Only the Lean file it finally writes is rewarded, by sound symbolic tools (the Lean kernel and BEq<sup>+</sup>) instead of unreliable learned reward models. Optimized with GRPO; the objective applies only to tokens the model generated.</p>
+        <p class="eff"><b>Why the ladder matters.</b> Outcome supervision makes the fine-grained reward essential: under a binary verification reward most groups of rollouts have no spread and yield no gradient.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Harness &middot; seed</span>
+        <h4>Seed harness and what evolved</h4>
+        <p>The seed harness adapts Mistral&rsquo;s Vibe with the lean-lsp tools. Relative to it, the evolved harness adds middleware hooks around the agent loop (a search gate, budget notices and post-agent verification), answer snapshots, a finalize step, a task contract with the four-rung grading order, and a compile-and-repair loop.</p>
+        <p class="eff"><b>Effect.</b> Evolving the harness at a fixed model lifts type-correctness from 57.6% to 84.4%; the harness alone mostly fixes compilation, which motivates post-training.</p>
+      </div>
     </div>
-
-    <div class="figtrio reveal">
-      <figure>
-        <img src="static/SAM_pipeline.svg" alt="SAM fine-tuning: two forward passes produce an NL view and an FL view, aligned by a contrastive loss alongside the language-modelling loss." loading="lazy">
-        <figcaption><span class="fignum">Fig. 2</span><b>SAM fine-tuning.</b> Two views of one instance, aligned on meaning alone.</figcaption>
-      </figure>
-      <figure>
-        <img src="static/HarEvo_pipeline.svg" alt="HarnessEvolve: a search-memory tree of accepted and rejected harnesses; a UCB parent selection, a coding-agent mutation, evaluation and recording." loading="lazy">
-        <figcaption><span class="fignum">Fig. 3</span><b>HarnessEvolve.</b> Parent selection, mutation by a coding agent, evaluation, and a memory that keeps every verdict.</figcaption>
-      </figure>
-      <figure>
-        <img src="static/RL_pipeline.svg" alt="Agentic RLSF: multi-turn rollouts inside the frozen harness are scored by symbolic verifiers and optimized with GRPO." loading="lazy">
-        <figcaption><span class="fignum">Fig. 4</span><b>Agentic RLSF.</b> Multi-turn rollouts, rewarded only on the final Lean file by sound symbolic tools.</figcaption>
-      </figure>
+  </div>
+  <div class="wide">
+    <div class="figrow">
+      <figure class="framed reveal"><div class="fighead"><span class="fk">Fig. 2 &middot; Model</span><span class="ft">SAM aligns the NL and FL views of one instance on meaning alone</span></div><img src="static/SAM_pipeline.svg" alt="SAM fine-tuning" loading="lazy"><figcaption>Two forward passes, a contrastive term pulling matched views together, the language-modelling loss keeping the model generative.</figcaption></figure>
+      <figure class="framed reveal"><div class="fighead"><span class="fk">Fig. 3 &middot; Harness</span><span class="ft">HarnessEvolve grows a memory tree of accepted and rejected harnesses</span></div><img src="static/HarEvo_pipeline.svg" alt="HarnessEvolve search" loading="lazy"><figcaption>Parent selection by an upper-confidence rule, mutation by a coding agent, rollout, and a verdict that is recorded either way.</figcaption></figure>
+      <figure class="framed reveal"><div class="fighead"><span class="fk">Fig. 4 &middot; Model</span><span class="ft">Agentic RLSF post-trains the model on verifier reward inside the frozen harness</span></div><img src="static/RL_pipeline.svg" alt="Agentic RLSF" loading="lazy"><figcaption>Multi-turn rollouts; only the final Lean file is rewarded, by the Lean kernel and BEq<sup>+</sup>; GRPO over groups of rollouts.</figcaption></figure>
     </div>
   </div>
 </section>
 
 <section id="locobench">
   <div class="wrap">
-    <div class="h2row"><span class="no">03</span><h2>LoCoBench</h2></div>
-    <p class="lead reveal">A benchmark of <b>58.9k instances</b> for proof auto-formalization of research-level mathematics in three fields: <i>algebraic structures</i> (ring and group theory), <i>foundations, logic &amp; complexity</i> (set theory, logic, computability, model theory, bounded arithmetic) and <i>number theory</i>. No existing research-level dataset offers NL theorem&ndash;proof pairs at this scale: ShadowBench has 178 examples and ArXivLean has no proofs.</p>
-
-    <div class="setup reveal">
-      <div><span class="n">18.8<small>k labelled NL&ndash;Lean pairs</small></span><span class="l">From Mathlib and CSLib: 10.2k, 5.9k and 2.7k theorem+proof pairs for the three fields, each emitted as a standalone, type-checked <code>.lean</code> file after dependency analysis.</span></div>
-      <div><span class="n">40.1<small>k unlabelled NL&ndash;Mizar pairs</small></span><span class="l">From the Mizar Mathematical Library, published in <i>Formalized Mathematics</i>: 18.3k, 8.0k and 13.8k pairs, one standalone <code>.miz</code> file per theorem. Mizar has no Lean counterpart anywhere online.</span></div>
-      <div><span class="n">771<small> validation instances</small></span><span class="l">The 100 longest-proof Mizar theorems in each of seven domains, plus the 71 theorems of a research-level bounded-arithmetic textbook. Out of distribution by construction: nothing to retrieve or imitate.</span></div>
-      <div><span class="n">39<small> systems compared</small></span><span class="l">AFPS models, AFPS agents, foundation models and coding agents, evaluated at pass@4 under three nested criteria: TC, TC+SC with or without <code>sorry</code>, and TC+SC with full proofs.</span></div>
+    <p class="kicker">04 &middot; Benchmark</p>
+    <h2>LoCoBench: 58.9k research-level instances, 771 of them with no Lean formalization online</h2>
+    <p class="lead reveal">A benchmark for proof auto-formalization of research-level mathematics in three fields: <i>algebraic structures</i> (ring and group theory), <i>foundations, logic &amp; complexity</i> (set theory, logic, computability, model theory, bounded arithmetic) and <i>number theory</i>. No existing research-level dataset offers NL theorem&ndash;proof pairs at this scale: ShadowBench has 178 examples and ArXivLean no proofs.</p>
+    <div class="tiles four reveal">
+      <div class="tile"><span class="h">Sources</span>From Mathlib and CSLib, 10.2k, 5.9k and 2.7k Lean theorem+proof pairs for the three fields, each a standalone, type-checked <code>.lean</code> file after dependency analysis. From the Mizar Mathematical Library, 18.3k, 8.0k and 13.8k pairs, one <code>.miz</code> file per theorem. And the 71 pairs of a research-level bounded-arithmetic textbook, from its author.</div>
+      <div class="tile"><span class="h">Informalization</span>LLMs informalize (FL-to-NL) far more accurately than they formalize. Each file is informalized by a coding agent (Claude Code with Opus 4.8) in a feedback loop with CriticLeanGPT, an NL&ndash;FL faithfulness judge, revising until it passes.</div>
+      <div class="tile"><span class="h">Train / Val split</span>Val is out of distribution: its Mizar theorems come from MML papers disjoint from Train, and its textbook domain appears in neither library. Mathlib+CSLib instances go to Train because their Lean is public. Val is the 100 longest-proof Mizar theorems per domain plus the 71 textbook theorems; its proofs are about 8&times; ProofNet&rsquo;s.</div>
+      <div class="tile"><span class="h">Distillation</span>Train also holds the remaining Mizar theorems, with Lean formalizations distilled from a teacher model under verifier feedback: each must compile and pass a semantic check.</div>
     </div>
-
-    <div class="abstract two-col-text reveal">
-      <p><b>Informalization.</b> LLMs informalize (FL to NL) far more accurately than they formalize. Each <code>.lean</code> and <code>.miz</code> file is informalized by a coding agent (Claude Code with Opus 4.8) in a feedback loop with CriticLeanGPT, an NL&ndash;FL faithfulness judge, and revised until it passes.</p>
-      <p><b>Train/Val split.</b> Mathlib and CSLib instances go to Train because their Lean is public and likely memorized. Val is drawn from Mizar and the textbook, whose theorem&ndash;proof pairs have no public Lean formalization; its instances have more auxiliary theorems and far longer natural-language text than Train or prior benchmarks. The remaining Mizar theorems join Train with Lean formalizations distilled from a teacher under verifier feedback: each must compile and pass the semantic check.</p>
-    </div>
+  </div>
+  <div class="wide">
+    <div class="tablewrap reveal"><table>
+      <thead><tr><th>Domain</th><th class="num">Train: Mathlib+CSLib<small>NL + Lean</small></th><th class="num">Train: MML<small>NL only</small></th><th class="num">Val: MML / textbook<small>NL only</small></th><th class="num">Total</th></tr></thead>
+      <tbody>
+        <tr class="group"><td colspan="4">Algebraic structures</td><td class="num">28,432</td></tr>
+        <tr><td class="sub">Ring theory</td><td class="num">6,841</td><td class="num">3,303</td><td class="num">100</td><td></td></tr>
+        <tr><td class="sub">Group theory</td><td class="num">3,310</td><td class="num">14,778</td><td class="num">100</td><td></td></tr>
+        <tr class="group"><td colspan="4">Foundations, logic &amp; complexity</td><td class="num">14,010</td></tr>
+        <tr><td class="sub">Set theory</td><td class="num">2,871</td><td class="num">555</td><td class="num">100</td><td></td></tr>
+        <tr><td class="sub">Logic</td><td class="num">1,283</td><td class="num">2,637</td><td class="num">100</td><td></td></tr>
+        <tr><td class="sub">Computability</td><td class="num">938</td><td class="num">3,579</td><td class="num">100</td><td></td></tr>
+        <tr><td class="sub">Model theory</td><td class="num">819</td><td class="num">857</td><td class="num">100</td><td></td></tr>
+        <tr><td class="sub">Bounded arithmetic (textbook)</td><td class="num">&ndash;</td><td class="num">&ndash;</td><td class="num">71</td><td></td></tr>
+        <tr class="group"><td colspan="4">Number theory</td><td class="num">16,471</td></tr>
+        <tr><td class="sub">Number theory</td><td class="num">2,695</td><td class="num">13,676</td><td class="num">100</td><td></td></tr>
+        <tr class="total"><td>Total</td><td class="num">18,757</td><td class="num">39,385</td><td class="num">771</td><td class="num">58,913</td></tr>
+      </tbody>
+    </table></div>
+    <p class="tnote">LoCoBench composition (Table 2 of the paper). Mathlib+CSLib entries carry gold Lean; MML entries are NL-only.</p>
   </div>
 </section>
 
-<section id="results" class="alt">
+<section id="results">
   <div class="wrap">
-    <div class="h2row"><span class="no">04</span><h2>Results</h2></div>
-    <p class="lead reveal">Pass@4 on LoCoBench-Val (771 instances) under the three criteria. <b>TC</b>: the file compiles. <b>TC+SC</b>: the statement is also equivalent to the gold one, with or without a <code>sorry</code>. <b>Full proofs</b>: TC+SC with every goal closed, the headline metric. Selected rows below; the paper&rsquo;s Table&nbsp;3 has all 39 systems and per-field numbers.</p>
-
-    <div class="tablewrap reveal"><table class="mini results">
-      <thead><tr><th>System</th><th class="num">TC</th><th class="num">TC+SC <small>(w/ or w/o sorry)</small></th><th class="num">TC+SC <small>(full proofs)</small></th></tr></thead>
+    <p class="kicker">05 &middot; Results</p>
+    <h2>Against 39 systems, AIProver beats every open-weight system standalone and lifts the frontier coding agents it serves</h2>
+    <p class="lead reveal">Pass@4 on LoCoBench-Val (771 instances) under three nested criteria: <b>TC</b>, the file compiles; <b>TC+SC</b>, the statement is also semantically correct, with or without <code>sorry</code>; and <b>TC+SC with full proofs</b>, the headline metric. The 39 systems form four families: AFPS models and agents, foundation models and coding agents. Selected rows below; Table 3 of the paper has every system and the per-field numbers.</p>
+  </div>
+  <div class="wide">
+    <div class="tablewrap reveal"><table>
+      <thead><tr><th>System</th><th class="num">TC</th><th class="num">TC+SC<small>w/ or w/o sorry</small></th><th class="num">TC+SC<small>full proofs</small></th></tr></thead>
       <tbody>
         <tr class="group"><td colspan="4">AFPS models, single-turn</td></tr>
         <tr><td>Kimina-Autoformalizer-7B</td><td class="num">58.9</td><td class="num">4.9</td><td class="num">0.0</td></tr>
-        <tr><td>Goedel-Prover-V2-32B</td><td class="num">45.0</td><td class="num">0.4</td><td class="num">0.4</td></tr>
         <tr><td>StepFun-Formalizer-7B &rarr; Hilbert</td><td class="num">18.3</td><td class="num">5.7</td><td class="num">3.9</td></tr>
         <tr class="group"><td colspan="4">AFPS agents, multi-turn</td></tr>
         <tr><td>Leanstral-1.5-119B-A6B (w/ tools)</td><td class="num">27.4</td><td class="num">12.6</td><td class="num">12.6</td></tr>
         <tr><td>Aristotle</td><td class="num">43.2</td><td class="num">18.5</td><td class="num">18.4</td></tr>
-        <tr><td>OpenGauss (w/ Leanstral-1.5)</td><td class="num">57.3</td><td class="num">22.2</td><td class="num">21.5</td></tr>
-        <tr><td class="sub">+ Codex (GPT-5.6-Sol)</td><td class="num">98.8</td><td class="num">42.2</td><td class="num">41.9</td></tr>
-        <tr><td class="sub">+ Claude Code (Opus 5)</td><td class="num">99.0</td><td class="num">54.5</td><td class="num">54.3</td></tr>
-        <tr><td>Numina-Lean-Agent + Codex (GPT-5.6-Sol)</td><td class="num best">100.0</td><td class="num">44.6</td><td class="num">44.5</td></tr>
-        <tr><td class="sub">+ Claude Code (Opus 5)</td><td class="num best">100.0</td><td class="num">72.6</td><td class="num">72.5</td></tr>
+        <tr><td>Math-Inc OpenGauss (w/ Leanstral-1.5)</td><td class="num">57.3</td><td class="num">22.2</td><td class="num">21.5</td></tr>
+        <tr><td class="sub">+ Codex (w/ GPT-5.6-Sol)</td><td class="num">98.8</td><td class="num">42.2</td><td class="num">41.9</td></tr>
+        <tr><td class="sub">+ Claude Code (w/ Claude-Opus-5)</td><td class="num">99.0</td><td class="num">54.5</td><td class="num">54.3</td></tr>
+        <tr><td>Numina-Lean-Agent + Codex (w/ GPT-5.6-Sol)</td><td class="num best">100.0</td><td class="num">44.6</td><td class="num">44.5</td></tr>
+        <tr><td class="sub">+ Claude Code (w/ Claude-Opus-5)</td><td class="num best">100.0</td><td class="num">72.6</td><td class="num">72.5</td></tr>
         <tr class="group"><td colspan="4">Foundation models, single-turn</td></tr>
         <tr><td>GPT-5.5</td><td class="num">73.8</td><td class="num">25.0</td><td class="num">25.0</td></tr>
         <tr><td>GPT-5.6-Sol</td><td class="num">63.7</td><td class="num">25.2</td><td class="num">25.2</td></tr>
         <tr><td>Claude-Opus-5</td><td class="num">89.4</td><td class="num">23.1</td><td class="num">23.0</td></tr>
         <tr class="group"><td colspan="4">Coding agents, multi-turn</td></tr>
-        <tr><td>Codex (GPT-5.6-Sol)</td><td class="num">97.0</td><td class="num">34.6</td><td class="num">34.1</td></tr>
-        <tr><td>Claude Code (Claude-Opus-5)</td><td class="num">92.2</td><td class="num">41.9</td><td class="num">41.9</td></tr>
-        <tr class="group"><td colspan="4">Ours (model = Leanstral-1.5-119B-A6B)</td></tr>
-        <tr class="ours"><td>AIProver-Baseline, seed harness</td><td class="num">57.6</td><td class="num">19.8</td><td class="num">15.7</td></tr>
+        <tr><td>Codex (w/ GPT-5.6-Sol)</td><td class="num">97.0</td><td class="num">34.6</td><td class="num">34.1</td></tr>
+        <tr><td>Claude Code (w/ Claude-Opus-5)</td><td class="num">92.2</td><td class="num">41.9</td><td class="num">41.9</td></tr>
+        <tr class="group"><td colspan="4">Proposed (ours), model = Leanstral-1.5-119B-A6B</td></tr>
+        <tr class="ours"><td>AIProver-Baseline, w/ seed harness</td><td class="num">57.6</td><td class="num">19.8</td><td class="num">15.7</td></tr>
         <tr class="ours"><td>AIProver-Baseline, w/ HarnessEvolve</td><td class="num">84.4</td><td class="num">28.7</td><td class="num">22.6</td></tr>
-        <tr class="ours"><td>AIProver (SAM + interleaved RLSF/HarnessEvolve)</td><td class="num">94.8</td><td class="num">39.0</td><td class="num">36.7</td></tr>
-        <tr class="ours"><td class="sub">+ Codex (GPT-5.6-Sol)</td><td class="num">98.7</td><td class="num">62.4</td><td class="num">62.4</td></tr>
-        <tr class="ours"><td class="sub">+ Claude Code (Opus 5)</td><td class="num best">100.0</td><td class="num best">79.8</td><td class="num best">79.8</td></tr>
+        <tr class="ours"><td>AIProver (SAM + interleaved RL/HarnessEvolve)</td><td class="num">94.8</td><td class="num">39.0</td><td class="num">36.7</td></tr>
+        <tr class="ours"><td class="sub">+ Codex (w/ GPT-5.6-Sol)</td><td class="num">98.7</td><td class="num">62.4</td><td class="num">62.4</td></tr>
+        <tr class="ours"><td class="sub">+ Claude Code (w/ Claude-Opus-5)</td><td class="num best">100.0</td><td class="num best">79.8</td><td class="num best">79.8</td></tr>
       </tbody>
     </table></div>
-
-    <h3>What each component adds <span class="qual">TC and full-proof rates, overall, as components are added one at a time</span></h3>
-    <div class="ladder reveal">
-      <div class="rung"><span class="t">Leanstral-1.5 w/ tools</span><span class="k">27.4<small>% TC</small></span><span class="lbl">12.6% full proofs. The open-weight base model with Lean tools but no AFPS scaffolding.</span></div>
-      <div class="rung"><span class="t">+ Seed harness</span><span class="k">57.6<small>% TC</small></span><span class="lbl">15.7% full proofs. Wrapping the model in the seed harness mostly fixes compilation.</span></div>
-      <div class="rung"><span class="t">+ HarnessEvolve</span><span class="k">84.4<small>% TC</small></span><span class="lbl">22.6% full proofs. Evolving the harness at a fixed model closes most of the compilation gap, not the proof gap.</span></div>
-      <div class="rung final"><span class="t">+ SAM, interleaved RLSF</span><span class="k">94.8<small>% TC</small></span><span class="lbl"><b>36.7% full proofs.</b> Post-training inside the evolved harness is what turns compiling files into proofs.</span></div>
+    <p class="tnote">Bold marks the best value in a column. Every open-weight AFPS or foundation model stays below 3.9% TC+SC.</p>
+  </div>
+  <div class="wrap">
+    <div class="findings reveal">
+      <div class="finding">
+        <span class="h">As a standalone agent</span>
+        <ol>
+          <li><b>Open-weight models are far from research-level AFPS without a Lean-tailored harness.</b> Every open-weight AFPS or foundation model stays below 3.9% TC+SC. AIProver raises this nearly tenfold, to 36.7%.</li>
+          <li><b>It outperforms frontier LLMs and agents.</b> GPT-5.6-Sol (25.2%), Aristotle (18.4%) and Codex (34.1%); only Claude Code (41.9%) is higher.</li>
+          <li><b>The gain is from post-training and the evolved harness.</b> From the same Leanstral-1.5 base, it outperforms OpenGauss on each field (36.7% vs. 21.5%), and its 67.0% on number theory is above Codex (62.0%) and Claude Code (57.0%).</li>
+        </ol>
+      </div>
+      <div class="finding">
+        <span class="h">As a skill for frontier coding agents</span>
+        <ol>
+          <li><b>AIProver lifts both hosts more than prior harnesses.</b> Claude Code goes from 41.9% to 79.8% (vs. 72.5% with Numina-Lean-Agent and 54.3% with OpenGauss), and Codex from 34.1% to 62.4% (vs. 44.5% and 41.9%).</li>
+          <li><b>The gain comes from AIProver rather than the host.</b> It adds 28.3% to Codex and 37.9% to Claude Code, whereas Numina-Lean-Agent adds 10.4% and 30.6% and OpenGauss 7.8% and 12.4%. The weaker host gains almost three times more from AIProver than from either prior agent.</li>
+        </ol>
+      </div>
     </div>
-
-    <div class="abstract two-col-text reveal" style="margin-top:28px">
-      <p><b>As a standalone agent.</b> Every open-weight AFPS or foundation model stays below 3.9% TC+SC on LoCoBench-Val; AIProver raises this nearly tenfold to 36.7%. It outperforms frontier models and agents such as GPT-5.6-Sol (25.2%), Aristotle (18.4%) and Codex (34.1%); only Claude Code (41.9%) is higher. From the same Leanstral-1.5 base it outperforms OpenGauss on every field (36.7% vs. 21.5% overall), and its 67.0% on number theory is above Codex (62.0%) and Claude Code (57.0%).</p>
-      <p><b>As a skill for frontier coding agents.</b> The host handles planning and decomposition; AIProver, a Lean-specialist sub-agent on local GPUs, handles Lean writing and proof search. AIProver adds 37.9 points to Claude Code and 28.3 to Codex, whereas Numina-Lean-Agent adds 30.6 and 10.4 and OpenGauss 12.4 and 7.8. The weaker host gains almost three times more from AIProver than from either prior agent, so the gain comes from AIProver rather than from the host.</p>
+    <h3 class="rq"><span class="q">Ablation</span>What does each component add?</h3>
+    <p class="tnote" style="margin-top:0">Components added one at a time; overall TC and full proofs.</p>
+    <div class="ladder reveal">
+      <div class="rung"><span class="t">Leanstral-1.5 w/ tools</span><span class="k">27.4<small>% TC</small></span><span class="k2">12.6% full proofs</span><span class="l">The base model with Lean tools, before any AIProver component.</span></div>
+      <div class="rung"><span class="t">+ seed harness</span><span class="k">57.6<small>% TC</small></span><span class="k2">15.7% full proofs</span><span class="l">Wrapping M&#8320; in H&#8320;.</span></div>
+      <div class="rung"><span class="t">+ HarnessEvolve</span><span class="k">84.4<small>% TC</small></span><span class="k2">22.6% full proofs</span><span class="l">Evolving H&#8320; at fixed M&#8320;. The harness alone mostly fixes compilation, motivating post-training.</span></div>
+      <div class="rung final"><span class="t">+ SAM, interleaved RLSF</span><span class="k">94.8<small>% TC</small></span><span class="k2">36.7% full proofs</span><span class="l">Post-training in the evolved harness. SAM&rsquo;s role is the aligned space that initializes RLSF and HarnessEvolve.</span></div>
     </div>
   </div>
 </section>
 
 <section id="cost">
   <div class="wrap">
-    <div class="h2row"><span class="no">05</span><h2>Cost</h2></div>
-    <p class="lead reveal">Every cost is the sum of the frontier coding agent&rsquo;s tokens at list prices, if any, and the GPU time that serves the open-weight model, if any, over the same 3,084 attempts (771 instances &times; 4). Hover a point for its configuration. Colour is the host, shape is the Lean agent, and filled discs are AIProver.</p>
-    <svg class="chart cost reveal" viewBox="0 0 760 420" role="img" aria-label="Accuracy versus cost per attempt for ten configurations; AIProver forms the accuracy-cost Pareto frontier.">
-<polygon points="160.0,366.0 160.0,257.9 322.4,257.9 322.4,153.9 536.9,153.9 536.9,83.5 736.0,83.5 736.0,366.0" fill="#eef1f5"/>
-<polyline points="160.0,257.9 322.4,257.9 322.4,153.9 536.9,153.9 536.9,83.5 736.0,83.5" fill="none" stroke="#b9c3d3" stroke-width="1.2"/>
-<text x="726.8" y="341.7" text-anchor="end" font-size="13" font-style="italic" fill="#7b8494">costlier and less accurate than AIProver</text>
-<line x1="62" y1="325.5" x2="736" y2="325.5" stroke="#e6e9ef" stroke-width="1"/>
-<text x="52" y="329.5" text-anchor="end" font-size="12" fill="#475467">20</text>
-<line x1="62" y1="244.6" x2="736" y2="244.6" stroke="#e6e9ef" stroke-width="1"/>
-<text x="52" y="248.6" text-anchor="end" font-size="12" fill="#475467">40</text>
-<line x1="62" y1="163.6" x2="736" y2="163.6" stroke="#e6e9ef" stroke-width="1"/>
-<text x="52" y="167.6" text-anchor="end" font-size="12" fill="#475467">60</text>
-<line x1="62" y1="82.7" x2="736" y2="82.7" stroke="#e6e9ef" stroke-width="1"/>
-<text x="52" y="86.7" text-anchor="end" font-size="12" fill="#475467">80</text>
-<text x="62.0" y="384" text-anchor="middle" font-size="12" fill="#475467">0</text>
-<text x="215.2" y="384" text-anchor="middle" font-size="12" fill="#475467">0.5</text>
-<text x="368.4" y="384" text-anchor="middle" font-size="12" fill="#475467">1</text>
-<text x="521.5" y="384" text-anchor="middle" font-size="12" fill="#475467">1.5</text>
-<text x="674.7" y="384" text-anchor="middle" font-size="12" fill="#475467">2</text>
-<line x1="62" y1="22" x2="62" y2="366" stroke="#c3cad6" stroke-width="1"/>
-<line x1="62" y1="366" x2="736" y2="366" stroke="#c3cad6" stroke-width="1"/>
-<text x="399.0" y="412" text-anchor="middle" font-size="13" fill="#475467">Cost per attempt (USD)</text>
-<text transform="translate(16 194.0) rotate(-90)" text-anchor="middle" font-size="13" fill="#475467">TC+SC, full proofs (%)</text>
-<g class="mark"><circle cx="160.0" cy="257.9" r="9" fill="#737373" stroke="#fff" stroke-width="2.5"/></g>
-<circle class="hit" cx="160.0" cy="257.9" r="16" data-name="AIProver, standalone" data-val="36.7% at $0.32" data-color="#737373" data-sub="standalone, GPUs only"/>
-<g class="mark"><rect x="152.0" y="311.5" width="16" height="16" fill="#fff" stroke="#737373" stroke-width="2.2"/></g>
-<circle class="hit" cx="160.0" cy="319.5" r="16" data-name="OpenGauss, standalone" data-val="21.5% at $0.32" data-color="#737373" data-sub="standalone, GPUs only"/>
-<g class="mark"><g stroke="#2a78d6" stroke-width="3" stroke-linecap="round"><line x1="216.4" y1="268.5" x2="232.4" y2="268.5"/><line x1="224.4" y1="260.5" x2="224.4" y2="276.5"/></g></g>
-<circle class="hit" cx="224.4" cy="268.5" r="16" data-name="Codex alone (GPT-5.6-Sol)" data-val="34.1% at $0.53" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
-<g class="mark"><circle cx="322.4" cy="153.9" r="9" fill="#2a78d6" stroke="#fff" stroke-width="2.5"/></g>
-<circle class="hit" cx="322.4" cy="153.9" r="16" data-name="AIProver + Codex" data-val="62.4% at $0.85" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
-<g class="mark"><rect x="375.7" y="228.9" width="16" height="16" fill="#fff" stroke="#2a78d6" stroke-width="2.2"/></g>
-<circle class="hit" cx="383.7" cy="236.9" r="16" data-name="OpenGauss + Codex" data-val="41.9% at $1.05" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
-<g class="mark"><polygon points="392.9,216.4 402.4,233.4 383.4,233.4" fill="#fff" stroke="#2a78d6" stroke-width="2.2"/></g>
-<circle class="hit" cx="392.9" cy="226.4" r="16" data-name="Numina-Lean-Agent + Codex" data-val="44.5% at $1.08" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
-<g class="mark"><g stroke="#e08a1e" stroke-width="3" stroke-linecap="round"><line x1="303.7" y1="230.4" x2="316.7" y2="243.4"/><line x1="303.7" y1="243.4" x2="316.7" y2="230.4"/></g></g>
-<circle class="hit" cx="310.2" cy="236.9" r="16" data-name="Claude Code alone (Opus 5)" data-val="41.9% at $0.81" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
-<g class="mark"><circle cx="536.9" cy="83.5" r="9" fill="#e08a1e" stroke="#fff" stroke-width="2.5"/></g>
-<circle class="hit" cx="536.9" cy="83.5" r="16" data-name="AIProver + Claude Code" data-val="79.8% at $1.55" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
-<g class="mark"><rect x="605.5" y="178.7" width="16" height="16" fill="#fff" stroke="#e08a1e" stroke-width="2.2"/></g>
-<circle class="hit" cx="613.5" cy="186.7" r="16" data-name="OpenGauss + Claude Code" data-val="54.3% at $1.80" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
-<g class="mark"><polygon points="683.9,103.1 693.4,120.1 674.4,120.1" fill="#fff" stroke="#e08a1e" stroke-width="2.2"/></g>
-<circle class="hit" cx="683.9" cy="113.1" r="16" data-name="Numina-Lean-Agent + Claude Code" data-val="72.5% at $2.03" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
-<text x="146.0" y="254.9" text-anchor="end" font-size="12.5" font-weight="600" fill="#101828">36.7%</text><text x="146.0" y="269.9" text-anchor="end" font-size="12" fill="#475467">$0.32</text>
-<text x="308.4" y="150.9" text-anchor="end" font-size="12.5" font-weight="600" fill="#101828">62.4%</text><text x="308.4" y="165.9" text-anchor="end" font-size="12" fill="#475467">$0.85</text>
-<text x="522.9" y="80.5" text-anchor="end" font-size="12.5" font-weight="600" fill="#101828">79.8%</text><text x="522.9" y="95.5" text-anchor="end" font-size="12" fill="#475467">$1.55</text>
+    <p class="kicker">06 &middot; Cost</p>
+    <h2>Higher accuracy at lower cost</h2>
+    <p class="lead reveal">Every cost is the sum of two components over the same 3,084 attempts (771 instances &times; 4): the tokens of the frontier coding agent, if any, at list prices, and the GPU time that serves the open-weight model, if any. AIProver&rsquo;s three configurations form the Pareto frontier among harnessed systems.</p>
+  </div>
+  <div class="wide">
+    <div class="chartwrap reveal">
+      <div class="fighead"><span class="fk">Fig. 5 &middot; Cost</span><span class="ft">AIProver forms the accuracy&ndash;cost Pareto frontier</span></div>
+      <svg class="chart" viewBox="0 0 760 400" role="img" aria-label="Accuracy versus cost per attempt for ten configurations; AIProver forms the accuracy-cost Pareto frontier.">
+<polygon points="156.9,350.0 156.9,245.7 320.7,245.7 320.7,145.3 537.1,145.3 537.1,77.4 738.0,77.4 738.0,350.0" fill="#f0eee8"/>
+<polyline points="156.9,245.7 320.7,245.7 320.7,145.3 537.1,145.3 537.1,77.4 738.0,77.4" fill="none" stroke="#c9c6bb" stroke-width="1.2"/>
+<text x="728.7" y="326.6" text-anchor="end" font-size="12.5" font-style="italic" fill="#9a9ea6">costlier and less accurate than AIProver</text>
+<line x1="58" y1="310.9" x2="738" y2="310.9" stroke="#ecebe5" stroke-width="1"/>
+<text x="48" y="314.9" text-anchor="end" font-size="12" fill="#6b6f78">20</text>
+<line x1="58" y1="232.8" x2="738" y2="232.8" stroke="#ecebe5" stroke-width="1"/>
+<text x="48" y="236.8" text-anchor="end" font-size="12" fill="#6b6f78">40</text>
+<line x1="58" y1="154.7" x2="738" y2="154.7" stroke="#ecebe5" stroke-width="1"/>
+<text x="48" y="158.7" text-anchor="end" font-size="12" fill="#6b6f78">60</text>
+<line x1="58" y1="76.6" x2="738" y2="76.6" stroke="#ecebe5" stroke-width="1"/>
+<text x="48" y="80.6" text-anchor="end" font-size="12" fill="#6b6f78">80</text>
+<text x="58.0" y="368" text-anchor="middle" font-size="12" fill="#6b6f78">0</text>
+<text x="212.5" y="368" text-anchor="middle" font-size="12" fill="#6b6f78">0.5</text>
+<text x="367.1" y="368" text-anchor="middle" font-size="12" fill="#6b6f78">1</text>
+<text x="521.6" y="368" text-anchor="middle" font-size="12" fill="#6b6f78">1.5</text>
+<text x="676.2" y="368" text-anchor="middle" font-size="12" fill="#6b6f78">2</text>
+<line x1="58" y1="18" x2="58" y2="350" stroke="#c9c6bb" stroke-width="1"/><line x1="58" y1="350" x2="738" y2="350" stroke="#c9c6bb" stroke-width="1"/>
+<text x="398.0" y="394" text-anchor="middle" font-size="12.5" fill="#6b6f78">Cost per attempt (USD)</text>
+<text transform="translate(14 184.0) rotate(-90)" text-anchor="middle" font-size="12.5" fill="#6b6f78">TC+SC, full proofs (%)</text>
+<g class="mark"><circle cx="156.9" cy="245.7" r="8.5" fill="#737373" stroke="#fff" stroke-width="2.5"/></g><circle class="hit" cx="156.9" cy="245.7" r="15" data-name="AIProver, standalone" data-val="36.7% at $0.32 per attempt" data-color="#737373" data-sub="standalone, GPUs only"/>
+<g class="mark"><rect x="149.4" y="297.6" width="15" height="15" fill="#fff" stroke="#737373" stroke-width="2.2"/></g><circle class="hit" cx="156.9" cy="305.1" r="15" data-name="OpenGauss, standalone" data-val="21.5% at $0.32 per attempt" data-color="#737373" data-sub="standalone, GPUs only"/>
+<g class="mark"><g stroke="#2a78d6" stroke-width="3" stroke-linecap="round"><line x1="214.3" y1="255.9" x2="229.3" y2="255.9"/><line x1="221.8" y1="248.4" x2="221.8" y2="263.4"/></g></g><circle class="hit" cx="221.8" cy="255.9" r="15" data-name="Codex alone (GPT-5.6-Sol)" data-val="34.1% at $0.53 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
+<g class="mark"><circle cx="320.7" cy="145.3" r="8.5" fill="#2a78d6" stroke="#fff" stroke-width="2.5"/></g><circle class="hit" cx="320.7" cy="145.3" r="15" data-name="AIProver + Codex" data-val="62.4% at $0.85 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
+<g class="mark"><rect x="375.0" y="217.9" width="15" height="15" fill="#fff" stroke="#2a78d6" stroke-width="2.2"/></g><circle class="hit" cx="382.5" cy="225.4" r="15" data-name="OpenGauss + Codex" data-val="41.9% at $1.05 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
+<g class="mark"><polygon points="391.8,205.7 400.8,221.7 382.8,221.7" fill="#fff" stroke="#2a78d6" stroke-width="2.2"/></g><circle class="hit" cx="391.8" cy="215.2" r="15" data-name="Numina-Lean-Agent + Codex" data-val="44.5% at $1.08 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
+<g class="mark"><g stroke="#e08a1e" stroke-width="3" stroke-linecap="round"><line x1="302.4" y1="219.4" x2="314.4" y2="231.4"/><line x1="302.4" y1="231.4" x2="314.4" y2="219.4"/></g></g><circle class="hit" cx="308.4" cy="225.4" r="15" data-name="Claude Code alone (Opus 5)" data-val="41.9% at $0.81 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
+<g class="mark"><circle cx="537.1" cy="77.4" r="8.5" fill="#e08a1e" stroke="#fff" stroke-width="2.5"/></g><circle class="hit" cx="537.1" cy="77.4" r="15" data-name="AIProver + Claude Code" data-val="79.8% at $1.55 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
+<g class="mark"><rect x="606.9" y="169.5" width="15" height="15" fill="#fff" stroke="#e08a1e" stroke-width="2.2"/></g><circle class="hit" cx="614.4" cy="177.0" r="15" data-name="OpenGauss + Claude Code" data-val="54.3% at $1.80 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
+<g class="mark"><polygon points="685.5,96.4 694.5,112.4 676.5,112.4" fill="#fff" stroke="#e08a1e" stroke-width="2.2"/></g><circle class="hit" cx="685.5" cy="105.9" r="15" data-name="Numina-Lean-Agent + Claude Code" data-val="72.5% at $2.03 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
+<text x="143.9" y="243.7" text-anchor="end" font-size="12.5" font-weight="600" fill="#15161a">36.7%</text><text x="143.9" y="257.7" text-anchor="end" font-size="11.5" fill="#6b6f78">$0.32</text>
+<text x="307.7" y="143.3" text-anchor="end" font-size="12.5" font-weight="600" fill="#15161a">62.4%</text><text x="307.7" y="157.3" text-anchor="end" font-size="11.5" fill="#6b6f78">$0.85</text>
+<text x="524.1" y="75.4" text-anchor="end" font-size="12.5" font-weight="600" fill="#15161a">79.8%</text><text x="524.1" y="89.4" text-anchor="end" font-size="11.5" fill="#6b6f78">$1.55</text>
 </svg>
-<div class="keyrow reveal" aria-label="Key">
-  <span class="k"><i style="background:#737373"></i>standalone (no host)</span>
-  <span class="k"><i style="background:#2a78d6"></i>Codex (GPT-5.6-Sol)</span>
-  <span class="k"><i style="background:#e08a1e"></i>Claude Code (Opus 5)</span>
-  <span class="k" style="margin-left:14px"><i style="background:#101828"></i>AIProver (filled)</span>
-  <span class="k" style="color:#475467"><i class="tri"></i>Numina-Lean-Agent</span>
-  <span class="k" style="color:#475467"><i class="sq hollow"></i>OpenGauss</span>
-  <span class="k" style="color:#475467"><b style="font-size:16px;line-height:1">+ &times;</b> host alone</span>
-</div>
-    <p class="kicker reveal">Standalone, AIProver and OpenGauss both run on local GPUs for $0.32 per attempt, yet AIProver reaches 36.7% against 21.5%. With Claude Code it reaches 79.8% at $1.55, against 72.5% at $2.03 for Numina-Lean-Agent and 54.3% at $1.80 for OpenGauss. With Codex it reaches 62.4% at $0.85, against 44.5% at $1.08 and 41.9% at $1.05. Offloading Lean work to a specialist sub-agent makes the host spend fewer tokens and gain accuracy at the same time.</p>
+      <div class="key" aria-label="Key">
+        <span><i style="background:var(--h-none)"></i>standalone</span><span><i style="background:var(--h-cdx)"></i>with Codex (GPT-5.6-Sol)</span><span><i style="background:var(--h-cc)"></i>with Claude Code (Opus 5)</span>
+        <span style="margin-left:12px"><i style="background:var(--ink)"></i>AIProver, filled</span><span style="color:var(--muted)"><i class="tri"></i>Numina-Lean-Agent</span><span style="color:var(--muted)"><i class="sq"></i>OpenGauss</span><span style="color:var(--muted)"><b style="font-size:15px;line-height:1">+ &times;</b> coding agent alone</span>
+      </div>
+    </div>
+    <p class="tnote">Hover a point for its configuration. Colour is the host, shape is the Lean agent, and filled discs are AIProver.</p>
+  </div>
+  <div class="wide">
+    <div class="cost3 reveal">
+      <div class="c"><span class="h"><i style="background:var(--h-none)"></i>Standalone</span><span class="big">36.7<small>%</small></span><span class="at">at $0.32 per attempt</span><span class="vs">OpenGauss: 21.5% at the same $0.32. Both run their models on local GPUs.</span></div>
+      <div class="c"><span class="h"><i style="background:var(--h-cc)"></i>With Claude Code</span><span class="big">79.8<small>%</small></span><span class="at">at $1.55 per attempt</span><span class="vs">Numina-Lean-Agent: 72.5% at $2.03. OpenGauss: 54.3% at $1.80. More accurate and <b>24% and 14% cheaper</b>.</span></div>
+      <div class="c"><span class="h"><i style="background:var(--h-cdx)"></i>With Codex</span><span class="big">62.4<small>%</small></span><span class="at">at $0.85 per attempt</span><span class="vs">Numina-Lean-Agent: 44.5% at $1.08. OpenGauss: 41.9% at $1.05. More accurate and <b>21% and 19% cheaper</b>.</span></div>
+    </div>
+    <p class="tnote">The host coding agent offloads Lean work to AIProver, a Lean-specialist sub-agent on local GPUs, so it spends fewer tokens and gains accuracy.</p>
   </div>
 </section>
 
-<section id="bibtex" class="alt">
+<section id="skill">
   <div class="wrap">
-    <div class="h2row"><span class="no">06</span><h2>BibTeX</h2></div>
+    <p class="kicker">07 &middot; As a skill</p>
+    <h2>A Lean specialist that frontier coding agents call</h2>
+    <p class="lead reveal">AIProver is packaged as a <b>skill</b> that a tool-calling coding agent loads; the experiments use Claude Code and Codex as hosts. The skill gives the host a small command-line interface and a fixed protocol; the host never reads AIProver&rsquo;s trajectories, only its returned Lean files and their checks.</p>
+    <div class="tiles two reveal">
+      <div class="tile"><span class="h">AIProver writes Lean and searches for proofs</span>One call is a complete agentic session of the post-trained model inside the evolved harness, up to 200 turns with Lean and the lean-lsp tools, run on local GPUs, so a job of <i>k</i> parallel samples costs the host nothing but a wait.</div>
+      <div class="tile"><span class="h">The host does what needs judgement</span>It reads the NL passage, plans, judges semantic correctness (c) and proof faithfulness (d) of every returned file, fixes statements, decomposes, and weaves the pieces together. It does not search for proofs itself, and it does not stop until all four properties hold.</div>
+    </div>
+    <ol class="protocol reveal">
+      <li><b>Preflight.</b> Check the environment: Lean and Mathlib, the completeness checker, the model endpoint, and one live rollout.</li>
+      <li><b>Blueprint.</b> The host lists the definitions, the theorem parts with their exact hypotheses, and the proof&rsquo;s intermediate lemmas, and resolves ambiguities such as the number type or indexing convention.</li>
+      <li><b>Submit.</b> It submits the whole problem to AIProver with <i>k</i> = 4 samples, plus a statement-only job on long inputs, and waits.</li>
+      <li><b>Judge.</b> It judges every sample that passes (a) and (b), best first, and accepts the first that also passes (c) and (d).</li>
+      <li><b>Decompose.</b> Otherwise it fixes the statement and decomposes: it freezes a skeleton with the definitions and every lemma and theorem part as a statement with <code>sorry</code>, submits one job per open piece with the frozen context and that piece&rsquo;s NL fragment, weaves the returned proof bodies into the skeleton, and resubmits a failing piece with a one-line hint or splits it further along the NL proof.</li>
+      <li><b>Final gate.</b> Rerun the type-correctness and completeness check on the exact final file, and the judge protocol once more.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="bibtex">
+  <div class="wrap">
+    <p class="kicker">08 &middot; Cite</p>
+    <h2>BibTeX</h2>
     <div class="bibwrap reveal">
       <button type="button" class="copybtn">Copy</button>
 <pre class="bibtex">@article{jana2026aiprover,
@@ -398,13 +510,10 @@
 </section>
 
 <footer>
-  <div class="wrap">
-    AIProver &middot; Georgia Institute of Technology<br>
-    <a href="https://jprithwish.github.io/">jprithwish.github.io</a>
-  </div>
+  <div class="wrap">AIProver &middot; 2026 &middot; <a href="https://jprithwish.github.io/">jprithwish.github.io</a></div>
 </footer>
 
 <div id="tip" role="tooltip" aria-hidden="true"></div>
-<script src="app.js?v=20261003" defer></script>
+<script src="app.js?v=20261003b" defer></script>
 </body>
 </html>
