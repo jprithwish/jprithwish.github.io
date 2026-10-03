@@ -151,8 +151,8 @@ h1.title .brand { color: var(--accent-ink); letter-spacing: .02em; }
 .tagline.tagline-result { margin-top: -14px; color: var(--ink-faint); max-width: 900px; }
 
 .authors { font-size: 16.5px; line-height: 1.9; margin: 0 auto 10px; max-width: 900px; color: var(--ink); }
-.authors a { border-bottom: none; color: var(--ink); font-weight: 600; }
-.authors a:hover { color: var(--accent-ink); }
+.authors a { border-bottom: 1px solid rgba(16, 24, 40, .22); color: var(--ink); font-weight: 600; transition: color .15s, border-color .15s; }
+.authors a:hover { color: var(--accent-ink); border-bottom-color: var(--accent); }
 .authors .au { color: var(--ink); font-weight: 600; }
 .authors sup, .affil sup { font-size: 10.5px; color: var(--accent-ink); font-weight: 700; margin-left: 1px; }
 .au { display: inline-block; white-space: nowrap; margin-right: 6px; }
