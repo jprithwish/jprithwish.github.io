@@ -195,7 +195,9 @@ tr.total td { font-weight: 700; color: var(--ink); border-top: 2px solid var(--r
 .tablewrap.full thead th { background: var(--surface); color: var(--ink); text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 12.5px; }
 .tablewrap.full thead tr:first-child th { text-align: center; padding-top: 10px; padding-bottom: 1px; border-bottom: 0; vertical-align: bottom; }
 .tablewrap.full thead th.sys { text-align: left; }
-.tablewrap.full th.grp small { display: block; font-weight: 500; color: var(--muted); font-size: 11.5px; margin-top: 1px; }
+.tablewrap.full th.grp { white-space: normal; line-height: 1.25; }
+.tablewrap.full th.num, .tablewrap.full td.num { width: 52px; }
+.tablewrap.full th.grp small { display: block; font-weight: 500; color: var(--muted); font-size: 11.5px; margin-top: 2px; }
 .tablewrap.full th.grp.ov { font-weight: 700; }
 .tablewrap.full thead tr:last-child th { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding-top: 2px; padding-bottom: 7px; border-bottom: 1px solid var(--rule); }
 .tablewrap.full .g0 { border-left: 1px solid var(--rule-soft); }
