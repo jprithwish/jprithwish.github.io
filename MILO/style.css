@@ -266,7 +266,7 @@ figcaption b { color: var(--ink); }
 .statband::after { content: none; }
 .statband .wrap { padding: 0 34px; }
 .glance-tag { display: block; font-family: var(--display); font-size: 22px; font-weight: 700; letter-spacing: -.01em; color: var(--ink); margin: 0 0 18px; }
-.stats { display: grid; grid-template-columns: 1fr 1.9fr 1fr 1fr; gap: 0; }
+.stats { display: grid; grid-template-columns: .9fr 1.9fr 1.05fr 1.15fr; gap: 0; }
 .stat { position: relative; padding: 2px 26px 2px 0; }
 .stat + .stat { padding-left: 26px; border-left: 1px solid var(--rule); }
 .stat::before { content: none; }
@@ -285,9 +285,13 @@ figcaption b { color: var(--ink); }
 .gains .p { font-family: var(--sans); font-size: 11.5px; line-height: 1.3; color: var(--ink-faint); margin-top: 6px; }
 .stat .lbl .sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: -1px; margin-right: 5px; }
 .stat .lbl .sw.us { background: var(--navy); } .stat .lbl .sw.pr { background: #c3cad6; }
+.cheap { margin-top: 12px; display: flex; flex-direction: column; gap: 9px; }
+.cheap .bk { display: block; font-family: var(--sans); font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent-ink); margin-bottom: 2px; }
+.cheap .row { display: block; font-family: var(--sans); font-size: 12.5px; line-height: 1.45; color: var(--ink-soft); }
+.cheap .row b { color: var(--ink); font-weight: 650; }
 .records { list-style: none; margin: 12px 0 0; padding: 0; }
 .records li { display: flex; flex-direction: column; margin: 0 0 7px; line-height: 1.35; }
-.records .nm { font-family: var(--sans); font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.records .nm { font-family: var(--sans); font-size: 12px; font-weight: 600; color: var(--ink); white-space: nowrap; }
 .records .bd { font-family: var(--mono); font-size: 11.5px; color: var(--ink-soft); }
 .stat .k small { display: block; font-family: var(--sans); font-size: 13px; font-weight: 600; color: var(--accent-ink); letter-spacing: 0; margin: 6px 0 0; }
 .stat .lbl { display: block; margin-top: 12px; font-size: 14px; line-height: 1.5; color: var(--ink-soft); }
