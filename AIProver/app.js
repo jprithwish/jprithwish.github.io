@@ -7,15 +7,28 @@
   var nav = document.getElementById('nav');
   var progress = nav ? nav.querySelector('.progress') : null;
   var links = nav ? Array.prototype.slice.call(nav.querySelectorAll('.links a[href^="#"]')) : [];
-  var spied = links.map(function (a) { return { a: a, el: document.getElementById(a.getAttribute('href').slice(1)) }; }).filter(function (s) { return s.el; });
+  var rail = document.getElementById('rail');
+  var marker = rail ? rail.querySelector('.rail-marker') : null;
+  var railLinks = rail ? Array.prototype.slice.call(rail.querySelectorAll('a[href^="#"]')) : [];
+  var spied = links.concat(railLinks).map(function (a) { return { a: a, el: document.getElementById(a.getAttribute('href').slice(1)) }; }).filter(function (s) { return s.el; });
   var pending = false;
   function update() {
     pending = false;
     if (nav) nav.classList.toggle('show', window.scrollY > 320);
+    if (rail) rail.classList.toggle('show', window.scrollY > 320);
     if (progress) { var max = document.documentElement.scrollHeight - window.innerHeight; progress.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, window.scrollY / max) : 0) + ')'; }
     var cur = null;
     spied.forEach(function (s) { if (s.el.getBoundingClientRect().top <= 100) cur = s; });
-    spied.forEach(function (s) { s.a.classList.toggle('active', s === cur); });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) cur = spied[spied.length - 1];
+    var curId = cur ? cur.el.id : null;
+    spied.forEach(function (s) { s.a.classList.toggle('active', !!curId && s.el.id === curId); });
+    if (rail) {
+      rail.classList.toggle('has-current', !!curId);
+      railLinks.forEach(function (a) {
+        var on = !!curId && a.getAttribute('href') === '#' + curId;
+        if (on && marker) { marker.style.height = (a.offsetHeight - 10) + 'px'; marker.style.transform = 'translateY(' + (a.offsetTop + 5) + 'px)'; }
+      });
+    }
   }
   window.addEventListener('scroll', function () { if (!pending) { pending = true; requestAnimationFrame(update); } }, { passive: true });
   window.addEventListener('resize', update);

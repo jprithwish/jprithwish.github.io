@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261003c">
+  <link rel="stylesheet" href="style.css?v=20261003e">
   <noscript><style>.reveal{opacity:1;transform:none}.steps .ctl{display:none}</style></noscript>
 </head>
 <body>
@@ -33,6 +33,19 @@
   </div>
   <span class="progress" aria-hidden="true"></span>
 </nav>
+
+<aside class="rail" id="rail" aria-label="Page sections">
+  <span class="rail-marker" aria-hidden="true"></span>
+  <a href="#use"><span class="rn">01</span><span class="rl">Use it</span></a>
+  <a href="#problem"><span class="rn">02</span><span class="rl">Problem</span></a>
+  <a href="#approach"><span class="rn">03</span><span class="rl">Approach</span></a>
+  <a href="#components"><span class="rn">04</span><span class="rl">Components</span></a>
+  <a href="#locobench"><span class="rn">05</span><span class="rl">Benchmark</span></a>
+  <a href="#results"><span class="rn">06</span><span class="rl">Results</span></a>
+  <a href="#analysis"><span class="rn">07</span><span class="rl">Analysis</span></a>
+  <a href="#cost"><span class="rn">08</span><span class="rl">Cost</span></a>
+  <a href="#bibtex"><span class="rn">09</span><span class="rl">Cite</span></a>
+</aside>
 
 <header id="top">
   <div class="wide">
@@ -83,7 +96,7 @@
         <li><b>The setting.</b> Proof auto-formalization translates natural-language (NL) theorems and proofs into a formal language (FL) such as Lean, enabling mechanical verification. Research mathematics involves long chains of interdependent definitions, lemmas, and proofs often absent from libraries such as Mathlib, so recent work wraps the LLM in a harness: a stateful multi-turn loop with Lean and search tools.</li>
         <li><b>The problem.</b> Successful compilation does not guarantee that a translation preserves the theorem&rsquo;s meaning or the proof&rsquo;s reasoning, aligned NL&ndash;FL training data are scarce, and leading agents often rely on costly frontier models, manually engineered harnesses, and mathematicians in the loop.</li>
         <li><b>Existing agents, and their limitations.</b> LeanMarathon, Numina-Lean-Agent, OpenGauss, and the closed-source Aristotle implement the loop, and Claude Code and Codex are used directly by mathematicians. But most AFPS models are RL-trained on Lean&rsquo;s binary verdict, which never compares the output with the NL input, so a formalization that compiles but proves the wrong theorem counts as success; and the agents&rsquo; harnesses are hand-built and retain the control flow of coding agents built for software engineering, which suits neither Lean proving nor open-weight models.</li>
-        <li><b>What AIProver does instead.</b> It jointly post-trains a 119B open-weight language model and evolves its agentic, tool-calling harness, so the harness is re-tailored to the updated model each round:
+        <li><b>What we do instead.</b> AIProver post-trains a 119B open-weight language model and simultaneously evolves its agentic, tool-calling harness: per round, HarnessEvolve adapts the harness control flow to the model, then RL post-trains the model within it. We contribute:
           <ul>
             <li>a <b>semantic alignment model</b> (SAM) fine-tuned so that an NL theorem&ndash;proof pair and its Lean counterpart are one mathematical object;</li>
             <li><b>verifiers</b> for type correctness, proof completeness, and semantic correctness that return graded rewards and diagnostic certificates, which drive <b>reinforcement learning via symbolic feedback</b>;</li>
@@ -97,7 +110,7 @@
     <div class="glancecard reveal">
       <div class="fighead"><span class="fk fk-big">At a glance</span><span class="ft">Proof auto-formalization of research-level mathematics: accuracy and cost, standalone and in conjunction with Codex and Claude Code</span></div>
       <div class="glancewrap"><svg class="glance" viewBox="0 0 876 328" role="img" aria-label="Accuracy and cost per attempt of AIProver standalone, with Codex and with Claude Code, against the host alone and the best prior Lean agent in each role">
-<text x="246" y="15" font-size="12" font-weight="700" fill="#15161a">Accuracy <tspan font-weight="500" fill="#62666f">pass@4 semantic correctness, full proofs (%)</tspan></text>
+<text x="246" y="15" font-size="12" font-weight="700" fill="#15161a">Accuracy <tspan font-weight="500" fill="#62666f">semantic correctness, full proofs (%)</tspan></text>
 <text x="592" y="15" font-size="12" font-weight="700" fill="#15161a">Cost per attempt <tspan font-weight="500" fill="#62666f">USD</tspan></text>
 <line x1="0" y1="24" x2="876" y2="24" stroke="#e3e1da" stroke-width="1"/>
 <text x="0" y="50" font-size="13" font-weight="700" fill="#15161a">Standalone <tspan font-size="12" font-weight="500" fill="#62666f">open-weight model on local GPUs</tspan></text>
@@ -146,7 +159,7 @@
 <rect x="592" y="300" width="133.9" height="13.0" rx="6.5" fill="#e08a1e"/>
 <text x="732.9" y="310.5" font-size="12.5" font-weight="700" fill="#15161a">$1.55 <tspan dx="4" font-size="11" font-weight="600" fill="#0b5a51">24% cheaper</tspan></text>
 </svg></div>
-      <p class="caption">On the 771 held-out theorem&ndash;proof pairs of LoCoBench-Val. Pale bars: the coding agent alone. Hollow bars: the best prior Lean agent in that role. Filled bars: AIProver. Cost is the host&rsquo;s tokens at list prices plus the GPU time serving the open-weight model, per attempt over the same 3,084 attempts.</p>
+      <p class="caption">pass@4 on the 771 instances of LoCoBench-Val. Pale bars: the coding agent alone. Hollow bars: the best prior Lean agent in that role. Filled bars: AIProver. Cost is the host&rsquo;s tokens at list prices plus the GPU time serving the open-weight model, per attempt over the same 3,084 attempts.</p>
     </div>
   </div>
 </header>
@@ -154,8 +167,8 @@
 <section id="use">
   <div class="wrap">
     <p class="kicker">01 &middot; Use it</p>
-    <h2>A Lean specialist, standalone or in conjunction with any frontier coding agent</h2>
-    <p class="lead reveal">AIProver serves <b>standalone</b>, as an open-source platform making research-level formalization accessible to all, and <b>in conjunction with</b> frontier agents, as a Lean specialist pushing their accuracy&ndash;cost frontier. It runs in three ways.</p>
+    <h2>A Lean specialist, standalone or in conjunction with frontier coding agents</h2>
+    <p class="lead reveal">AIProver is designed to serve <b>standalone</b>, as an open-source platform making research-level formalization accessible to all, and <b>in conjunction with</b> frontier agents, as a Lean specialist pushing their accuracy&ndash;cost frontier. It can be used in three ways.</p>
     <div class="modes reveal">
       <div class="mode"><span class="h">Standalone</span><b>Command-line agent</b><p>The post-trained Leanstral-1.5 inside the evolved harness, at GPU cost only: the model on a GPU server, the harness and the Lean toolchain on your machine.</p><span class="stat"><em>36.7%</em> pass@4 semantic correctness at $0.32 per attempt</span></div>
       <div class="mode cc"><span class="h">Claude Code plugin</span><b>Lean specialist inside Claude Code</b><p>Claude Code plans, delegates the Lean work to AIProver, judges faithfulness, decomposes, and weaves.</p><span class="stat"><em>79.8%</em> vs. 41.9% for Claude Code alone, at $1.55 per attempt</span></div>
@@ -165,7 +178,7 @@
   <div class="wide">
     <div class="fighead wideh"><span class="fk">Division of labour</span><span class="ft">The host does what needs judgement; AIProver writes Lean and searches for proofs</span></div>
     <div class="flow reveal" role="group" aria-label="Division of labour between the host coding agent and AIProver">
-      <div class="node host"><span class="h">Host coding agent</span><b>Judges, plans, decomposes</b><ul><li>reads the NL passage and plans;</li><li>judges semantic correctness (c) and proof faithfulness (d) of every returned file;</li><li>fixes statements, decomposes, and weaves the pieces together;</li><li>never searches for proofs itself.</li></ul></div>
+      <div class="node host"><span class="h">Host coding agent</span><b>Judges, plans, decomposes</b><ul><li>reads the NL passage and plans;</li><li>judges semantic correctness (c) and proof faithfulness (d) of every returned file;</li><li>fixes statements, decomposes, and weaves the pieces together;</li><li>does not search for proofs itself, and does not stop until all four properties hold.</li></ul></div>
       <div class="arrows" aria-hidden="true"><span class="a fwd">submits the problem, <i>k</i> parallel samples</span><span class="a back">returns Lean files and their checks</span></div>
       <div class="node aip"><span class="h">AIProver</span><b>Writes Lean, searches for proofs</b><ul><li>one call is a complete agentic session: up to 200 turns with Lean and the lean-lsp tools;</li><li>the post-trained model inside the evolved harness, on local GPUs;</li><li>a job of <i>k</i> parallel samples costs the host nothing but a wait.</li></ul></div>
     </div>
@@ -174,8 +187,8 @@
       <li><b>Blueprint</b>The definitions, the theorem parts with their exact hypotheses, and the proof&rsquo;s intermediate lemmas.</li>
       <li><b>Submit</b>The whole problem with <i>k</i> = 4 samples, plus a statement-only job on long inputs.</li>
       <li><b>Judge</b>Every sample that passes (a) and (b), best first; accept the first that also passes (c) and (d).</li>
-      <li><b>Decompose</b>Otherwise freeze a skeleton with every lemma as a <code>sorry</code> statement, one job per open piece, and weave the proofs back in.</li>
-      <li><b>Final gate</b>Type-correctness and completeness on the final file, and the judge protocol once more.</li>
+      <li><b>Decompose</b>Otherwise fix the statement and freeze a skeleton with every lemma and theorem part as a <code>sorry</code> statement, one job per open piece, and weave the proof bodies back into the skeleton.</li>
+      <li><b>Final gate</b>Type-correctness and completeness on the exact final file, and the judge protocol once more.</li>
     </ol>
   </div>
 </section>
@@ -551,6 +564,6 @@
 </footer>
 
 <div id="tip" role="tooltip" aria-hidden="true"></div>
-<script src="app.js?v=20261003c" defer></script>
+<script src="app.js?v=20261003e" defer></script>
 </body>
 </html>
