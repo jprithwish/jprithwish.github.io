@@ -698,5 +698,3 @@ footer a { color: var(--ink-faint); }
 .tldr li li { font-size: 15.5px; margin: 0 0 6px; padding-left: 20px; }
 .tldr li li::before { width: 5px; height: 5px; top: .72em; background: var(--ink-faint); }
 .tldr li li:last-child { margin: 0; }
-.cards1 { display: grid; grid-template-columns: 1fr; }
-.cards1 p { background: var(--tint); border: 1px solid var(--rule); border-radius: 16px; padding: 20px 22px; margin: 0; }
