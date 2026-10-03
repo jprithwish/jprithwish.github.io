@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>AIProver: Agentic Auto-Formalization of Mathematical Research via Certificate-Driven Evolving Harness</title>
-  <meta name="description" content="AIProver is an agentic framework for autonomous proof auto-formalization and proof synthesis that jointly post-trains a 119B open-weight language model and evolves its agentic, tool-calling harness with HarnessEvolve. On LoCoBench, 58.9k research-level instances, it lifts pass@4 semantic correctness over its Leanstral-1.5 base from 15.7% to 36.7%, and as a Claude Code and Codex skill lifts their semantic correctness from 41.9% and 34.1% to 79.8% and 62.4%.">
+  <meta name="description" content="AIProver is an agentic framework for autonomous proof auto-formalization and proof synthesis that jointly post-trains a 119B open-weight language model and evolves its agentic, tool-calling harness with HarnessEvolve. On LoCoBench-Val, 771 research-level instances with no public Lean formalization, it lifts pass@4 semantic correctness over its Leanstral-1.5 base from 15.7% to 36.7%, and as a Claude Code and Codex skill lifts their semantic correctness from 41.9% and 34.1% to 79.8% and 62.4%.">
   <meta name="author" content="Prithwish Jana">
   <meta property="og:type" content="article">
   <meta property="og:title" content="AIProver: Agentic Auto-Formalization of Mathematical Research via Certificate-Driven Evolving Harness">
@@ -81,8 +81,8 @@
       <span class="tag">TL;DR</span>
       <ul>
         <li><b>The setting.</b> Proof auto-formalization translates natural-language (NL) theorems and proofs into a formal language (FL) such as Lean, enabling mechanical verification. Research mathematics involves long chains of interdependent definitions, lemmas and proofs often absent from libraries such as Mathlib, so recent work wraps the LLM in a harness: a stateful multi-turn loop with Lean and search tools.</li>
-        <li><b>The problem.</b> Successful compilation does not guarantee that a translation preserves the theorem&rsquo;s meaning or the proof&rsquo;s reasoning, aligned NL&ndash;FL training data are scarce, and headline results take frontier models at frontier prices with mathematicians in the loop.</li>
-        <li><b>Existing agents, and their limitations.</b> LeanMarathon, Numina-Lean-Agent, OpenGauss and the closed-source Aristotle implement the loop, and Claude Code and Codex are used directly by mathematicians. But their models are trained on Lean&rsquo;s binary verdict, so a formalization that compiles but proves the wrong theorem counts as success, and their harnesses are hand-built and retain the control flow of coding agents built for software engineering, which suits neither Lean proving nor open-weight models.</li>
+        <li><b>The problem.</b> Successful compilation does not guarantee that a translation preserves the theorem&rsquo;s meaning or the proof&rsquo;s reasoning, aligned NL&ndash;FL training data are scarce, and leading agents often rely on costly frontier models, manually engineered harnesses, and mathematicians in the loop.</li>
+        <li><b>Existing agents, and their limitations.</b> LeanMarathon, Numina-Lean-Agent, OpenGauss and the closed-source Aristotle implement the loop, and Claude Code and Codex are used directly by mathematicians. But most AFPS models are RL-trained on Lean&rsquo;s binary verdict, which never compares the output with the NL input, so a formalization that compiles but proves the wrong theorem counts as success; and the agents&rsquo; harnesses are hand-built and retain the control flow of coding agents built for software engineering, which suits neither Lean proving nor open-weight models.</li>
         <li><b>What AIProver does instead.</b> It jointly post-trains a 119B open-weight language model and evolves its agentic, tool-calling harness, so the harness is re-tailored to the updated model each round:
           <ul>
             <li>a <b>semantic alignment model</b> (SAM) fine-tuned so that an NL theorem&ndash;proof pair and its Lean counterpart are one mathematical object;</li>
@@ -181,15 +181,15 @@
     <div class="callout def reveal"><span class="h">Definition &middot; agents and harnesses</span>An agent <i>A</i> = &lang;<i>M</i>, <i>H</i>&rang; pairs an LLM <i>M</i> with a <b>harness</b> <i>H</i>, the software layer that executes the actions <i>M</i> proposes and governs the agent&rsquo;s context, tools, memory, and control flow. <b>AIProver optimizes the full agent</b>: it post-trains <i>M</i> and evolves <i>H</i>.</div>
   </div>
   <div class="wide">
-    <div class="fighead wideh"><span class="fk">Fig. 1 &middot; Walkthrough</span><span class="ft">Model and harness are optimized together: each round evolves the harness for the current model, then post-trains the model in it</span></div>
+    <div class="fighead wideh"><span class="fk">Fig. 1(b) &middot; Walkthrough</span><span class="ft">Model and harness are optimized together: each round evolves the harness for the current model, then post-trains the model in it</span></div>
     <div class="pipe reveal" id="pipe">
       <div class="walk"><img src="static/aiprover_fullpipeline.png" alt="Overall post-training loop of AIProver: Phase 1 bootstraps the harness with HarnessEvolve and the model with SAM fine-tuning; Phase 2 interleaves RLSF post-training and HarnessEvolve for K rounds." width="850" height="711"><div class="spot" aria-hidden="true"></div></div>
       <ol class="steps" aria-label="Walkthrough">
         <li data-step="0" data-n="00"><b>The initial agent</b><i>A</i><sub>0</sub> = &lang;<i>M</i><sub>0</sub>, <i>H</i><sub>0</sub>&rang;: Leanstral-1.5 as <i>M</i><sub>0</sub>, and a seed harness <i>H</i><sub>0</sub> adapted from Mistral&rsquo;s Vibe with lean-lsp-mcp.</li>
         <li data-step="1" data-n="01"><b>Phase 1 &middot; HarnessEvolve</b>Bootstrap the harness: evolve <i>H</i><sub>0</sub> into <i>H</i><sub>1</sub> under <i>M</i><sub>0</sub>. HarnessEvolve optimizes the whole control flow of the harness in an evolutionary search.</li>
         <li data-step="2" data-n="02"><b>Phase 1 &middot; SAM fine-tuning</b>Bootstrap the model: SAM-tune <i>M</i><sub>0</sub> into <i>M</i><sub>1</sub>. SAM aligns NL and FL pairs in the LLM.</li>
-        <li data-step="3" data-n="03"><b>Phase 2 &middot; Agentic RLSF</b>With the harness frozen, RLSF post-trains the model on graded verifier reward, learning from partial successes.</li>
-        <li data-step="4" data-n="04"><b>Phase 2 &middot; HarnessEvolve</b>With the model frozen, HarnessEvolve re-tailors the harness to the updated model. Harness and model use disjoint training subsets.</li>
+        <li data-step="3" data-n="03"><b>Phase 2 &middot; HarnessEvolve</b>With <i>M</i><sub><i>i</i></sub> frozen, evolve <i>H</i><sub><i>i</i></sub> into <i>H</i><sub><i>i</i>+1</sub>, re-tailoring the harness to the current model. Harness and model use disjoint training subsets.</li>
+        <li data-step="4" data-n="04"><b>Phase 2 &middot; Agentic RLSF</b>With <i>H</i><sub><i>i</i>+1</sub> frozen, RLSF post-trains <i>M</i><sub><i>i</i></sub> into <i>M</i><sub><i>i</i>+1</sub> on graded verifier reward, learning from partial successes.</li>
         <li data-step="5" data-n="05"><b>Repeat <i>K</i> rounds, gated</b>&lang;<i>M</i><sub><i>i</i>+1</sub>, <i>H</i><sub><i>i</i>+1</sub>&rang; is kept only if its held-out fitness improves, else rolled back.</li>
         <li class="ctl"><button type="button">Pause</button><span>Click a step to jump to it.</span></li>
       </ol>
@@ -262,7 +262,7 @@
           <li>An episode is one run of the agent inside the frozen harness: reasoning, tool calls, and observations, turn after turn.</li>
           <li>Only the Lean file it finally writes is rewarded, by sound symbolic tools, the Lean kernel and BEq<sup>+</sup>, instead of a learned reward model.</li>
           <li>Optimized with GRPO; the objective applies only to tokens the model generated.</li>
-          <li><b>Why the ladder matters.</b> Under a binary verification reward, most groups of rollouts have no spread and yield no gradient.</li>
+          <li><b>Why the ladder matters.</b> Under a binary verification reward, a group whose rollouts all fail or all succeed yields no gradient; the ladder separates ill-typed, incomplete, and complete proofs even within a failing group.</li>
         </ul>
       </div>
     </div>
@@ -304,7 +304,7 @@
           <tr class="total"><td>Total</td><td class="num">18,757</td><td class="num">39,385</td><td class="num">771</td><td class="num">58,913</td></tr>
         </tbody>
       </table></div>
-      <figure class="framed"><img src="static/distillation_pipeline_figure.svg" alt="Data distillation pipeline: a teacher model formalizes the NL-only Mizar theorems under verifier feedback; each must compile and pass a semantic check." loading="lazy"><figcaption><span class="fignum">Fig. 5</span><b>Data distillation pipeline</b> for the Lean labels of the NL-only Mizar theorems in Train.</figcaption></figure>
+      <figure class="framed"><img src="static/distillation_pipeline_figure.svg" alt="Data distillation pipeline: a teacher model formalizes the NL-only Mizar theorems under verifier feedback; each must compile and pass a semantic check." loading="lazy"><figcaption><span class="fignum">Fig. 5</span><b>Data distillation pipeline.</b> A teacher&rsquo;s Lean outputs are kept only if they compile and pass a semantic check; run over both the Mathlib+CSLib and the NL-only Mizar Train instances.</figcaption></figure>
     </div>
     <p class="tnote">LoCoBench composition (Table 2 of the paper). Mathlib+CSLib entries carry gold Lean; MML entries are NL-only.</p>
   </div>
@@ -314,7 +314,7 @@
   <div class="wrap">
     <p class="kicker">05 &middot; Results</p>
     <h2>Against 39 systems, AIProver beats every open-weight system standalone and lifts the frontier coding agents it serves</h2>
-    <p class="lead reveal">Pass@4 on LoCoBench-Val (771 instances) under three nested criteria: <b>TC</b>, the file compiles; <b>TC+SC</b>, the statement is also semantically correct; and <b>TC+SC with full proofs</b>, the headline metric. Selected rows below; Table 3 of the paper has all 39 systems and the per-field numbers.</p>
+    <p class="lead reveal">Pass@4 on LoCoBench-Val (771 instances) under three nested criteria: <b>TC</b>, the file compiles; <b>TC+SC</b>, the statement is also semantically correct; and <b>TC+SC with full proofs</b>, which also requires completeness. Selected rows below; Table 3 of the paper has all 39 systems and the per-field numbers.</p>
   </div>
   <div class="wide">
     <div class="tablewrap reveal"><table>
@@ -322,8 +322,9 @@
       <tbody>
         <tr class="group"><td colspan="4">AFPS models, single-turn</td></tr>
         <tr><td>Kimina-Autoformalizer-7B</td><td class="num">58.9</td><td class="num">4.9</td><td class="num">0.0</td></tr>
-        <tr><td>StepFun-Formalizer-7B &rarr; Hilbert</td><td class="num">18.3</td><td class="num">5.7</td><td class="num">3.9</td></tr>
+        <tr><td>StepFun-Formalizer-7B</td><td class="num">16.7</td><td class="num">5.7</td><td class="num">0.0</td></tr>
         <tr class="group"><td colspan="4">AFPS agents, multi-turn</td></tr>
+        <tr><td>StepFun-Formalizer-7B &rarr; Hilbert</td><td class="num">18.3</td><td class="num">5.7</td><td class="num">3.9</td></tr>
         <tr><td>Leanstral-1.5-119B-A6B (w/ tools)</td><td class="num">27.4</td><td class="num">12.6</td><td class="num">12.6</td></tr>
         <tr><td>Aristotle</td><td class="num">43.2</td><td class="num">18.5</td><td class="num">18.4</td></tr>
         <tr><td>Math-Inc OpenGauss (w/ Leanstral-1.5)</td><td class="num">57.3</td><td class="num">22.2</td><td class="num">21.5</td></tr>
@@ -371,7 +372,7 @@
       <div class="rung"><span class="t">Leanstral-1.5 w/ tools</span><span class="k">27.4<small>% TC</small></span><span class="k2">12.6% full proofs</span><span class="l">The base model with Lean tools, before any AIProver component.</span></div>
       <div class="rung"><span class="t">+ seed harness</span><span class="k">57.6<small>% TC</small></span><span class="k2">15.7% full proofs</span><span class="l">Wrapping <i>M</i><sub>0</sub> in <i>H</i><sub>0</sub>.</span></div>
       <div class="rung"><span class="t">+ HarnessEvolve</span><span class="k">84.4<small>% TC</small></span><span class="k2">22.6% full proofs</span><span class="l">Evolving <i>H</i><sub>0</sub> at fixed <i>M</i><sub>0</sub>: the harness alone mostly fixes compilation, motivating post-training.</span></div>
-      <div class="rung final"><span class="t">+ SAM, interleaved RLSF</span><span class="k">94.8<small>% TC</small></span><span class="k2">36.7% full proofs</span><span class="l">Post-training in the evolved harness. SAM&rsquo;s role is the aligned space that initializes RLSF and HarnessEvolve.</span></div>
+      <div class="rung final"><span class="t">+ SAM, interleaved RLSF/HarnessEvolve</span><span class="k">94.8<small>% TC</small></span><span class="k2">36.7% full proofs</span><span class="l">Post-training in the evolved harness. SAM&rsquo;s role is the aligned space that initializes RLSF and HarnessEvolve.</span></div>
     </div>
   </div>
 </section>
@@ -380,19 +381,19 @@
   <div class="wrap">
     <p class="kicker">06 &middot; Analysis</p>
     <h2>Inside SAM&rsquo;s aligned space</h2>
-    <p class="lead reveal">SAM&rsquo;s role is the aligned space that initializes RLSF and HarnessEvolve. Two views of that space, on held-out pairs.</p>
+    <p class="lead reveal">SAM&rsquo;s role is the aligned space that initializes RLSF and HarnessEvolve. Two views of that space: 150 held-out pairs, and four related training lemmas.</p>
   </div>
   <div class="wide">
     <figure class="framed reveal">
-      <img src="static/latent_pairmap_raw4.png" alt="Informal and formal views of 150 held-out pairs in the first three principal components of four models: the base and the SFT ablation form two separate clouds; in SAM each informal view sits near its own formal view; after RLSF the matched views stay paired with a shared offset." loading="lazy" width="3400" height="850">
-      <figcaption><span class="fignum">Fig. 7</span><b>The aligned space in raw views.</b> Informal (circles) and formal (triangles) views of 150 held-out pairs, each pair joined, colored by field. In the base and the SFT ablation the two views form separate clouds (matched cosine 0.11, same as unmatched). In SAM each informal view sits near its own formal view (0.75 against 0.32 unmatched). After RLSF the pairs stay matched with a shared offset (0.64 against 0.31).</figcaption>
+      <img src="static/latent_pairmap_raw4.png" alt="Informal and formal views of 150 held-out pairs in the first three principal components of four models: the base and the λ = 0 (SFT) ablation form two separate clouds; in SAM each informal view sits near its own formal view; after RLSF the matched views stay paired with a shared offset." loading="lazy" width="3400" height="850">
+      <figcaption><span class="fignum">Fig. 7</span><b>The aligned space in raw views.</b> Informal (circles) and formal (triangles) views of 150 held-out pairs, each pair joined, colored by field. In the base and the &lambda;&nbsp;=&nbsp;0 (SFT) ablation the two views form separate clouds and a matched pair is no closer than an unmatched one (cosine 0.11 against 0.11, and 0.13 against 0.12). In SAM each informal view sits near its own formal view (0.75 against 0.32 unmatched) and the space is organized by field. After RLSF the matched views are separated by a shared offset and stay paired (0.64 against 0.31).</figcaption>
     </figure>
     <div class="split flip reveal">
       <div>
         <h3 class="tight">Relations between lemmas carry across the two languages</h3>
         <p>Four Mathlib lemmas about pre-games, related by two substitutions (multiplicative to additive, commutative to associative), in SAM&rsquo;s head space. Each lemma&rsquo;s Lean and English views nearly coincide, so the views form matching parallelograms, with edge cosines 0.74 and 0.78 in the full space.</p>
       </div>
-      <figure class="framed"><img src="static/latent_analogy_plot.svg" alt="Four related Mathlib lemmas: their Lean and English views in SAM's head space form matching parallelograms." loading="lazy"><figcaption><span class="fignum">Fig. 6</span><b>Four related lemmas in SAM&rsquo;s semantic encoder.</b> Solid edges: multiplicative to additive; dashed: commutative to associative; dotted lines join the two views of a lemma.</figcaption></figure>
+      <figure class="framed"><img src="static/latent_analogy_plot.svg" alt="Four related Mathlib lemmas: their Lean and English views in SAM's head space form matching parallelograms." loading="lazy"><figcaption><span class="fignum">Fig. 6(b)</span><b>Four related lemmas in SAM&rsquo;s semantic encoder.</b> Solid edges: multiplicative to additive; dashed: commutative to associative; dotted lines join the two views of a lemma.</figcaption></figure>
     </div>
   </div>
 </section>

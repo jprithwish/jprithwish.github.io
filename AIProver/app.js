@@ -38,7 +38,7 @@
     var steps = Array.prototype.slice.call(pipe.querySelectorAll('.steps li[data-step]'));
     var spot = pipe.querySelector('.spot');
     var regions = [ /* percent boxes measured on the figure: left, top, width, height */
-      [1.5, 8, 17.5, 40], [18, 8, 37, 40], [55, 8, 44, 41], [55, 54, 24, 37], [15, 54, 40, 39], [79, 46, 20.5, 53]
+      [1.5, 8, 17.5, 40], [18, 8, 37, 40], [55, 8, 44, 41], [15, 54, 40, 39], [55, 54, 24, 37], [79, 46, 20.5, 53]
     ];
     var cur = 0, timer = null, playing = !reduced;
     function render(i) {
