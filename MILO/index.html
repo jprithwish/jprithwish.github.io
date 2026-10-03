@@ -208,9 +208,8 @@
       <div class="fact-body"><b>Same model, different harness.</b> On Terminal-Bench, GPT-5 solves 35.2% of tasks with the Terminus&nbsp;2 harness and 49.6% with Codex, while consuming 35% fewer tokens. A harness can matter as much as the model, and it is far cheaper to change than model weights. Yet production harnesses take teams months to build, and because harnesses are model-specific, the work is redone with every new model.</div>
     </div>
 
-    <div class="abstract cards2 reveal">
+    <div class="abstract cards1 reveal">
       <p>This motivates <b>automated harness discovery (AHD)</b>: given an agent, discover a stronger harness for its model. AHD is usually cast as LLM-driven evolutionary search, a loop in which an LLM-based mutator proposes harnesses, an oracle scores them, and the results guide the next round. Because the loop is model-agnostic, rerunning it per model automates the perpetual re-tuning. Existing search methods explore this space poorly, however: most optimize only parts of the harness, such as prompts or skills, while the rest fix their search strategy in advance and inherit the exploitative bias of their LLM mutators.</p>
-      <p><b>MILO</b> <i>(Meta-evolutionary Island Orchestration)</i> co-evolves the harness and its own search strategy. A <i>hierarchical lineage memory</i> of island-based trees keeps rejected mutations as negative evidence; per-island <i>mutator agents</i> combine global search history with feedback on parent weaknesses to rewrite entire harnesses; and an <i>orchestrator agent</i> adapts the search by grafting and speciating lineages, reassigning mutators, and revising the curriculum. With gpt-oss-120b it lifts DeepSWE pass-rate to 15.6%, <b>20&times;</b> its initial harness, while prior search stays below 1%.</p>
     </div>
 
     <div class="defbox reveal">
