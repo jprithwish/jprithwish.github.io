@@ -37,14 +37,14 @@
   if (pipe) {
     var steps = Array.prototype.slice.call(pipe.querySelectorAll('.steps li[data-step]'));
     var spot = pipe.querySelector('.spot');
-    var regions = [ /* percent boxes measured on the figure: left, top, width, height */
-      [1.5, 8, 17.5, 40], [18, 8, 37, 40], [55, 8, 44, 41], [15, 54, 40, 39], [55, 54, 24, 37], [79, 46, 20.5, 53]
+    var regions = [ /* percent boxes on the (frame-cropped, 838x694) figure: left, top, width, height */
+      [0.6, 6.6, 17.8, 41.2], [17.4, 6.6, 37.7, 41.2], [55.0, 6.6, 44.7, 42.2], [14.3, 54.0, 40.7, 40.1], [55.0, 54.0, 24.4, 38.1], [79.5, 45.7, 20.2, 54.0]
     ];
     var cur = 0, timer = null, playing = !reduced;
     function render(i) {
       cur = i; var r = regions[i];
       if (spot) { spot.style.left = r[0] + '%'; spot.style.top = r[1] + '%'; spot.style.width = r[2] + '%'; spot.style.height = r[3] + '%'; }
-      steps.forEach(function (li, k) { li.classList.toggle('on', k === i); });
+      steps.forEach(function (li, k) { li.classList.toggle('on', k === i); li.setAttribute('aria-current', k === i ? 'true' : 'false'); });
     }
     function next() { render((cur + 1) % regions.length); }
     function schedule() { clearTimeout(timer); if (playing) timer = setTimeout(function () { next(); schedule(); }, 3200); }
