@@ -1,4 +1,4 @@
-/* AIProver project page: nav, scroll-spy, reveal, pipeline walkthrough, chart tooltips, copy. Progressive: the page reads without JS. */
+/* AIProver project page: nav, scroll-spy, reveal, Fig. 1 spotlight walkthrough, chart tooltips, copy. Progressive: the page reads without JS. */
 (function () {
   'use strict';
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -21,47 +21,36 @@
   window.addEventListener('resize', update);
   update();
 
-  /* reveal */
+  /* reveal on scroll */
   var targets = document.querySelectorAll('.reveal');
-  if (reduced || !('IntersectionObserver' in window)) { targets.forEach(function (el) { el.classList.add('in'); }); }
-  else {
-    var io = new IntersectionObserver(function (entries) { entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+  if (reduced || !('IntersectionObserver' in window)) {
+    targets.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
     targets.forEach(function (el) { io.observe(el); });
   }
 
-  /* pipeline walkthrough: one state machine, driven by the step list */
+  /* Fig. 1 walkthrough: a spotlight moves over the paper's figure, driven by the step list */
   var pipe = document.getElementById('pipe');
   if (pipe) {
     var steps = Array.prototype.slice.call(pipe.querySelectorAll('.steps li[data-step]'));
-    var svg = pipe.querySelector('svg');
-    var q = function (sel) { return Array.prototype.slice.call(svg.querySelectorAll(sel)); };
-    var mVer = svg.querySelector('#m-ver'), hVer = svg.querySelector('#h-ver');
-    var round = svg.querySelector('#round');
-    /* each state: which operator box, arrows and version labels light up; the model/harness subscripts */
-    var states = [
-      { op: null,      arrows: [],         m: '0', h: '0', mOn: false, hOn: false, round: 'start' },
-      { op: 'op-he1',  arrows: ['a-he1'],  m: '0', h: '1', mOn: false, hOn: true,  round: 'phase 1' },
-      { op: 'op-sam',  arrows: ['a-sam'],  m: '1', h: '1', mOn: true,  hOn: false, round: 'phase 1' },
-      { op: 'op-he2',  arrows: ['a-he2'],  m: 'i', h: 'i+1', mOn: false, hOn: true, round: 'round i' },
-      { op: 'op-rl',   arrows: ['a-rl'],   m: 'i+1', h: 'i+1', mOn: true, hOn: false, round: 'round i' },
-      { op: 'op-gate', arrows: ['a-gate'], m: 'i+1', h: 'i+1', mOn: true, hOn: true, round: 'round i, gated' }
+    var spot = pipe.querySelector('.spot');
+    var regions = [ /* percent boxes measured on the figure: left, top, width, height */
+      [1.5, 8, 17.5, 40], [18, 8, 37, 40], [55, 8, 44, 41], [55, 54, 24, 37], [15, 54, 40, 39], [79, 46, 20.5, 53]
     ];
     var cur = 0, timer = null, playing = !reduced;
     function render(i) {
-      cur = i; var s = states[i];
-      q('.op').forEach(function (el) { el.classList.toggle('on', el.id === s.op); });
-      q('.pulse').forEach(function (el) { el.classList.toggle('on', el.getAttribute('data-for') === s.op); });
-      q('.arrow').forEach(function (el) { el.classList.toggle('on', s.arrows.indexOf(el.id) >= 0); });
-      if (mVer) { mVer.textContent = s.m; mVer.classList.toggle('on', s.mOn); }
-      if (hVer) { hVer.textContent = s.h; hVer.classList.toggle('on', s.hOn); }
-      if (round) round.textContent = s.round;
+      cur = i; var r = regions[i];
+      if (spot) { spot.style.left = r[0] + '%'; spot.style.top = r[1] + '%'; spot.style.width = r[2] + '%'; spot.style.height = r[3] + '%'; }
       steps.forEach(function (li, k) { li.classList.toggle('on', k === i); });
     }
-    function next() { render((cur + 1) % states.length); }
-    function schedule() { clearTimeout(timer); if (playing) timer = setTimeout(function () { next(); schedule(); }, 3000); }
+    function next() { render((cur + 1) % regions.length); }
+    function schedule() { clearTimeout(timer); if (playing) timer = setTimeout(function () { next(); schedule(); }, 3200); }
     steps.forEach(function (li, k) {
-      li.addEventListener('click', function () { render(k); schedule(); });
       li.setAttribute('tabindex', '0');
+      li.addEventListener('click', function () { render(k); schedule(); });
       li.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); render(k); schedule(); } });
     });
     var btn = pipe.querySelector('.ctl button');
@@ -82,7 +71,7 @@
         hit.setAttribute('tabindex', '0'); hit.setAttribute('role', 'img');
         hit.setAttribute('aria-label', (hit.dataset.name || '') + ': ' + (hit.dataset.val || ''));
         var mark = hit.previousElementSibling;
-        function enter(ev) {
+        function enter() {
           tip.textContent = '';
           var v = document.createElement('span'); v.className = 'v';
           var sw = document.createElement('i'); sw.style.background = hit.dataset.color || '#333';
@@ -99,18 +88,22 @@
         function leave() { tip.classList.remove('on'); chart.classList.remove('dim'); if (mark) mark.classList.remove('on'); }
         hit.addEventListener('mouseenter', enter); hit.addEventListener('mouseleave', leave);
         hit.addEventListener('focus', enter); hit.addEventListener('blur', leave);
-        hit.addEventListener('touchstart', function (e) { enter(e); }, { passive: true }); hit.addEventListener('touchend', leave);
+        hit.addEventListener('touchstart', enter, { passive: true }); hit.addEventListener('touchend', leave);
       });
     });
   }
 
-  /* copy bibtex */
+  /* copy BibTeX */
   document.querySelectorAll('.copybtn').forEach(function (b) {
     b.addEventListener('click', function () {
       var pre = b.parentNode.querySelector('pre'); if (!pre) return;
       var done = function () { b.textContent = 'Copied'; setTimeout(function () { b.textContent = 'Copy'; }, 1600); };
-      if (navigator.clipboard) navigator.clipboard.writeText(pre.textContent).then(done, done);
-      else { var r = document.createRange(); r.selectNodeContents(pre); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r); try { document.execCommand('copy'); } catch (e) {} sel.removeAllRanges(); done(); }
+      if (navigator.clipboard) { navigator.clipboard.writeText(pre.textContent).then(done, done); }
+      else {
+        var r = document.createRange(); r.selectNodeContents(pre); var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(r);
+        try { document.execCommand('copy'); } catch (e) {}
+        sel.removeAllRanges(); done();
+      }
     });
   });
 })();

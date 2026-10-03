@@ -58,6 +58,7 @@ h1 .brand { color: var(--accent-ink); }
 .logos img { height: 30px; width: auto; display: block; opacity: .9; }
 .logos img.tall { height: 38px; }
 .logos img.short { height: 24px; }
+.logos img.gt { height: 52px; }
 .buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: var(--s3); }
 .btn { display: inline-flex; align-items: center; gap: 8px; font-family: var(--sans); font-weight: 600; font-size: 14.5px; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--paper); border: 1px solid var(--ink); transition: transform .15s ease, background .15s ease; }
 .btn:hover { transform: translateY(-1px); background: #000; }
@@ -307,3 +308,20 @@ footer a { color: var(--muted); border-bottom-color: rgba(107, 111, 120, .3); }
 .chip b { color: var(--muted); font-weight: 600; font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; }
 h3.rq { display: flex; align-items: baseline; gap: 12px; }
 h3.rq .q { font-family: var(--sans); font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--paper); background: var(--accent); border-radius: 999px; padding: 3px 10px; transform: translateY(-3px); }
+
+/* ---- v3: spotlight walkthrough, figure-led splits ---- */
+.walk { position: relative; overflow: hidden; border-radius: 14px; background: #fff; border: 1px solid var(--rule); }
+.walk img { display: block; width: 100%; height: auto; }
+.walk .spot { position: absolute; left: 2%; top: 8%; width: 17%; height: 40%; border: 2px solid var(--accent); border-radius: 10px; box-shadow: 0 0 0 200vmax rgba(247, 246, 242, .62); transition: left .55s ease, top .55s ease, width .55s ease, height .55s ease; pointer-events: none; }
+.walk.off .spot { opacity: 0; }
+.pipe { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); align-items: start; }
+.split { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: var(--s4); align-items: center; margin: var(--s4) 0 0; }
+.split.flip { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); }
+.split figure { margin: 0; }
+.split .kicker { margin-bottom: 6px; }
+h3.tight { margin-top: 0; }
+.props { margin: 0; padding: 0; list-style: none; }
+.props li { position: relative; padding-left: 20px; margin: 0 0 10px; font-size: 16px; line-height: 1.58; }
+.props li::before { content: ""; position: absolute; left: 0; top: .66em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.props li b { color: var(--ink); }
+@media (max-width: 860px) { .split, .split.flip { grid-template-columns: 1fr; } .pipe { grid-template-columns: 1fr; } }
