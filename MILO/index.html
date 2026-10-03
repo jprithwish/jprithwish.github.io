@@ -67,7 +67,7 @@
     <div class="hero-brand"><img src="static/logo-aws.svg" alt="AWS"></div>
     <span class="badge"><span class="dot"></span>Preprint &middot; 2026 <span class="sep">|</span> <a href="https://arxiv.org/abs/2609.38349">arXiv:2609.38349</a></span>
     <h1 class="title"><span class="brand">MILO</span>: Automated Harness Discovery via Orchestrated Multi-Agent Evolution</h1>
-    <p class="tagline"><em>MILO (Meta-evolutionary Island Orchestration)</em> is a self-adaptive evolutionary search framework for automated harness discovery. Given an agent, it discovers a stronger harness for its model without retraining.</p>
+    <p class="tagline">Modern agentic systems consist of an AI model and a <em>harness</em>, a software layer that manages its control flow and interactions with the environment. <em>MILO (Meta-evolutionary Island Orchestration)</em> is a framework for automated harness discovery that co-evolves the harness and its own search strategy.</p>
     <p class="authors">
       <span class="au"><a href="https://jprithwish.github.io/">Prithwish Jana</a><sup>1,*,&dagger;</sup>,</span>
       <span class="au"><a href="https://mononito.com/" target="_blank" rel="noopener">Mononito Goswami</a><sup>2</sup>,</span>
@@ -121,9 +121,9 @@
       <sup>&Dagger;</sup>Senior co-authorship.
     </p>
     <div class="tldr3 reveal" aria-label="TL;DR">
-      <div class="t3"><span class="tag">TL;DR &middot; 1</span><b>Automated harness discovery</b><p>Multiple agentic mutators, each evolving its own island of candidates, rewrite <em>whole</em> harnesses, including their control flow, to fit the target task distribution. Rejected candidates are kept, so mutators avoid failed patterns and pursue bolder structural changes.</p></div>
-      <div class="t3"><span class="tag">TL;DR &middot; 2</span><b>Self-adaptive search via a meta-evolutionary orchestrator</b><p>A meta-agent grafts what works between islands, swaps in fresh mutators when one runs dry, and reshapes the curriculum, so the search itself keeps evolving toward the strongest harness and escapes the local optima where other methods plateau.</p></div>
-      <div class="t3"><span class="tag">TL;DR &middot; 3</span><b>State of the art on software engineering and open mathematics</b><p>MILO&rsquo;s harnesses outperform eight expert-built and six searched harnesses. On Terminal-Bench&nbsp;2.1 they reach 86.1%, above the leaderboard&rsquo;s top entry, with 26% fewer tokens than their seed; with gpt-oss-120b, 15.6% on DeepSWE, 20&times; the initial harness. On EinsteinArena, three new records, surpassing AlphaEvolve, TTT-Discover and EvoX.</p></div>
+      <div class="t3"><span class="tag">TL;DR &middot; Component i</span><b>Hierarchical lineage memory</b><p>Island-based trees that use rejected mutations as negative evidence to prune unpromising paths and steer toward promising lineages.</p></div>
+      <div class="t3"><span class="tag">TL;DR &middot; Component ii</span><b>Per-island mutator agents</b><p>They combine global search history with feedback on parent weaknesses to rewrite entire harnesses, not only prompts or skills.</p></div>
+      <div class="t3"><span class="tag">TL;DR &middot; Component iii</span><b>Orchestrator agent</b><p>It adapts the search by grafting and speciating lineages, reassigning mutators, and revising the curriculum. Together, the three make MILO a meta-evolutionary framework that self-adapts its memory, mutators, and curriculum to balance exploration and exploitation.</p></div>
     </div>
   </div>
 </header>
