@@ -186,20 +186,35 @@ tr.ours td { background: var(--accent-soft); }
 tr.ours td:first-child { font-weight: 700; color: var(--accent-ink); }
 tr.ours td.sub { color: var(--accent-ink); font-weight: 500; }
 tr.total td { font-weight: 700; color: var(--ink); border-top: 2px solid var(--rule); }
-.tablewrap.full table { font-size: 12px; }
-.tablewrap.full th, .tablewrap.full td { padding: 5px 7px; }
-.tablewrap.full th.grp { text-align: center; border-left: 1px solid var(--rule); }
-.tablewrap.full th.grp:first-of-type { border-left: 0; }
-.tablewrap.full thead tr:first-child th { vertical-align: bottom; }
-.tablewrap.full th small { font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 10.5px; }
-.tablewrap.full th small code { font-size: 10.5px; padding: 0 3px; }
-.tablewrap.full td.ov, .tablewrap.full th.ov { background: rgba(21, 22, 26, .035); }
-.tablewrap.full tr.ours td.ov { background: rgba(15, 110, 99, .16); }
-.tablewrap.full tr.group td { padding-top: 6px; padding-bottom: 6px; }
-.tablewrap.full tr.subhead td { font-weight: 700; color: var(--accent-ink); text-transform: none; letter-spacing: 0; font-size: 12.5px; background: var(--accent-soft); }
-.tablewrap.full td.second { text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 2px; }
-.tablewrap.full td:first-child { min-width: 150px; }
-.tablewrap.full td.sub { padding-left: 20px; }
+
+/* ---- full results table: quiet rules, one accent, numbers lead ---- */
+.tablewrap.full table { font-size: 12.5px; }
+.tablewrap.full th, .tablewrap.full td { padding: 6px 8px; border-top: 0; border-bottom: 1px solid var(--rule-soft); vertical-align: middle; }
+.tablewrap.full th:first-child, .tablewrap.full td:first-child { padding-left: 16px; min-width: 170px; color: var(--ink); }
+.tablewrap.full th:last-child, .tablewrap.full td:last-child { padding-right: 16px; }
+.tablewrap.full thead th { background: var(--surface); color: var(--ink); text-transform: none; letter-spacing: 0; font-weight: 600; font-size: 12.5px; }
+.tablewrap.full thead tr:first-child th { text-align: center; padding-top: 12px; padding-bottom: 2px; border-bottom: 0; vertical-align: bottom; }
+.tablewrap.full thead th.sys { text-align: left; }
+.tablewrap.full th.grp small { display: block; font-weight: 500; color: var(--muted); font-size: 11.5px; margin-top: 1px; }
+.tablewrap.full th.grp.ov { font-weight: 700; }
+.tablewrap.full thead tr:last-child th { font-size: 11px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding-top: 3px; padding-bottom: 9px; border-bottom: 1px solid var(--rule); }
+.tablewrap.full .g0 { border-left: 1px solid var(--rule-soft); }
+.tablewrap.full th.ov, .tablewrap.full td.ov { background: rgba(21, 22, 26, .03); }
+.tablewrap.full td.num { color: var(--ink-2); }
+.tablewrap.full td.num.ov { color: var(--ink); font-weight: 500; }
+.tablewrap.full td.best { font-weight: 700; color: var(--ink); }
+.tablewrap.full td.second { text-decoration: underline; text-decoration-color: var(--faint); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.tablewrap.full tr.group td { background: transparent; border-top: 1px solid var(--rule); border-bottom: 0; padding: 14px 16px 4px; font-size: 11.5px; color: var(--muted); }
+.tablewrap.full tbody tr:first-child td { border-top: 0; }
+.tablewrap.full td.sub { padding-left: 30px; color: var(--ink-2); }
+.tablewrap.full tr.ours td { background: var(--accent-soft); }
+.tablewrap.full tr.ours td.ov { background: rgba(15, 110, 99, .15); }
+.tablewrap.full tr.ours td:first-child { color: var(--accent-ink); font-weight: 600; }
+.tablewrap.full tr.ours td.sub { font-weight: 500; }
+.tablewrap.full tr.subhead td { font-weight: 600; color: var(--accent-ink); text-transform: none; letter-spacing: 0; font-size: 12px; padding: 8px 16px 4px; border-bottom: 0; }
+.tablewrap.full tbody tr:not(.group):not(.subhead):hover td { background-color: rgba(21, 22, 26, .035); }
+.tablewrap.full tbody tr.ours:not(.subhead):hover td { background-color: rgba(15, 110, 99, .17); }
+.tablewrap.full tbody tr:last-child td { border-bottom: 0; }
 
 /* ablation ladder */
 .ladder { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s2); margin: var(--s3) 0 0; }
@@ -282,7 +297,8 @@ tr.total td { font-weight: 700; color: var(--ink); border-top: 2px solid var(--r
 .proto li b { display: block; font-size: 15px; margin-bottom: 3px; }
 
 /* bibtex, footer */
-.bibwrap { position: relative; margin: var(--s3) 0 0; }
+.cite { font-size: 17.5px; line-height: 1.6; color: var(--ink-2); max-width: 640px; margin: 0 0 var(--s2); }
+.bibwrap { position: relative; margin: 0; }
 pre.bibtex { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-card); padding: var(--s3); margin: 0; overflow-x: auto; font-family: var(--mono); font-size: 13.5px; line-height: 1.55; color: var(--body); }
 .copybtn { position: absolute; top: 12px; right: 12px; font: 600 12.5px var(--sans); color: var(--muted); background: var(--surface-2); border: 1px solid var(--rule); border-radius: 999px; padding: 5px 12px; cursor: pointer; }
 .copybtn:hover { color: var(--ink); }
