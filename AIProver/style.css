@@ -325,3 +325,17 @@ h3.tight { margin-top: 0; }
 .props li::before { content: ""; position: absolute; left: 0; top: .66em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
 .props li b { color: var(--ink); }
 @media (max-width: 860px) { .split, .split.flip { grid-template-columns: 1fr; } .pipe { grid-template-columns: 1fr; } }
+
+/* ---- full results table ---- */
+.tablewrap.full table { font-size: 12.5px; }
+.tablewrap.full th, .tablewrap.full td { padding: 6px 9px; }
+.tablewrap.full th.grp { text-align: center; border-left: 1px solid var(--rule); }
+.tablewrap.full th.grp:first-of-type { border-left: 0; }
+.tablewrap.full thead tr:first-child th { vertical-align: bottom; }
+.tablewrap.full th small { font-weight: 500; text-transform: none; letter-spacing: 0; font-size: 11px; }
+.tablewrap.full td.ov, .tablewrap.full th.ov { background: rgba(21, 22, 26, .035); }
+.tablewrap.full tr.ours td.ov { background: rgba(15, 110, 99, .16); }
+.tablewrap.full tr.group td { padding-top: 6px; padding-bottom: 6px; }
+.tablewrap.full tr.subhead td { font-weight: 650; color: var(--accent-ink); text-transform: none; letter-spacing: 0; font-size: 12.5px; background: var(--accent-soft); }
+.tablewrap.full td.second { text-decoration: underline; text-decoration-color: var(--faint); text-underline-offset: 2px; }
+.tablewrap.full td:first-child { white-space: nowrap; }
