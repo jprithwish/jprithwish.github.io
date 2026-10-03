@@ -80,16 +80,18 @@
     <div class="tldr reveal">
       <span class="tag">TL;DR</span>
       <ul>
-        <li><b>The problem.</b> Proof auto-formalization translates natural-language (NL) theorems and proofs into a formal language (FL) such as Lean, enabling mechanical verification. Research-level proofs often depend on concepts missing from leading proof assistant libraries, and successful compilation does not guarantee that a translation preserves the theorem&rsquo;s meaning or the proof&rsquo;s reasoning. Aligned NL&ndash;FL training data are scarce, and leading agents rely on costly frontier models and manually engineered harnesses.</li>
-        <li><b>What we propose.</b> AIProver, an agentic framework for autonomous proof auto-formalization and proof synthesis that jointly post-trains a 119B open-weight language model and evolves its agentic, tool-calling harness.
+        <li><b>The setting.</b> Proof auto-formalization translates natural-language (NL) theorems and proofs into a formal language (FL) such as Lean, enabling mechanical verification. Research mathematics involves long chains of interdependent definitions, lemmas and proofs often absent from libraries such as Mathlib, so recent work wraps the LLM in a harness: a stateful multi-turn loop with Lean and search tools.</li>
+        <li><b>The problem.</b> Successful compilation does not guarantee that a translation preserves the theorem&rsquo;s meaning or the proof&rsquo;s reasoning, aligned NL&ndash;FL training data are scarce, and headline results take frontier models at frontier prices with mathematicians in the loop.</li>
+        <li><b>Existing agents, and their limits.</b> LeanMarathon, Numina-Lean-Agent, OpenGauss and the closed-source Aristotle implement the loop, and Claude Code and Codex are used directly by mathematicians. But their models are trained on Lean&rsquo;s binary verdict, so a formalization that compiles but proves the wrong theorem counts as success, and their harnesses are hand-built and retain the control flow of coding agents built for software engineering, which suits neither Lean proving nor open-weight models.</li>
+        <li><b>What AIProver does instead.</b> It jointly post-trains a 119B open-weight language model and evolves its agentic, tool-calling harness, so the harness is re-tailored to the updated model each round:
           <ul>
-            <li><b>Verifiers</b> assess type correctness, proof completeness and semantic correctness, returning rewards and diagnostic certificates that drive model fine-tuning.</li>
-            <li><b>Reinforcement learning via symbolic feedback</b> alternates with <b>HarnessEvolve</b>, a certificate-driven evolutionary search over the whole harness control flow that re-tailors the harness to the updated model, retaining rejected designs as negative evidence.</li>
-            <li><b>LoCoBench</b>, 58.9k instances from Mathlib, CSLib, the Mizar Mathematical Library and a bounded-arithmetic textbook, with a 771-instance validation split whose theorem&ndash;proof pairs have no public Lean formalization.</li>
+            <li>a <b>semantic alignment model</b> (SAM) fine-tuned so that an NL theorem&ndash;proof pair and its Lean counterpart are one mathematical object;</li>
+            <li><b>verifiers</b> for type correctness, proof completeness and semantic correctness that return graded rewards and diagnostic certificates, which drive <b>reinforcement learning via symbolic feedback</b>;</li>
+            <li><b>HarnessEvolve</b>, a certificate-driven evolutionary search over the whole harness control flow that retains rejected designs as negative evidence;</li>
+            <li><b>LoCoBench</b>, 58.9k research-level instances with a 771-instance validation split whose theorem&ndash;proof pairs have no public Lean formalization.</li>
           </ul>
         </li>
-        <li><b>Results.</b> Against 39 frameworks spanning AFPS agents, frontier LLMs and coding agents, AIProver lifts pass@4 semantic correctness over its Leanstral-1.5 base from 15.7% to 36.7% and outperforms every other open-weight system and Aristotle.</li>
-        <li><b>As a skill of frontier coding agents.</b> As a Claude Code and Codex skill, it lifts their semantic correctness from 41.9% and 34.1% to 79.8% and 62.4%, outperforming Numina-Lean-Agent (72.5% and 44.5%) and OpenGauss (54.3% and 41.9%) in that role, and it is 24% cheaper than Numina-Lean-Agent, pushing the accuracy&ndash;cost frontier of research-level AFPS.</li>
+        <li><b>The effect.</b> Against 39 frameworks spanning AFPS agents, frontier LLMs and coding agents, AIProver lifts pass@4 semantic correctness over its Leanstral-1.5 base from 15.7% to 36.7% and outperforms every other open-weight system and Aristotle. As a Claude Code and Codex skill, it lifts their semantic correctness from 41.9% and 34.1% to 79.8% and 62.4%, outperforming Numina-Lean-Agent and OpenGauss in that role at 24% lower cost than Numina-Lean-Agent, pushing the accuracy&ndash;cost frontier of research-level AFPS.</li>
       </ul>
     </div>
     <div class="glancecard reveal">

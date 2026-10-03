@@ -123,16 +123,17 @@
     <div class="tldr reveal">
       <span class="tldr-tag">TL;DR</span>
       <ul>
-        <li><b>The problem.</b> An agent&rsquo;s performance on long-horizon tasks is strongly influenced by its harness, the software layer that manages the model&rsquo;s control flow and interactions with the environment. Building effective harnesses requires significant human effort due to the combinatorial design space, and the effort must be repeated as models are updated. Existing automated methods optimize only parts of the harness, such as prompts or skills, or struggle to escape local optima due to fixed search strategies and the exploitative bias of LLM-driven search.</li>
-        <li><b>What we propose.</b> MILO, a framework for automated harness discovery that co-evolves the harness and its own search strategy. Three components drive the search:
+        <li><b>The setting.</b> A modern agentic system consists of an AI model and a harness, the software layer that manages the model&rsquo;s control flow and interactions with the environment. Agent performance on long-horizon tasks is often strongly influenced by its harness design.</li>
+        <li><b>The problem.</b> Building effective harnesses requires significant human effort due to the combinatorial design space, and this effort must be repeated as models are updated.</li>
+        <li><b>Existing automated methods, and their limits.</b> Methods that mutate only prompts (GEPA) or skills and memory (A-Evolve) optimize only parts of the harness. Whole-harness searches (ShinkaEvolve, EvoX, Meta-Harness, OpenEvolve) often settle for targeted edits and plateau: they struggle to escape local optima due to their fixed search strategies and the exploitative bias of LLM-driven search.</li>
+        <li><b>What MILO does instead.</b> It co-evolves the harness and its own search strategy, so the search adapts when progress stalls. Three components drive it:
           <ul>
             <li>a <b>hierarchical lineage memory</b> of island-based trees that uses rejected mutations as negative evidence to prune unpromising paths and steer toward promising lineages;</li>
-            <li>per-island <b>mutator agents</b> that combine global search history with feedback on parent weaknesses to rewrite entire harnesses;</li>
+            <li>per-island <b>mutator agents</b> that combine global search history with feedback on parent weaknesses to rewrite entire harnesses, including their control flow;</li>
             <li>an <b>orchestrator agent</b> that adapts the search by grafting and speciating lineages, reassigning mutators, and revising the curriculum.</li>
           </ul>
         </li>
-        <li><b>Results.</b> Across Terminal-Bench&nbsp;2.1, PaperBench, and DeepSWE, MILO-discovered harnesses outperform eight state-of-the-art harnesses and six search methods with frontier (Opus&nbsp;4.8) and open-weight (gpt-oss-120b) backbones: resolution-rate gains of +12.0%, +28.3% and +10.3% over the initial harness, versus +4.5%, +18.3% and 0% for the best prior search.</li>
-        <li><b>Cheaper, and beyond software.</b> On Terminal-Bench&nbsp;2.1 MILO reaches 86.1%, above the official leaderboard&rsquo;s top entry (83.8%), while consuming 26% fewer tokens than its initial harness. On EinsteinArena&rsquo;s open problems, MILO-evolved harnesses tighten the best-known upper bounds for Erd&#337;s minimum-overlap and the first and third autocorrelation inequalities.</li>
+        <li><b>The effect.</b> Across Terminal-Bench&nbsp;2.1, PaperBench and DeepSWE, MILO-discovered harnesses outperform eight state-of-the-art harnesses and six search methods with frontier (Opus&nbsp;4.8) and open-weight (gpt-oss-120b) backbones. With Opus&nbsp;4.8 the gains over the initial harness are +12.0%, +28.3% and +10.3%, against +4.5%, +18.3% and 0% for the best prior search; on Terminal-Bench&nbsp;2.1 MILO reaches 86.1%, above the official leaderboard&rsquo;s top entry, with 26% fewer tokens than its initial harness. On three open mathematical problems, MILO-evolved harnesses tighten the best-known upper bounds.</li>
       </ul>
     </div>
   </div>
