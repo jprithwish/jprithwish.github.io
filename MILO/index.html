@@ -140,27 +140,30 @@
 
 <section class="statband" aria-label="At a glance">
   <div class="wrap">
-    <span class="glance-tag">At a glance</span>
+    <h3 class="glance-tag">At a glance</h3>
     <div class="stats reveal">
       <div class="stat">
         <span class="t">Terminal-Bench 2.1</span>
-        <span class="k">86.1<small>% RR@5</small></span>
-        <span class="lbl"><b>Above the official leaderboard&rsquo;s top entry</b> (83.8%), with Opus&nbsp;4.8 as the backbone.</span>
+        <span class="k">86.1%<small>RR@5, with Opus 4.8</small></span>
+        <span class="lbl"><b>Above the official leaderboard&rsquo;s top entry</b> (83.8%).</span>
       </div>
-      <div class="stat">
-        <span class="t">Gain over initial harness</span>
-        <span class="k k-text">+12.0 &middot; +28.3 &middot; +10.3</span>
-        <span class="lbl"><b>Resolution-rate gains</b> on Terminal-Bench&nbsp;2.1, PaperBench and DeepSWE; the best prior search manages +4.5, +18.3 and 0.</span>
+      <div class="stat stat-wide">
+        <span class="t">Gain over the initial harness</span>
+        <span class="k k-rows">
+          <span class="row"><em>Opus 4.8</em>+12.0 &middot; +28.3 &middot; +10.3<small>vs. +4.5 &middot; +18.3 &middot; 0 for the best prior search</small></span>
+          <span class="row"><em>gpt-oss-120b</em>+11.8 &middot; +8.6 &middot; +14.8<small>vs. +8.2 &middot; +4.8 &middot; +0.1 for the best prior search</small></span>
+        </span>
+        <span class="lbl">On Terminal-Bench&nbsp;2.1, PaperBench and DeepSWE, respectively.</span>
       </div>
       <div class="stat">
         <span class="t">Cheaper, not just better</span>
-        <span class="k">26<small>% fewer tokens</small></span>
+        <span class="k">26%<small>fewer tokens</small></span>
         <span class="lbl">MILO&rsquo;s Terminal-Bench harness spends <b>0.74&times; the tokens</b> of the harness it started from.</span>
       </div>
       <div class="stat">
         <span class="t">Open math problems</span>
-        <span class="k">3<small> new records</small></span>
-        <span class="lbl"><b>Tighter best-known bounds</b> on EinsteinArena, surpassing AlphaEvolve, TTT-Discover and EvoX.</span>
+        <span class="k">3<small>new records</small></span>
+        <span class="lbl"><b>Tighter best-known upper bounds</b> for Erd&#337;s minimum-overlap and the first and third autocorrelation inequalities, surpassing AlphaEvolve, TTT-Discover and EvoX.</span>
       </div>
     </div>
   </div>

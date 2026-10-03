@@ -65,10 +65,15 @@ h1 .brand { color: var(--accent-ink); }
 .btn.soon { background: transparent; color: var(--muted); border-color: var(--rule); cursor: default; pointer-events: none; }
 .btn .tag { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; background: var(--surface-2); color: var(--muted); padding: 2px 7px; border-radius: 999px; }
 .tldr { text-align: left; max-width: 880px; margin: var(--s4) auto 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 18px; padding: var(--s3) 28px; box-shadow: var(--shadow); }
-.tldr .tag { font-family: var(--sans); font-size: 12px; font-weight: 800; letter-spacing: .14em; color: var(--accent-ink); }
-.tldr ol { margin: 10px 0 0; padding-left: 22px; }
-.tldr li { margin: 0 0 10px; }
+.tldr .tag { display: block; font-family: var(--serif); font-size: 22px; font-weight: 700; letter-spacing: -.01em; color: var(--ink); margin-bottom: 10px; }
+.tldr ul { list-style: none; margin: 0; padding: 0; }
+.tldr li { position: relative; padding-left: 22px; margin: 0 0 11px; font-size: 16.5px; line-height: 1.6; }
 .tldr li:last-child { margin-bottom: 0; }
+.tldr li::before { content: ""; position: absolute; left: 1px; top: .68em; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.tldr li ul { margin: 8px 0 2px; }
+.tldr li li { font-size: 15.5px; margin: 0 0 6px; padding-left: 20px; }
+.tldr li li::before { width: 5px; height: 5px; top: .72em; background: var(--faint); }
+.tldr li li:last-child { margin: 0; }
 
 /* ---- sections ---- */
 section { padding: var(--s5) 0; }
@@ -289,6 +294,7 @@ footer a { color: var(--muted); border-bottom-color: rgba(107, 111, 120, .3); }
 
 /* ---- figure heads, chips, glance ---- */
 .fighead { display: flex; flex-direction: column; gap: 3px; margin: 0 0 12px; text-align: left; }
+.fighead .fk.fk-big { font-family: var(--serif); font-size: 22px; font-weight: 700; letter-spacing: -.01em; text-transform: none; color: var(--ink); }
 .fighead .fk { font-family: var(--sans); font-size: 11.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--accent-ink); }
 .fighead .ft { font-family: var(--sans); font-size: 15.5px; font-weight: 600; color: var(--ink); line-height: 1.4; }
 .fighead.wideh { margin: var(--s3) 0 0; }

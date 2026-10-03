@@ -79,14 +79,21 @@
 
     <div class="tldr reveal">
       <span class="tag">TL;DR</span>
-      <ol>
-        <li><b>The AIProver proof auto-formalization agent with an evolving harness.</b> AIProver post-trains an open-weight LLM and simultaneously evolves its harness. Verifiers for completeness, type- and semantic correctness return a fine-grained reward and certificate, so reinforcement learning and HarnessEvolve learn from partial success. Per round, HarnessEvolve adapts the harness control flow to the model, then RL post-trains the model within it.</li>
-        <li><b>LoCoBench, a research-level benchmark for proof auto-formalization.</b> 58.9k instances (18.8k NL&ndash;Lean, 40.1k NL&ndash;Mizar) in algebraic structures; foundations, logic &amp; complexity; and number theory, with 771 validation instances from Mizar theorems with the longest proofs and a bounded-arithmetic textbook: NL theorem&ndash;proof pairs with no Lean formalizations online to retrieve or imitate.</li>
-        <li><b>State-of-the-art proof auto-formalization results.</b> Against 39 systems: as a standalone agent built from Leanstral-1.5, AIProver lifts pass@4 semantic correctness from 15.7% to 36.7%, beating the best open-weight system OpenGauss (21.5%) and Aristotle (18.4%). In conjunction with coding agents, AIProver+Claude Code reaches 79.8% vs. 41.9% for Claude Code alone, and AIProver+Codex 62.4% vs. 34.1%, at lower cost than Numina-Lean-Agent and OpenGauss in the same role.</li>
-      </ol>
+      <ul>
+        <li><b>The problem.</b> Proof auto-formalization translates natural-language (NL) theorems and proofs into a formal language (FL) such as Lean, enabling mechanical verification. Research-level proofs often depend on concepts missing from leading proof assistant libraries, and successful compilation does not guarantee that a translation preserves the theorem&rsquo;s meaning or the proof&rsquo;s reasoning. Aligned NL&ndash;FL training data are scarce, and leading agents rely on costly frontier models and manually engineered harnesses.</li>
+        <li><b>What we propose.</b> AIProver, an agentic framework for autonomous proof auto-formalization and proof synthesis that jointly post-trains a 119B open-weight language model and evolves its agentic, tool-calling harness.
+          <ul>
+            <li><b>Verifiers</b> assess type correctness, proof completeness and semantic correctness, returning rewards and diagnostic certificates that drive model fine-tuning.</li>
+            <li><b>Reinforcement learning via symbolic feedback</b> alternates with <b>HarnessEvolve</b>, a certificate-driven evolutionary search over the whole harness control flow that re-tailors the harness to the updated model, retaining rejected designs as negative evidence.</li>
+            <li><b>LoCoBench</b>, 58.9k instances from Mathlib, CSLib, the Mizar Mathematical Library and a bounded-arithmetic textbook, with a 771-instance validation split whose theorem&ndash;proof pairs have no public Lean formalization.</li>
+          </ul>
+        </li>
+        <li><b>Results.</b> Against 39 frameworks spanning AFPS agents, frontier LLMs and coding agents, AIProver lifts pass@4 semantic correctness over its Leanstral-1.5 base from 15.7% to 36.7% and outperforms every other open-weight system and Aristotle.</li>
+        <li><b>As a skill of frontier coding agents.</b> As a Claude Code and Codex skill, it lifts their semantic correctness from 41.9% and 34.1% to 79.8% and 62.4%, outperforming Numina-Lean-Agent (72.5% and 44.5%) and OpenGauss (54.3% and 41.9%) in that role, and it is 24% cheaper than Numina-Lean-Agent, pushing the accuracy&ndash;cost frontier of research-level AFPS.</li>
+      </ul>
     </div>
     <div class="glancecard reveal">
-      <div class="fighead"><span class="fk">At a glance</span><span class="ft">Semantic correctness with full proofs on LoCoBench-Val, pass@4, before and with AIProver in each of its three roles</span></div>
+      <div class="fighead"><span class="fk fk-big">At a glance</span><span class="ft">Semantic correctness with full proofs on LoCoBench-Val, pass@4, before and with AIProver in each of its three roles</span></div>
       <svg class="glance" viewBox="0 0 760 242" role="img" aria-label="Semantic correctness with full proofs, before and with AIProver, in three roles">
 <text x="0" y="30" font-size="13" font-weight="700" fill="#15161a">Standalone</text>
 <text x="240" y="51" text-anchor="end" font-size="12" fill="#6b6f78">Leanstral-1.5 in the seed harness</text>
