@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261004b">
+  <link rel="stylesheet" href="style.css?v=20261004c">
   <noscript><style>.reveal{opacity:1;transform:none}.steps .ctl{display:none}</style></noscript>
 </head>
 <body>
@@ -525,12 +525,6 @@
 <g class="vlab" style="--d:.55s"><text x="302.7" y="141.8" text-anchor="end" font-size="17" font-weight="700" fill="#15161a">62.4%</text><text x="302.7" y="160.3" text-anchor="end" font-size="14.5" font-weight="500" fill="#454a55">$0.85</text></g>
 <g class="vlab" style="--d:.75s"><text x="519.1" y="73.9" text-anchor="end" font-size="17" font-weight="700" fill="#15161a">79.8%</text><text x="519.1" y="92.4" text-anchor="end" font-size="14.5" font-weight="500" fill="#454a55">$1.55</text></g>
 </g></svg>
-      <div class="key" role="group" aria-label="Key: host">
-        <span class="kl">Host (symbol):</span><span data-host="none"><svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="#737373" stroke-width="2.2" stroke-linecap="round"><line x1="4.0" y1="10.0" x2="16.0" y2="10.0"/><line x1="10.0" y1="4.0" x2="10.0" y2="16.0"/><line x1="5.7" y1="5.7" x2="14.3" y2="14.3"/><line x1="5.7" y1="14.3" x2="14.3" y2="5.7"/></g></svg>standalone</span><span data-host="cdx"><svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="#2a78d6" stroke-width="2.4" stroke-linecap="round"><line x1="4.0" y1="10.0" x2="16.0" y2="10.0"/><line x1="10.0" y1="4.0" x2="10.0" y2="16.0"/></g></svg>Codex (GPT-5.6-Sol)</span><span data-host="cc"><svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="#e08a1e" stroke-width="2.4" stroke-linecap="round"><line x1="5.5" y1="5.5" x2="14.5" y2="14.5"/><line x1="5.5" y1="14.5" x2="14.5" y2="5.5"/></g></svg>Claude Code (Opus 5)</span>
-      </div>
-      <div class="key" role="group" aria-label="Key: Lean agent">
-        <span class="kl">Lean agent (shape):</span><span data-agent="AIProver"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="#15161a"/></svg>AIProver</span><span data-agent="Numina-Lean-Agent"><svg viewBox="0 0 20 20" aria-hidden="true"><polygon points="10,2 18,16 2,16" fill="#fff" stroke="#15161a" stroke-width="1.8"/></svg>Numina-Lean-Agent</span><span data-agent="OpenGauss"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14" fill="#fff" stroke="#15161a" stroke-width="1.8"/></svg>OpenGauss</span>
-      </div>
       </div>
       <ol class="steps" aria-label="How to read the chart">
         <li data-step="0" data-n="01"><b>Frontier coding agents alone</b>Codex (GPT-5.6-Sol) reaches 34.1% at $0.53 per attempt; Claude Code (Opus 5) 41.9% at $0.81.</li>
@@ -538,6 +532,14 @@
         <li data-step="2" data-n="03"><b>AIProver</b>36.7% at the same $0.32 standalone; 62.4% at $0.85 with Codex; 79.8% at $1.55 with Claude Code: more accurate and cheaper than Numina-Lean-Agent in both roles. Every other configuration lies in the shaded region, costlier and less accurate than AIProver, so AIProver forms the accuracy&ndash;cost Pareto frontier.</li>
         <li class="ctl"><button type="button">Replay</button><span>Click a step to jump to it.</span></li>
       </ol>
+      <div class="keys">
+      <div class="key" role="group" aria-label="Key: host">
+        <span class="kl">Host (symbol):</span><span data-host="none"><svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="#737373" stroke-width="2.2" stroke-linecap="round"><line x1="4.0" y1="10.0" x2="16.0" y2="10.0"/><line x1="10.0" y1="4.0" x2="10.0" y2="16.0"/><line x1="5.7" y1="5.7" x2="14.3" y2="14.3"/><line x1="5.7" y1="14.3" x2="14.3" y2="5.7"/></g></svg>standalone</span><span data-host="cdx"><svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="#2a78d6" stroke-width="2.4" stroke-linecap="round"><line x1="4.0" y1="10.0" x2="16.0" y2="10.0"/><line x1="10.0" y1="4.0" x2="10.0" y2="16.0"/></g></svg>Codex (GPT-5.6-Sol)</span><span data-host="cc"><svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="#e08a1e" stroke-width="2.4" stroke-linecap="round"><line x1="5.5" y1="5.5" x2="14.5" y2="14.5"/><line x1="5.5" y1="14.5" x2="14.5" y2="5.5"/></g></svg>Claude Code (Opus 5)</span>
+      </div>
+      <div class="key" role="group" aria-label="Key: Lean agent">
+        <span class="kl">Lean agent (shape):</span><span data-agent="AIProver"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="#15161a"/></svg>AIProver</span><span data-agent="Numina-Lean-Agent"><svg viewBox="0 0 20 20" aria-hidden="true"><polygon points="10,2 18,16 2,16" fill="#fff" stroke="#15161a" stroke-width="1.8"/></svg>Numina-Lean-Agent</span><span data-agent="OpenGauss"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14" fill="#fff" stroke="#15161a" stroke-width="1.8"/></svg>OpenGauss</span>
+      </div>
+      </div>
     </div>
     <p class="tnote">Hover a point for its configuration.</p>
     <div class="cost3 reveal">

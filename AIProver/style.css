@@ -246,6 +246,7 @@ tr.total td { font-weight: 700; color: var(--ink); border-top: 2px solid var(--r
 .chartwrap .fighead { grid-column: 1 / -1; margin-bottom: 0; }
 .chartcol { min-width: 0; overflow-x: auto; }
 .chartwrap .steps { padding-top: 2px; }
+.chartwrap .keys { grid-column: 1 / -1; border-top: 1px solid var(--rule-soft); padding-top: 10px; }
 .chart { display: block; width: 100%; height: auto; }
 .chart text { font-family: var(--sans); }
 .chart .hit { fill: transparent; cursor: pointer; }
