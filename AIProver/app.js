@@ -76,6 +76,33 @@
     render(0); schedule();
   }
 
+  /* cost chart: three-stage build-up (coding agents alone, prior Lean agents, AIProver), driven by the step list */
+  var cw = document.getElementById('costwrap');
+  if (cw) {
+    var csvg = cw.querySelector('.chart');
+    var csteps = Array.prototype.slice.call(cw.querySelectorAll('.steps li[data-step]'));
+    var ccur = 0, ctimer = null, cstarted = false;
+    function crender(i) {
+      ccur = i; if (csvg) csvg.setAttribute('data-stage', String(i + 1));
+      csteps.forEach(function (li, k) { li.classList.toggle('on', k === i); li.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+    }
+    function cschedule() { clearTimeout(ctimer); if (ccur < csteps.length - 1) ctimer = setTimeout(function () { crender(ccur + 1); cschedule(); }, 3000); }
+    csteps.forEach(function (li, k) {
+      li.setAttribute('tabindex', '0');
+      li.addEventListener('click', function () { crender(k); cschedule(); });
+      li.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); crender(k); cschedule(); } });
+    });
+    var cbtn = cw.querySelector('.ctl button');
+    if (cbtn) cbtn.addEventListener('click', function () { crender(0); cschedule(); });
+    cw.addEventListener('mouseleave', function () { if (cstarted) cschedule(); });
+    if (reduced || !('IntersectionObserver' in window)) { crender(csteps.length - 1); cstarted = true; }
+    else {
+      crender(0);
+      var cio = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting && !cstarted) { cstarted = true; cschedule(); cio.disconnect(); } }); }, { threshold: 0.45 });
+      cio.observe(cw);
+    }
+  }
+
   /* chart tooltips */
   var tip = document.getElementById('tip');
   if (tip) {

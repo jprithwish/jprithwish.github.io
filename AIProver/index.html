@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261003m">
+  <link rel="stylesheet" href="style.css?v=20261004a">
   <noscript><style>.reveal{opacity:1;transform:none}.steps .ctl{display:none}</style></noscript>
 </head>
 <body>
@@ -488,12 +488,13 @@
     <p class="lead reveal">Cost per attempt over the same 3,084 attempts: the host coding agent&rsquo;s tokens at list prices, plus the GPU time that serves the open-weight model.</p>
   </div>
   <div class="wide">
-    <div class="chartwrap reveal">
+    <div class="chartwrap reveal" id="costwrap">
       <div class="fighead"><span class="fk">Cost</span><span class="ft">AIProver forms the accuracy&ndash;cost Pareto frontier</span></div>
-      <svg class="chart" viewBox="0 0 760 400" role="group" aria-label="Accuracy versus cost per attempt for ten configurations; AIProver forms the accuracy-cost Pareto frontier.">
-<polygon points="156.9,350.0 156.9,245.7 320.7,245.7 320.7,145.3 537.1,145.3 537.1,77.4 738.0,77.4 738.0,350.0" fill="#f0eee8"/>
+      <div class="chartcol">
+      <svg class="chart" viewBox="0 0 760 400" role="group" data-stage="3" aria-label="Accuracy versus cost per attempt for ten configurations; AIProver forms the accuracy-cost Pareto frontier.">
+<g class="s3" data-stage="3"><polygon points="156.9,350.0 156.9,245.7 320.7,245.7 320.7,145.3 537.1,145.3 537.1,77.4 738.0,77.4 738.0,350.0" fill="#f0eee8"/>
 <polyline points="156.9,245.7 320.7,245.7 320.7,145.3 537.1,145.3 537.1,77.4 738.0,77.4" fill="none" stroke="#c9c6bb" stroke-width="1.2"/>
-<text x="728.7" y="326.6" text-anchor="end" font-size="12.5" font-style="italic" fill="#6b6f78">costlier and less accurate than AIProver</text>
+<text x="728.7" y="326.6" text-anchor="end" font-size="12.5" font-style="italic" fill="#6b6f78">costlier and less accurate than AIProver</text></g>
 <line x1="58" y1="310.9" x2="738" y2="310.9" stroke="#ecebe5" stroke-width="1"/>
 <text x="48" y="314.9" text-anchor="end" font-size="12" fill="#6b6f78">20</text>
 <line x1="58" y1="232.8" x2="738" y2="232.8" stroke="#ecebe5" stroke-width="1"/>
@@ -510,30 +511,39 @@
 <line x1="58" y1="18" x2="58" y2="350" stroke="#c9c6bb" stroke-width="1"/><line x1="58" y1="350" x2="738" y2="350" stroke="#c9c6bb" stroke-width="1"/>
 <text x="398.0" y="394" text-anchor="middle" font-size="12.5" fill="#6b6f78">Cost per attempt (USD)</text>
 <text transform="translate(14 184.0) rotate(-90)" text-anchor="middle" font-size="12.5" fill="#6b6f78">TC+SC, full proofs (%)</text>
-<g class="mark"><circle cx="156.9" cy="245.7" r="8.5" fill="#737373" stroke="#fff" stroke-width="2.5"/></g><circle class="hit" cx="156.9" cy="245.7" r="15" data-name="AIProver, standalone" data-val="36.7% at $0.32 per attempt" data-color="#737373" data-sub="standalone, GPUs only"/>
-<g class="mark"><rect x="149.4" y="297.6" width="15" height="15" fill="#fff" stroke="#737373" stroke-width="2.2"/></g><circle class="hit" cx="156.9" cy="305.1" r="15" data-name="OpenGauss, standalone" data-val="21.5% at $0.32 per attempt" data-color="#737373" data-sub="standalone, GPUs only"/>
-<g class="mark"><g stroke="#2a78d6" stroke-width="3" stroke-linecap="round"><line x1="214.3" y1="255.9" x2="229.3" y2="255.9"/><line x1="221.8" y1="248.4" x2="221.8" y2="263.4"/></g></g><circle class="hit" cx="221.8" cy="255.9" r="15" data-name="Codex alone (GPT-5.6-Sol)" data-val="34.1% at $0.53 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
-<g class="mark"><circle cx="320.7" cy="145.3" r="8.5" fill="#2a78d6" stroke="#fff" stroke-width="2.5"/></g><circle class="hit" cx="320.7" cy="145.3" r="15" data-name="AIProver + Codex" data-val="62.4% at $0.85 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
-<g class="mark"><rect x="375.0" y="217.9" width="15" height="15" fill="#fff" stroke="#2a78d6" stroke-width="2.2"/></g><circle class="hit" cx="382.5" cy="225.4" r="15" data-name="OpenGauss + Codex" data-val="41.9% at $1.05 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
-<g class="mark"><polygon points="391.8,205.7 400.8,221.7 382.8,221.7" fill="#fff" stroke="#2a78d6" stroke-width="2.2"/></g><circle class="hit" cx="391.8" cy="215.2" r="15" data-name="Numina-Lean-Agent + Codex" data-val="44.5% at $1.08 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
-<g class="mark"><g stroke="#e08a1e" stroke-width="3" stroke-linecap="round"><line x1="302.4" y1="219.4" x2="314.4" y2="231.4"/><line x1="302.4" y1="231.4" x2="314.4" y2="219.4"/></g></g><circle class="hit" cx="308.4" cy="225.4" r="15" data-name="Claude Code alone (Opus 5)" data-val="41.9% at $0.81 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
-<g class="mark"><circle cx="537.1" cy="77.4" r="8.5" fill="#e08a1e" stroke="#fff" stroke-width="2.5"/></g><circle class="hit" cx="537.1" cy="77.4" r="15" data-name="AIProver + Claude Code" data-val="79.8% at $1.55 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
-<g class="mark"><rect x="606.9" y="169.5" width="15" height="15" fill="#fff" stroke="#e08a1e" stroke-width="2.2"/></g><circle class="hit" cx="614.4" cy="177.0" r="15" data-name="OpenGauss + Claude Code" data-val="54.3% at $1.80 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
-<g class="mark"><polygon points="685.5,96.4 694.5,112.4 676.5,112.4" fill="#fff" stroke="#e08a1e" stroke-width="2.2"/></g><circle class="hit" cx="685.5" cy="105.9" r="15" data-name="Numina-Lean-Agent + Claude Code" data-val="72.5% at $2.03 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
-<text x="143.9" y="243.7" text-anchor="end" font-size="12.5" font-weight="600" fill="#15161a">36.7%</text><text x="143.9" y="257.7" text-anchor="end" font-size="11.5" fill="#6b6f78">$0.32</text>
+<g class="mark" data-stage="3" data-host="none" data-agent="AIProver"><circle cx="156.9" cy="245.7" r="9" fill="#737373" stroke="#fff" stroke-width="2.5"/><g stroke="#fff" stroke-width="1.9" stroke-linecap="round"><line x1="152.7" y1="245.7" x2="161.1" y2="245.7"/><line x1="156.9" y1="241.5" x2="156.9" y2="249.9"/><line x1="153.9" y1="242.7" x2="159.9" y2="248.7"/><line x1="153.9" y1="248.7" x2="159.9" y2="242.7"/></g></g><circle class="hit" data-stage="3" data-host="none" data-agent="AIProver" cx="156.9" cy="245.7" r="15" data-name="AIProver, standalone" data-val="36.7% at $0.32 per attempt" data-color="#737373" data-sub="standalone, GPUs only"/>
+<g class="mark" data-stage="2" data-host="none" data-agent="OpenGauss"><rect x="148.9" y="297.1" width="16" height="16" fill="#fff" stroke="#737373" stroke-width="2.2"/><g stroke="#737373" stroke-width="1.8" stroke-linecap="round"><line x1="152.9" y1="305.1" x2="160.9" y2="305.1"/><line x1="156.9" y1="301.1" x2="156.9" y2="309.1"/><line x1="154.1" y1="302.3" x2="159.7" y2="307.9"/><line x1="154.1" y1="307.9" x2="159.7" y2="302.3"/></g></g><circle class="hit" data-stage="2" data-host="none" data-agent="OpenGauss" cx="156.9" cy="305.1" r="15" data-name="OpenGauss, standalone" data-val="21.5% at $0.32 per attempt" data-color="#737373" data-sub="standalone, GPUs only"/>
+<g class="mark" data-stage="1" data-host="cdx" data-agent="host"><g stroke="#fff" stroke-width="6.5" stroke-linecap="round"><line x1="214.3" y1="255.9" x2="229.3" y2="255.9"/><line x1="221.8" y1="248.4" x2="221.8" y2="263.4"/></g><g stroke="#2a78d6" stroke-width="3" stroke-linecap="round"><line x1="214.3" y1="255.9" x2="229.3" y2="255.9"/><line x1="221.8" y1="248.4" x2="221.8" y2="263.4"/></g></g><circle class="hit" data-stage="1" data-host="cdx" data-agent="host" cx="221.8" cy="255.9" r="15" data-name="Codex alone (GPT-5.6-Sol)" data-val="34.1% at $0.53 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
+<g class="mark" data-stage="3" data-host="cdx" data-agent="AIProver"><circle cx="320.7" cy="145.3" r="9" fill="#2a78d6" stroke="#fff" stroke-width="2.5"/><g stroke="#fff" stroke-width="1.9" stroke-linecap="round"><line x1="316.5" y1="145.3" x2="324.9" y2="145.3"/><line x1="320.7" y1="141.1" x2="320.7" y2="149.5"/></g></g><circle class="hit" data-stage="3" data-host="cdx" data-agent="AIProver" cx="320.7" cy="145.3" r="15" data-name="AIProver + Codex" data-val="62.4% at $0.85 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
+<g class="mark" data-stage="2" data-host="cdx" data-agent="OpenGauss"><rect x="374.5" y="217.4" width="16" height="16" fill="#fff" stroke="#2a78d6" stroke-width="2.2"/><g stroke="#2a78d6" stroke-width="1.8" stroke-linecap="round"><line x1="378.5" y1="225.4" x2="386.5" y2="225.4"/><line x1="382.5" y1="221.4" x2="382.5" y2="229.4"/></g></g><circle class="hit" data-stage="2" data-host="cdx" data-agent="OpenGauss" cx="382.5" cy="225.4" r="15" data-name="OpenGauss + Codex" data-val="41.9% at $1.05 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
+<g class="mark" data-stage="2" data-host="cdx" data-agent="Numina-Lean-Agent"><polygon points="391.8,205.2 401.3,222.2 382.3,222.2" fill="#fff" stroke="#2a78d6" stroke-width="2.2"/><g stroke="#2a78d6" stroke-width="1.7" stroke-linecap="round"><line x1="388.4" y1="217.0" x2="395.2" y2="217.0"/><line x1="391.8" y1="213.6" x2="391.8" y2="220.4"/></g></g><circle class="hit" data-stage="2" data-host="cdx" data-agent="Numina-Lean-Agent" cx="391.8" cy="215.2" r="15" data-name="Numina-Lean-Agent + Codex" data-val="44.5% at $1.08 per attempt" data-color="#2a78d6" data-sub="host: Codex (GPT-5.6-Sol)"/>
+<g class="mark" data-stage="1" data-host="cc" data-agent="host"><g stroke="#fff" stroke-width="6.5" stroke-linecap="round"><line x1="302.8" y1="219.8" x2="314.0" y2="231.0"/><line x1="302.8" y1="231.0" x2="314.0" y2="219.8"/></g><g stroke="#e08a1e" stroke-width="3" stroke-linecap="round"><line x1="302.8" y1="219.8" x2="314.0" y2="231.0"/><line x1="302.8" y1="231.0" x2="314.0" y2="219.8"/></g></g><circle class="hit" data-stage="1" data-host="cc" data-agent="host" cx="308.4" cy="225.4" r="15" data-name="Claude Code alone (Opus 5)" data-val="41.9% at $0.81 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
+<g class="mark" data-stage="3" data-host="cc" data-agent="AIProver"><circle cx="537.1" cy="77.4" r="9" fill="#e08a1e" stroke="#fff" stroke-width="2.5"/><g stroke="#fff" stroke-width="1.9" stroke-linecap="round"><line x1="534.0" y1="74.2" x2="540.2" y2="80.6"/><line x1="534.0" y1="80.6" x2="540.2" y2="74.2"/></g></g><circle class="hit" data-stage="3" data-host="cc" data-agent="AIProver" cx="537.1" cy="77.4" r="15" data-name="AIProver + Claude Code" data-val="79.8% at $1.55 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
+<g class="mark" data-stage="2" data-host="cc" data-agent="OpenGauss"><rect x="606.4" y="169.0" width="16" height="16" fill="#fff" stroke="#e08a1e" stroke-width="2.2"/><g stroke="#e08a1e" stroke-width="1.8" stroke-linecap="round"><line x1="611.4" y1="174.0" x2="617.4" y2="180.0"/><line x1="611.4" y1="180.0" x2="617.4" y2="174.0"/></g></g><circle class="hit" data-stage="2" data-host="cc" data-agent="OpenGauss" cx="614.4" cy="177.0" r="15" data-name="OpenGauss + Claude Code" data-val="54.3% at $1.80 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
+<g class="mark" data-stage="2" data-host="cc" data-agent="Numina-Lean-Agent"><polygon points="685.5,95.9 695.0,112.9 676.0,112.9" fill="#fff" stroke="#e08a1e" stroke-width="2.2"/><g stroke="#e08a1e" stroke-width="1.7" stroke-linecap="round"><line x1="683.0" y1="105.2" x2="688.0" y2="110.2"/><line x1="683.0" y1="110.2" x2="688.0" y2="105.2"/></g></g><circle class="hit" data-stage="2" data-host="cc" data-agent="Numina-Lean-Agent" cx="685.5" cy="105.9" r="15" data-name="Numina-Lean-Agent + Claude Code" data-val="72.5% at $2.03 per attempt" data-color="#e08a1e" data-sub="host: Claude Code (Opus 5)"/>
+<g class="s3" data-stage="3"><text x="143.9" y="243.7" text-anchor="end" font-size="12.5" font-weight="600" fill="#15161a">36.7%</text><text x="143.9" y="257.7" text-anchor="end" font-size="11.5" fill="#6b6f78">$0.32</text>
 <text x="307.7" y="143.3" text-anchor="end" font-size="12.5" font-weight="600" fill="#15161a">62.4%</text><text x="307.7" y="157.3" text-anchor="end" font-size="11.5" fill="#6b6f78">$0.85</text>
 <text x="524.1" y="75.4" text-anchor="end" font-size="12.5" font-weight="600" fill="#15161a">79.8%</text><text x="524.1" y="89.4" text-anchor="end" font-size="11.5" fill="#6b6f78">$1.55</text>
-</svg>
-      <div class="key" role="group" aria-label="Key">
-        <span><i class="sw-none"></i>standalone</span><span><i class="sw-cdx"></i>with Codex (GPT-5.6-Sol)</span><span><i class="sw-cc"></i>with Claude Code (Opus 5)</span>
-        <span class="sep"><i class="sw-ink"></i>AIProver, filled</span><span><i class="tri"></i>Numina-Lean-Agent</span><span><i class="sq"></i>OpenGauss</span><span><b class="glyph">+ &times;</b> coding agent alone</span>
+</g></svg>
+      <div class="key" role="group" aria-label="Key: host">
+        <span class="kl">Host (symbol):</span><span data-host="none"><svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="#737373" stroke-width="2.2" stroke-linecap="round"><line x1="4.0" y1="10.0" x2="16.0" y2="10.0"/><line x1="10.0" y1="4.0" x2="10.0" y2="16.0"/><line x1="5.7" y1="5.7" x2="14.3" y2="14.3"/><line x1="5.7" y1="14.3" x2="14.3" y2="5.7"/></g></svg>standalone</span><span data-host="cdx"><svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="#2a78d6" stroke-width="2.4" stroke-linecap="round"><line x1="4.0" y1="10.0" x2="16.0" y2="10.0"/><line x1="10.0" y1="4.0" x2="10.0" y2="16.0"/></g></svg>Codex (GPT-5.6-Sol)</span><span data-host="cc"><svg viewBox="0 0 20 20" aria-hidden="true"><g stroke="#e08a1e" stroke-width="2.4" stroke-linecap="round"><line x1="5.5" y1="5.5" x2="14.5" y2="14.5"/><line x1="5.5" y1="14.5" x2="14.5" y2="5.5"/></g></svg>Claude Code (Opus 5)</span>
       </div>
+      <div class="key" role="group" aria-label="Key: Lean agent">
+        <span class="kl">Lean agent (shape):</span><span data-agent="AIProver"><svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="#15161a"/></svg>AIProver</span><span data-agent="Numina-Lean-Agent"><svg viewBox="0 0 20 20" aria-hidden="true"><polygon points="10,2 18,16 2,16" fill="#fff" stroke="#15161a" stroke-width="1.8"/></svg>Numina-Lean-Agent</span><span data-agent="OpenGauss"><svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="14" height="14" fill="#fff" stroke="#15161a" stroke-width="1.8"/></svg>OpenGauss</span>
+      </div>
+      </div>
+      <ol class="steps" aria-label="How to read the chart">
+        <li data-step="0" data-n="01"><b>Frontier coding agents alone</b>Codex (GPT-5.6-Sol) reaches 34.1% at $0.53 per attempt; Claude Code (Opus 5) 41.9% at $0.81.</li>
+        <li data-step="1" data-n="02"><b>Prior Lean agents</b>Standalone, OpenGauss reaches 21.5% at $0.32, GPUs only. As skills, Numina-Lean-Agent and OpenGauss lift both hosts at a higher cost per attempt: 44.5% at $1.08 and 41.9% at $1.05 with Codex; 72.5% at $2.03 and 54.3% at $1.80 with Claude Code.</li>
+        <li data-step="2" data-n="03"><b>AIProver</b>36.7% at the same $0.32 standalone; 62.4% at $0.85 with Codex; 79.8% at $1.55 with Claude Code: more accurate and cheaper than Numina-Lean-Agent in both roles. Every other configuration lies in the shaded region, costlier and less accurate than AIProver, so AIProver forms the accuracy&ndash;cost Pareto frontier.</li>
+        <li class="ctl"><button type="button">Replay</button><span>Click a step to jump to it.</span></li>
+      </ol>
     </div>
     <p class="tnote">Hover a point for its configuration.</p>
     <div class="cost3 reveal">
       <div class="c"><span class="h"><i class="sw-none"></i>Standalone</span><span class="big">36.7<small>%</small></span><span class="at">at $0.32 per attempt</span><span class="vs">OpenGauss: 21.5% at the same $0.32. Both run their models on local GPUs.</span></div>
-      <div class="c"><span class="h"><i class="sw-cc"></i>With Claude Code</span><span class="big">79.8<small>%</small></span><span class="at">at $1.55 per attempt</span><span class="vs">Numina-Lean-Agent: 72.5% at $2.03. OpenGauss: 54.3% at $1.80. More accurate and <b>24% and 14% cheaper</b>.</span></div>
       <div class="c"><span class="h"><i class="sw-cdx"></i>With Codex</span><span class="big">62.4<small>%</small></span><span class="at">at $0.85 per attempt</span><span class="vs">Numina-Lean-Agent: 44.5% at $1.08. OpenGauss: 41.9% at $1.05. More accurate and <b>21% and 19% cheaper</b>.</span></div>
+      <div class="c"><span class="h"><i class="sw-cc"></i>With Claude Code</span><span class="big">79.8<small>%</small></span><span class="at">at $1.55 per attempt</span><span class="vs">Numina-Lean-Agent: 72.5% at $2.03. OpenGauss: 54.3% at $1.80. More accurate and <b>24% and 14% cheaper</b>.</span></div>
     </div>
     <p class="tnote">The host coding agent offloads Lean work to AIProver, a Lean-specialist sub-agent on local GPUs, so it spends fewer tokens and gains accuracy.</p>
   </div>
@@ -565,6 +575,6 @@
 </footer>
 
 <div id="tip" role="tooltip" aria-hidden="true"></div>
-<script src="app.js?v=20261003e" defer></script>
+<script src="app.js?v=20261004a" defer></script>
 </body>
 </html>
