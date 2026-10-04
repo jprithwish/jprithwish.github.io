@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261004f">
+  <link rel="stylesheet" href="style.css?v=20261004g">
   <noscript><style>.reveal{opacity:1;transform:none}.steps .ctl{display:none}</style></noscript>
 </head>
 <body>
@@ -176,21 +176,28 @@
     </div>
   </div>
   <div class="wide">
-    <div class="fighead wideh"><span class="fk">Division of labour</span><span class="ft">The host does what needs judgement; AIProver writes Lean and searches for proofs</span></div>
-    <div class="flow reveal" role="group" aria-label="Division of labour between the host coding agent and AIProver">
-      <div class="node host"><span class="h">Host coding agent</span><b>Judges, plans, decomposes</b><ul><li>reads the NL passage and plans;</li><li>judges semantic correctness (c) and proof faithfulness (d) of every returned file;</li><li>fixes statements, decomposes, and weaves the pieces together;</li><li>does not search for proofs itself, and does not stop until all four properties hold.</li></ul></div>
-      <div class="arrows" aria-hidden="true"><span class="a fwd">submits the problem, <i>k</i> parallel samples</span><span class="a back">returns Lean files and their checks</span></div>
-      <div class="node aip"><span class="h">AIProver</span><b>Writes Lean, searches for proofs</b><ul><li>one call is a complete multi-turn agentic session with Lean and the lean-lsp tools;</li><li>the post-trained model inside the evolved harness, on local GPUs;</li><li>a job of <i>k</i> parallel samples costs the host nothing but a wait.</li></ul></div>
+    <div class="fighead wideh"><span class="fk">How the two work together</span><span class="ft">The host plans and judges; AIProver writes Lean and searches for proofs</span></div>
+    <div class="flow reveal" role="group" aria-label="How the host coding agent and AIProver work together">
+      <div class="node host"><span class="h">Host coding agent</span><b>Claude Code or Codex: plans, delegates, judges</b>
+        <ul>
+          <li>Reads the natural-language theorem and proof and plans the formalization: the definitions, the theorem parts with their exact hypotheses, the intermediate lemmas.</li>
+          <li>Hands the whole problem to AIProver and waits for the candidates.</li>
+          <li>Judges every returned file: does the statement say the same theorem, does the proof follow the paper&rsquo;s argument? Fixes statements when needed.</li>
+          <li>If no candidate passes, splits the problem into lemmas, sends each to AIProver, and weaves the returned proofs into one file.</li>
+        </ul>
+        <span class="tools"><b>Tools</b>AIProver&rsquo;s command line (submit, wait, result, check) and the lean-lsp tools for small local checks such as reading a goal or confirming a lemma name. It never searches for proofs itself.</span>
+      </div>
+      <div class="arrows" aria-hidden="true"><span class="a fwd">the problem, as one job of several samples</span><span class="a back">candidate Lean files with Lean&rsquo;s verdicts</span></div>
+      <div class="node aip"><span class="h">AIProver</span><b>The Lean specialist: writes Lean, searches for proofs</b>
+        <ul>
+          <li>Each call is a full multi-turn session of the post-trained model inside its evolved harness, several samples in parallel.</li>
+          <li>Writes the Lean statement and proof, compiles, reads Lean&rsquo;s errors, searches Mathlib, and repairs until the file type-checks.</li>
+          <li>Returns each candidate with its checks: type-correct and complete, or where it fails.</li>
+        </ul>
+        <span class="tools"><b>Tools</b>Lean 4 with Mathlib, the lean-lsp tools (goal states, diagnostics, lemma search), and its verifiers. The model runs on a GPU server; the harness and Lean run on your machine.</span>
+      </div>
     </div>
-    <div class="fighead wideh"><span class="fk">Protocol</span><span class="ft">The fixed procedure the skill gives the host coding agent, in order: it plans, delegates to AIProver, judges what comes back, and decomposes only when it must</span></div>
-    <ol class="proto reveal" aria-label="Protocol">
-      <li><b>Preflight</b>Lean and Mathlib, the completeness checker, the model endpoint, and one live rollout.</li>
-      <li><b>Blueprint</b>The definitions, the theorem parts with their exact hypotheses, and the proof&rsquo;s intermediate lemmas.</li>
-      <li><b>Submit</b>The whole problem as one job of <i>k</i> parallel samples, plus a statement-only job on long inputs.</li>
-      <li><b>Judge</b>Every sample that passes (a) and (b), best first; accept the first that also passes (c) and (d).</li>
-      <li><b>Decompose</b>Otherwise fix the statement and freeze a skeleton with every lemma and theorem part as a <code>sorry</code> statement, one job per open piece, and weave the proof bodies back into the skeleton.</li>
-      <li><b>Final gate</b>Type-correctness and completeness on the exact final file, and the judge protocol once more.</li>
-    </ol>
+    <p class="flownote reveal">A session ends when the final file type-checks and is complete, and the host has judged it semantically correct and faithful to the paper&rsquo;s proof.</p>
   </div>
 </section>
 
