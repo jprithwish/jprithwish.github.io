@@ -242,14 +242,16 @@ tr.total td { font-weight: 700; color: var(--ink); border-top: 2px solid var(--r
 .finding li::marker { font-family: var(--sans); font-weight: 700; color: var(--muted); }
 
 /* cost chart */
-.chartwrap { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-panel); padding: var(--s3) var(--s3) var(--s2); margin: var(--s3) 0 0; display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: var(--s2) var(--s3); align-items: start; }
+.chartwrap { background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-panel); padding: var(--s3) var(--s3) var(--s2); margin: var(--s3) 0 0; display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr); gap: var(--s2) var(--s3); align-items: start; }
 .chartwrap .fighead { grid-column: 1 / -1; margin-bottom: 0; }
 .chartcol { min-width: 0; overflow-x: auto; }
 .chartwrap .steps { padding-top: 2px; }
 .chartwrap .keys { border-top: 1px solid var(--rule-soft); margin-top: 12px; padding-top: 10px; }
-.chartcol .key { justify-content: flex-start; font-size: 13.5px; gap: 6px 14px; margin: 4px 0 0; }
-.chartcol .key .kl { min-width: 122px; }
-.chartcol .key svg { width: 18px; height: 18px; }
+.chartcol .key { justify-content: flex-start; flex-wrap: nowrap; font-size: 13px; gap: 6px 12px; margin: 4px 0 0; }
+.chartcol .key span { white-space: nowrap; }
+.chartcol .key .kl { min-width: 114px; }
+.chartcol .key svg { width: 17px; height: 17px; }
+@media (max-width: 1000px) { .chartcol .key { flex-wrap: wrap; } }
 .chart { display: block; width: 100%; height: auto; }
 .chart text { font-family: var(--sans); }
 .chart .hit { fill: transparent; cursor: pointer; }
