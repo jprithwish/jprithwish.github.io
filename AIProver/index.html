@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261004e">
+  <link rel="stylesheet" href="style.css?v=20261004f">
   <noscript><style>.reveal{opacity:1;transform:none}.steps .ctl{display:none}</style></noscript>
 </head>
 <body>
@@ -182,6 +182,7 @@
       <div class="arrows" aria-hidden="true"><span class="a fwd">submits the problem, <i>k</i> parallel samples</span><span class="a back">returns Lean files and their checks</span></div>
       <div class="node aip"><span class="h">AIProver</span><b>Writes Lean, searches for proofs</b><ul><li>one call is a complete multi-turn agentic session with Lean and the lean-lsp tools;</li><li>the post-trained model inside the evolved harness, on local GPUs;</li><li>a job of <i>k</i> parallel samples costs the host nothing but a wait.</li></ul></div>
     </div>
+    <div class="fighead wideh"><span class="fk">Protocol</span><span class="ft">The fixed procedure the skill gives the host coding agent, in order: it plans, delegates to AIProver, judges what comes back, and decomposes only when it must</span></div>
     <ol class="proto reveal" aria-label="Protocol">
       <li><b>Preflight</b>Lean and Mathlib, the completeness checker, the model endpoint, and one live rollout.</li>
       <li><b>Blueprint</b>The definitions, the theorem parts with their exact hypotheses, and the proof&rsquo;s intermediate lemmas.</li>
