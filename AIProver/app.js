@@ -84,7 +84,8 @@
     var ccur = 0, ctimer = null, cstarted = false;
     function crender(i) {
       ccur = i; if (csvg) csvg.setAttribute('data-stage', String(i + 1));
-      csteps.forEach(function (li, k) { li.classList.toggle('on', k === i); li.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+      csteps.forEach(function (li, k) { li.classList.remove('on'); li.setAttribute('aria-current', k === i ? 'true' : 'false'); });
+      void csteps[i].offsetWidth; csteps[i].classList.add('on'); /* restart the progress bar */
     }
     function cschedule() { clearTimeout(ctimer); if (ccur < csteps.length - 1) ctimer = setTimeout(function () { crender(ccur + 1); cschedule(); }, 3000); }
     csteps.forEach(function (li, k) {
@@ -94,7 +95,8 @@
     });
     var cbtn = cw.querySelector('.ctl button');
     if (cbtn) cbtn.addEventListener('click', function () { crender(0); cschedule(); });
-    cw.addEventListener('mouseleave', function () { if (cstarted) cschedule(); });
+    cw.addEventListener('mouseenter', function () { clearTimeout(ctimer); cw.classList.add('paused'); });
+    cw.addEventListener('mouseleave', function () { cw.classList.remove('paused'); if (cstarted) cschedule(); });
     if (reduced || !('IntersectionObserver' in window)) { crender(csteps.length - 1); cstarted = true; }
     else {
       crender(0);
