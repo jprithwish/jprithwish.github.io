@@ -246,7 +246,10 @@ tr.total td { font-weight: 700; color: var(--ink); border-top: 2px solid var(--r
 .chartwrap .fighead { grid-column: 1 / -1; margin-bottom: 0; }
 .chartcol { min-width: 0; overflow-x: auto; }
 .chartwrap .steps { padding-top: 2px; }
-.chartwrap .keys { grid-column: 1 / -1; border-top: 1px solid var(--rule-soft); padding-top: 10px; }
+.chartwrap .keys { border-top: 1px solid var(--rule-soft); margin-top: 12px; padding-top: 10px; }
+.chartcol .key { justify-content: flex-start; font-size: 13.5px; gap: 6px 14px; margin: 4px 0 0; }
+.chartcol .key .kl { min-width: 122px; }
+.chartcol .key svg { width: 18px; height: 18px; }
 .chart { display: block; width: 100%; height: auto; }
 .chart text { font-family: var(--sans); }
 .chart .hit { fill: transparent; cursor: pointer; }
