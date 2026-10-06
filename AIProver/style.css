@@ -111,8 +111,13 @@ h3.tight { margin-top: 0; }
 .lead { font-size: 20px; line-height: 1.6; color: var(--ink); }
 
 /* numbered limitation cards */
-.issues { counter-reset: n; display: flex; flex-wrap: wrap; gap: var(--s2); margin: var(--s3) 0 0; padding: 0; list-style: none; }
-.issues li { counter-increment: n; flex: 1 1 220px; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-card); padding: var(--card-pad); font-size: 16px; line-height: 1.55; position: relative; }
+.issues { counter-reset: n; display: grid; grid-template-columns: repeat(6, 1fr); gap: var(--s2); margin: var(--s3) 0 0; padding: 0; list-style: none; }
+/* five cards as 2 + 3: the two uneven ones share the wide first row, the three similar ones the second */
+.issues li:nth-child(-n+2) { grid-column: span 3; }
+.issues li:nth-child(n+3) { grid-column: span 2; }
+@media (max-width: 760px) { .issues { grid-template-columns: 1fr 1fr; } .issues li:nth-child(n) { grid-column: auto; } .issues li:last-child { grid-column: span 2; } }
+@media (max-width: 640px) { .issues { grid-template-columns: 1fr; } .issues li:last-child { grid-column: auto; } }
+.issues li { counter-increment: n; background: var(--surface); border: 1px solid var(--rule); border-radius: var(--r-card); padding: var(--card-pad); font-size: 16px; line-height: 1.55; position: relative; }
 .issues li::before { content: counter(n, decimal-leading-zero); font-family: var(--sans); font-size: 12px; font-weight: 700; letter-spacing: .1em; color: var(--accent-ink); display: block; margin-bottom: 6px; }
 .issues li b { display: block; font-family: var(--sans); font-size: 15px; margin-bottom: 4px; }
 

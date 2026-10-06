@@ -20,7 +20,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..700;1,8..60,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20261004g">
+  <link rel="stylesheet" href="style.css?v=20261006a">
   <noscript><style>.reveal{opacity:1;transform:none}.steps .ctl{display:none}</style></noscript>
 </head>
 <body>
@@ -208,13 +208,13 @@
     <h2>Research mathematics needs an affordable, autonomous auto-formalizer</h2>
     <p class="lead reveal"><b>Auto-formalization</b> translates natural-language (NL) theorems and proofs into a formal language (FL) such as Lean. Research mathematics involves long chains of interdependent definitions, lemmas, and proofs often absent from libraries such as Mathlib, so recent agents wrap the LLM in a <b>harness</b>, a stateful multi-turn loop with Lean and search tools. These agentic systems share five limitations.</p>
     <ol class="issues reveal">
-      <li><b>Cost</b>Claude&rsquo;s FLT formalization took eleven days and six billion output tokens, beyond typical academic budgets.</li>
-      <li><b>Human-in-the-loop dependence</b>Mathematicians supplied Fermat&rsquo;s FL target statements and stayed involved; Meta&rsquo;s AutoformBot calls human involvement essential.</li>
-      <li><b>Jagged intelligence</b>Strong local proof repair but poor definitions and interfaces; no model proves over 20% of ArXivLean&rsquo;s research theorems.</li>
-      <li><b>Semantic drift</b>Lean checks the FL proof against the FL theorem, not the NL one, so compiled code may prove the wrong theorem or silently patch a flawed NL proof step.</li>
-      <li><b>Lack of accessibility</b>Headline results rest on non-public models, so the auto-formalization and proof synthesis (AFPS) process cannot be cross-checked.</li>
+      <li><b>Cost</b>Claude&rsquo;s FLT formalization took eleven days and six billion output tokens, resources at frontier rates beyond typical academic budgets.</li>
+      <li><b>Human-in-the-loop dependence</b>Mathematicians supplied Fermat&rsquo;s FL target statements and stayed involved, Gauss ran on an expert-built, iteratively-refined harness, and Meta&rsquo;s AutoformBot, with 26 textbooks formalized, calls human involvement essential.</li>
+      <li><b>Jagged intelligence</b>Frontier models excel at many tasks yet falter on unfamiliar ones; expert review of Claude&rsquo;s formalization found strong local proof repair but poor definitions and interfaces, and no model proves over 20% of ArXivLean&rsquo;s recent research theorems.</li>
+      <li><b>Semantic drift</b>Output cannot be trusted as-is. Lean checks the FL proof against the FL theorem, not the NL one, so compiled code may prove the wrong theorem or silently patch a flawed NL proof step.</li>
+      <li><b>Lack of accessibility</b>Headline results often rest on non-public models: FLT and Navier&ndash;Stokes reportedly used internal ones, so the auto-formalization and proof synthesis (AFPS) process cannot be cross-checked.</li>
     </ol>
-    <div class="callout reveal"><span class="h">The goal</span>An <i>affordable, autonomous</i> <b>AI agent for semantically correct and faithful proof auto-formalization of research-level mathematics</b>: unattended, built on an open-weight model, usable standalone or as a skill of frontier agents.</div>
+    <div class="callout reveal"><span class="h">The goal</span>An <i>affordable, autonomous</i> <b>AI agent for semantically correct and faithful proof auto-formalization of research-level mathematics</b>. Given NL research text interleaving theorems and proofs, it should (i)&nbsp;produce a full Lean counterpart <i>preserving each theorem&rsquo;s meaning and proof&rsquo;s reasoning</i>, (ii)&nbsp;run <i>unattended</i>, (iii)&nbsp;use an <i>open-weight model</i> via a <i>model-agnostic</i> training and harness recipe, and (iv)&nbsp;be a <i>sub-agent or skill</i> of frontier agents. It should serve <i>standalone</i> as an open-source platform making research-level formalization accessible to all, and <i>in conjunction with</i> frontier agents as a Lean specialist pushing their accuracy&ndash;cost frontier, since frontier models will likely stay the most expensive for the foreseeable future.</div>
   </div>
   <div class="wide">
     <div class="split reveal">
