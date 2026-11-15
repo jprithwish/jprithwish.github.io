@@ -427,6 +427,18 @@
   /* ---------- discoveries (filled by discoveries.js if present) ---------- */
   if (window.renderDiscoveries) window.renderDiscoveries(document.getElementById("discoveryBody"), { el: el, txt: txt, lin: lin, showTip: showTip, hideTip: hideTip, onReveal: onReveal, C: C, reduce: reduce });
 
+  /* ---------- figure lightbox ---------- */
+  (function () {
+    var lbx = document.getElementById("lightbox"), open = document.getElementById("openFig"), close = document.getElementById("lbClose"), last = null;
+    function show(ev) { if (ev) ev.preventDefault(); last = document.activeElement; lbx.hidden = false; document.body.classList.add("lb-on"); requestAnimationFrame(function () { lbx.classList.add("open"); }); close.focus(); }
+    function hide() { lbx.classList.remove("open"); document.body.classList.remove("lb-on"); setTimeout(function () { lbx.hidden = true; }, 180); if (last) last.focus(); }
+    open.addEventListener("click", show);
+    document.getElementById("figImg").addEventListener("click", show);
+    close.addEventListener("click", hide);
+    lbx.addEventListener("click", function (e) { if (e.target === lbx) hide(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !lbx.hidden) hide(); });
+  })();
+
   /* ---------- bibtex copy ---------- */
   var cb = document.getElementById("copyBib");
   cb.addEventListener("click", function () {

@@ -169,13 +169,41 @@ And it keeps improving as the budget grows,
 while frontier agents and evolutionary methods level off.
 
 43
-00:02:24.290 --> 00:02:30.141
-In Milky-Way-mass halos, Inventa found that dark matter follows the sinking stars and gas
+00:02:24.290 --> 00:02:26.976
+Take one discovery, on Milky-Way-mass halos.
 
 44
-00:02:30.191 --> 00:02:36.240
-only about halfway, and that the galaxy, not the halo's mass, sets how strongly it responds.
+00:02:27.026 --> 00:02:29.463
+The textbook law, adiabatic contraction,
 
 45
-00:02:37.190 --> 00:02:42.490
+00:02:29.513 --> 00:02:34.313
+assumes that dark matter falls inward with the full pull of the stars and gas,
+
+46
+00:02:34.363 --> 00:02:36.676
+and it overshoots the central density.
+
+47
+00:02:36.726 --> 00:02:40.344
+Inventa found that dark matter responds only about halfway,
+
+48
+00:02:40.394 --> 00:02:44.075
+and that the galaxy, not the halo's mass, sets how strongly.
+
+49
+00:02:44.125 --> 00:02:48.614
+At the centre, its law lands about three times closer to the simulations.
+
+50
+00:02:48.664 --> 00:02:51.599
+On this task it scores seventy-five point eight,
+
+51
+00:02:51.649 --> 00:02:54.770
+against fifty-two point four for the best baseline.
+
+52
+00:02:55.720 --> 00:03:01.020
 Inventa. Decentralized, self-improving agents for autonomous scientific discovery.

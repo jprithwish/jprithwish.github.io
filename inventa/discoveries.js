@@ -1,36 +1,51 @@
 window.renderDiscoveries = function (host, U) {
   "use strict";
   var el = U.el, txt = U.txt, lin = U.lin;
+  function bars(rows, note) {
+    var h = '<div class="sbars"><p class="sbk">Conditioned score on this task (test)</p>';
+    rows.forEach(function (r) {
+      h += '<div class="sbr' + (r[3] ? ' ours' : '') + '"><span class="sbn">' + r[0] + '</span><span class="sbt"><i style="width:' + r[1] + '%;background:' + r[2] + '"></i></span><span class="sbv">' + r[1].toFixed(1) + '</span></div>';
+    });
+    return h + '<p class="sbnote">' + note + '</p></div>';
+  }
   host.innerHTML =
-    '<p class="lede-s">Two laws Inventa discovered on EurekaBench tasks. Both pass every scientific-constraint test of their task. The plots show each run&rsquo;s own evidence on the training simulations.</p>' +
+    '<p class="lede-s">Two laws Inventa discovered on EurekaBench tasks, each compared with the law the task starts from and with the best competing method. Both pass every scientific-constraint test of their task.</p>' +
     '<article class="disc">' +
       '<div class="disc-text">' +
         '<p class="dk">Astrophysics &middot; DREAMS simulations of Milky-Way-mass halos</p>' +
         '<h3>Baryons pull dark matter inward, but only about halfway</h3>' +
-        '<p><b>The question.</b> When a galaxy forms, its stars and gas sink to the centre of the dark-matter halo. How much denser does the dark matter become than in a gravity-only twin of the same halo, and what sets the response?</p>' +
-        '<p><b>The textbook law.</b> Adiabatic contraction (Blumenthal et al., 1986) conserves r&middot;M(r): dark matter moves inward by the full displacement the baryons imply. Fed the same baryons, it overshoots the central density, about +0.30 dex where the simulations show +0.22.</p>' +
-        '<p><b>What Inventa found.</b> Dark matter follows only a fraction &nu; of the classical displacement, evaluated on orbit-averaged radii, and &nu; is set by the galaxy rather than the halo mass:</p>' +
+        '<p><b>The question.</b> When a galaxy forms, its stars and gas sink to the centre of its dark-matter halo and drag the dark matter inward. How much denser does the dark matter become than in a gravity-only twin of the same halo, and what sets the response?</p>' +
+        '<p><b>The textbook law.</b> Adiabatic contraction (Blumenthal et al., 1986) assumes the dark matter responds fully: it moves inward by the whole displacement the baryons imply.</p>' +
+        '<p><b>What Inventa found.</b> Dark matter follows only a fraction &nu; of that displacement, about 0.45 on average, and &nu; is set by the galaxy (its star formation, stellar concentration and stellar-to-halo mass), not by the halo&rsquo;s mass:</p>' +
         '<div class="law" id="lawMW"></div>' +
-        '<p class="fitted">Fitted: &nu;<sub>0</sub> = 0.456, A = 0.904, w = 0.756. The response &nu; ranges from 0.23 to 0.69 across galaxies, set by the star-formation birthrate, stellar concentration and stellar-to-halo residual. 187 of 193 hosts are predicted denser at the centre than their twin (184 measured), and the sign changes at 0.190&nbsp;R<sub>200</sub> (measured 0.188).</p>' +
+        '<div class="cmp3"><p class="ck">At the centre of the halo</p>' +
+          '<div><span class="cl r">Textbook law</span><b>+0.30 dex</b><em>off by 0.08</em></div>' +
+          '<div><span class="cl">Simulation</span><b>+0.22 dex</b><em>&nbsp;</em></div>' +
+          '<div><span class="cl o">Inventa&rsquo;s law</span><b>+0.19 dex</b><em>off by 0.03, about 3&times; closer</em></div></div>' +
+        bars([["Inventa", 75.8, "#c47612", 1], ["Best baseline: Goose + Grok 4.7", 52.4, "#98a1ae"], ["CORAL (fails a constraint)", 31.8, "#c9cfd8"]],
+          "Inventa&rsquo;s best graded checkpoint; all 7 of its graded checkpoints beat the best baseline. Other methods&rsquo; laws are not recorded, only their scores.") +
       '</div>' +
       '<div class="disc-vis">' +
         '<div class="halo-wrap"><svg id="haloSvg" viewBox="0 0 420 300" role="img" aria-label="Schematic of dark-matter shells contracting around a stellar disk"></svg>' +
-          '<div class="seg" role="tablist" id="haloSeg"><button type="button" data-k="0">Gravity-only twin</button><button type="button" data-k="1">Classical, &nu; = 1</button><button type="button" data-k="2" aria-selected="true">Inventa&rsquo;s law</button></div>' +
-          '<p class="vnote">Dark-matter shells at five radii, log-scaled. Each shell starts where it sits in the gravity-only twin and moves inward by the displacement each law predicts.</p></div>' +
+          '<div class="seg" role="tablist" id="haloSeg"><button type="button" data-k="0">Gravity-only twin</button><button type="button" data-k="1">Textbook law</button><button type="button" data-k="2" aria-selected="true">Inventa&rsquo;s law</button></div>' +
+          '<p class="vnote">Dark-matter shells at five radii (log scale). Each starts where it sits in the gravity-only twin and moves inward as each law predicts.</p></div>' +
         '<div class="plot" id="plotMW"></div>' +
+        '<p class="vnote">How much denser the dark matter is than in the gravity-only twin, from the centre outwards. Circles: the simulations. Line: Inventa&rsquo;s law. Cross: the textbook law at the centre.</p>' +
       '</div>' +
     '</article>' +
     '<article class="disc disc-2">' +
       '<div class="disc-text">' +
         '<p class="dk">Astrophysics &middot; CAMELS, four galaxy-formation codes</p>' +
-        '<h3>Same neighbourhood, opposite outcomes</h3>' +
-        '<p><b>The question.</b> In crowded environments, small halos lose gas in SIMBA, gain gas in Swift-EAGLE, and barely change in IllustrisTNG and ASTRID. None of the four codes contains an environment rule. Why do they disagree?</p>' +
-        '<p><b>The starting law.</b> A straight line in log halo mass with one offset and one slope per code: a description, not an explanation.</p>' +
-        '<p><b>What Inventa found.</b> The offset is a balance of gas exchanges with the medium that the neighbouring groups&rsquo; black holes have heated, with thresholds set on the halo&rsquo;s virial temperature. Each code enters only through four categorical facts about its feedback recipe: how its black holes inject energy (jets, kinetic or thermal), and whether they expel gas, empty groups, and leave gas bound. One mechanism with 15 fitted constants reproduces the opposite signs of all four codes.</p>' +
-        '<pre class="code"><span class="c"># the only model-specific input: four recipe facts per code</span>\nFEEDBACK = {\n  <span class="s">"SIMBA"</span>:        {agn: <span class="s">"jets"</span>,    expels: <span class="t">True</span>,  empties: <span class="t">True</span>,  bound: <span class="t">True</span>},\n  <span class="s">"IllustrisTNG"</span>: {agn: <span class="s">"kinetic"</span>, expels: <span class="t">True</span>,  empties: <span class="f">False</span>, bound: <span class="t">True</span>},\n  <span class="s">"ASTRID"</span>:       {agn: <span class="s">"kinetic"</span>, expels: <span class="f">False</span>, empties: <span class="f">False</span>, bound: <span class="t">True</span>},\n  <span class="s">"Swift-EAGLE"</span>:  {agn: <span class="s">"thermal"</span>, expels: <span class="t">True</span>,  empties: <span class="t">True</span>,  bound: <span class="f">False</span>}}\noff_cgm = shell_stripped + shell_emptied + linked - heat + groups</pre>' +
+        '<h3>Why four simulators disagree about crowded neighbourhoods</h3>' +
+        '<p><b>The question.</b> Place a small halo next to a big group of galaxies. Does it hold more gas or less than an isolated halo of the same mass? Four leading simulation codes disagree: in SIMBA it loses gas, in Swift-EAGLE it gains gas, and in IllustrisTNG and ASTRID it barely changes, although none of the codes contains an environment rule.</p>' +
+        '<p><b>The starting law.</b> A straight line in halo mass, fitted separately to each code. It describes the four curves but cannot say why they differ.</p>' +
+        '<p><b>What Inventa found.</b> A small halo trades gas with the hot medium that the neighbouring groups&rsquo; black holes have created, and the balance of that trade sets the sign. Each code enters only through four facts about its black-hole feedback: whether it injects energy as jets, kinetic winds or heat, and whether it expels gas, empties groups and leaves gas bound. One mechanism with 15 fitted constants reproduces all four codes&rsquo; opposite answers.</p>' +
+        '<pre class="code"><span class="c"># the only code-specific input: four facts about each code\'s feedback</span>\nFEEDBACK = {\n  <span class="s">"SIMBA"</span>:        {agn: <span class="s">"jets"</span>,    expels: <span class="t">True</span>,  empties: <span class="t">True</span>,  bound: <span class="t">True</span>},\n  <span class="s">"IllustrisTNG"</span>: {agn: <span class="s">"kinetic"</span>, expels: <span class="t">True</span>,  empties: <span class="f">False</span>, bound: <span class="t">True</span>},\n  <span class="s">"ASTRID"</span>:       {agn: <span class="s">"kinetic"</span>, expels: <span class="f">False</span>, empties: <span class="f">False</span>, bound: <span class="t">True</span>},\n  <span class="s">"Swift-EAGLE"</span>:  {agn: <span class="s">"thermal"</span>, expels: <span class="t">True</span>,  empties: <span class="t">True</span>,  bound: <span class="f">False</span>}}</pre>' +
+        bars([["Inventa", 70.9, "#c47612", 1], ["Best baseline: MILO", 45.5, "#98a1ae"], ["CORAL", 45.2, "#c9cfd8"]],
+          "Inventa&rsquo;s best graded checkpoint; 6 of its 7 graded checkpoints beat the best baseline.") +
       '</div>' +
       '<div class="disc-vis"><div class="plot" id="plotGE"></div>' +
-        '<p class="vnote">Environmental offset of circumgalactic gas (overdense minus underdense quartile, relative to the bin median) predicted by Inventa&rsquo;s law across halo mass.</p></div>' +
+        '<p class="vnote">What Inventa&rsquo;s law predicts for each code. Above zero, halos in crowded neighbourhoods hold more gas than isolated halos of the same mass; below zero, they hold less. The codes split exactly as observed: SIMBA strongly negative at low mass, Swift-EAGLE positive, IllustrisTNG and ASTRID near zero.</p></div>' +
     '</article>';
 
   function renderLaw() {
@@ -81,7 +96,7 @@ window.renderDiscoveries = function (host, U) {
   txt(svg, cx + 52, cy + 30, "stars and gas", { style: "font:500 10.5px Inter,sans-serif;fill:#f3c66b" });
   var states = [
     ["Gravity-only twin", "Shells where the dark matter sits without baryons"],
-    ["Classical contraction, ν = 1", "Full adiabatic displacement: the centre overshoots"],
+    ["Textbook law, full response", "Full adiabatic displacement: the centre overshoots"],
     ["Inventa’s law, ν ≈ 0.45", "Partial response: matches the simulated profile"]
   ];
   var seg = document.getElementById("haloSeg");
@@ -128,9 +143,9 @@ window.renderDiscoveries = function (host, U) {
     });
     var cxp = x(Math.log10(0.0108)), cyp = y(0.30);
     el("path", { d: "M" + (cxp - 5) + "," + (cyp - 5) + "L" + (cxp + 5) + "," + (cyp + 5) + "M" + (cxp + 5) + "," + (cyp - 5) + "L" + (cxp - 5) + "," + (cyp + 5), stroke: "#c2463b", "stroke-width": 2.2, "stroke-linecap": "round" }, s);
-    txt(s, cxp + 10, cyp + 4, "classical contraction ≈ +0.30", { style: "font-size:11.5px;fill:#a43a30;font-weight:600" });
+    txt(s, cxp + 10, cyp + 4, "textbook law ≈ +0.30", { style: "font-size:11.5px;fill:#a43a30;font-weight:600" });
     txt(s, x(Math.log10(0.03)) + 8, y(0.13) - 2, "Inventa", { style: "font-size:12px;font-weight:700;fill:#9c5a07" });
-    txt(s, x(Math.log10(0.0108)) + 10, y(0.219) + 12, "measured", { style: "font-size:11.5px;fill:#2f3742" });
+    txt(s, x(Math.log10(0.0108)) + 10, y(0.219) + 12, "simulation", { style: "font-size:11.5px;fill:#2f3742" });
   })();
 
   /* galaxy environment chart */
@@ -152,9 +167,9 @@ window.renderDiscoveries = function (host, U) {
     [10.5, 11, 11.5, 12, 12.5, 13, 13.5].forEach(function (v) { txt(ax, x(v), H - m.b + 16, String(v), { "text-anchor": "middle" }); });
     [-1, -0.5, 0, 0.5].forEach(function (v) { txt(ax, m.l - 7, y(v) + 4, (v > 0 ? "+" : "") + v.toFixed(1), { "text-anchor": "end" }); });
     txt(ax, (m.l + W - m.r) / 2, H - 6, "Halo mass, log10(M / Msun)", { "text-anchor": "middle", style: "font-size:11.5px;fill:#4b5565" });
-    txt(ax, 12, (m.t + H - m.b) / 2, "Gas offset, crowded vs isolated", { "text-anchor": "middle", transform: "rotate(-90 12 " + (m.t + H - m.b) / 2 + ")", style: "font-size:11.5px;fill:#4b5565" });
-    txt(s, x(13.55), y(0.6), "gains gas", { "text-anchor": "end", style: "font-size:10.5px;fill:#7b8494" });
-    txt(s, x(12.9), y(-0.98), "loses gas", { style: "font-size:10.5px;fill:#7b8494" });
+    txt(ax, 12, (m.t + H - m.b) / 2, "Gas when crowded vs isolated", { "text-anchor": "middle", transform: "rotate(-90 12 " + (m.t + H - m.b) / 2 + ")", style: "font-size:11.5px;fill:#4b5565" });
+    var z1 = el("rect", { x: m.l, y: m.t, width: W - m.l - m.r, height: y(0) - m.t, fill: "#eef5e2", opacity: 0.6 }), z2 = el("rect", { x: m.l, y: y(0), width: W - m.l - m.r, height: H - m.b - y(0), fill: "#fbeae6", opacity: 0.5 }); s.insertBefore(z2, s.firstChild); s.insertBefore(z1, s.firstChild); txt(s, x(13.55), y(0.6), "crowded halos hold more gas", { "text-anchor": "end", style: "font-size:10.5px;fill:#4a7419;font-weight:600" });
+    txt(s, x(13.55), y(-1.05), "crowded halos hold less gas", { "text-anchor": "end", style: "font-size:10.5px;fill:#a43a30;font-weight:600" });
     var ends = [];
     ser.forEach(function (q) {
       var d = q[3].map(function (v, i) { return (i ? "L" : "M") + x(M[i]).toFixed(1) + "," + y(v).toFixed(1); }).join("");
