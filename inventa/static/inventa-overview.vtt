@@ -1,0 +1,181 @@
+WEBVTT
+
+1
+00:00:01.000 --> 00:00:06.300
+Inventa: decentralized, self-improving agents for autonomous scientific discovery.
+
+2
+00:00:07.250 --> 00:00:09.956
+Language model agents can generate research ideas,
+
+3
+00:00:10.006 --> 00:00:11.941
+and refine them through experiments.
+
+4
+00:00:11.991 --> 00:00:16.793
+But adding more agents, or more iterations, does not automatically produce more diverse,
+
+5
+00:00:16.843 --> 00:00:18.116
+or more feasible, ideas.
+
+6
+00:00:18.166 --> 00:00:22.912
+Agents converge on similar candidates, spread unsupported claims through shared memory,
+
+7
+00:00:22.962 --> 00:00:26.330
+and keep applying search strategies that have stopped working.
+
+8
+00:00:27.280 --> 00:00:30.059
+Inventa draws on how science advances in practice.
+
+9
+00:00:30.109 --> 00:00:32.548
+Research groups pursue different approaches,
+
+10
+00:00:32.598 --> 00:00:35.150
+while building on evidence reported by others.
+
+11
+00:00:36.100 --> 00:00:41.135
+A research task comes with a question, a workspace of literature, tools and data,
+
+12
+00:00:41.185 --> 00:00:43.270
+domain constraints, and verifiers.
+
+13
+00:00:43.920 --> 00:00:47.311
+Inventa runs many autonomous research units in parallel.
+
+14
+00:00:47.361 --> 00:00:50.690
+Each unit is like a lab, with its own lineage of ideas.
+
+15
+00:00:51.340 --> 00:00:55.150
+In every round, a unit reads a snapshot of the shared knowledge,
+
+16
+00:00:55.200 --> 00:00:57.563
+and selects a parent from its idea tree.
+
+17
+00:00:57.613 --> 00:01:00.036
+Its mutator agent, the junior researcher,
+
+18
+00:01:00.086 --> 00:01:02.810
+then revises the parent into a new child idea.
+
+19
+00:01:03.460 --> 00:01:06.447
+Verifiers test the child on data the mutator never sees.
+
+20
+00:01:06.497 --> 00:01:11.327
+They score it on held-out data, check the domain constraints, test it out of distribution,
+
+21
+00:01:11.377 --> 00:01:12.737
+and ablate its components,
+
+22
+00:01:12.787 --> 00:01:16.370
+and they return a certificate with the evidence behind every check.
+
+23
+00:01:17.020 --> 00:01:19.606
+Only verifiers write to the shared knowledge:
+
+24
+00:01:19.656 --> 00:01:22.886
+verified improvements, partial components worth reusing,
+
+25
+00:01:22.936 --> 00:01:25.463
+and refuted ideas that violate a constraint.
+
+26
+00:01:25.513 --> 00:01:27.630
+It is the only channel between units.
+
+27
+00:01:28.280 --> 00:01:32.389
+The unit accepts the child only if any extra complexity buys fitness,
+
+28
+00:01:32.439 --> 00:01:34.137
+and records it in its memory.
+
+29
+00:01:34.187 --> 00:01:36.850
+Rejected children stay, as negative evidence.
+
+30
+00:01:37.500 --> 00:01:41.867
+An orchestrator, the lab's principal investigator, adapts the search itself.
+
+31
+00:01:41.917 --> 00:01:46.109
+It retools the mutator's harness when a twin trial shows fitter children,
+
+32
+00:01:46.159 --> 00:01:48.085
+redraws a better model on a stall,
+
+33
+00:01:48.135 --> 00:01:51.920
+and restarts with a new research direction when the stall repeats.
+
+34
+00:01:52.870 --> 00:01:57.553
+Across five benchmarks spanning the research cycle, Inventa leads every one.
+
+35
+00:01:57.603 --> 00:02:01.227
+On EurekaBench, it reaches seventy-three point six percent,
+
+36
+00:02:01.277 --> 00:02:03.593
+against fifty-six point two for CORAL,
+
+37
+00:02:03.643 --> 00:02:08.015
+and it is the only method that passes every scientific constraint test.
+
+38
+00:02:08.065 --> 00:02:11.502
+On IdeaBench, it finds twenty-six novel ideas per paper,
+
+39
+00:02:11.552 --> 00:02:14.304
+against eighteen point six for ResearchAgent,
+
+40
+00:02:14.354 --> 00:02:16.920
+with eighty-two percent fewer model calls.
+
+41
+00:02:17.870 --> 00:02:20.194
+And it keeps improving as the budget grows,
+
+42
+00:02:20.244 --> 00:02:23.340
+while frontier agents and evolutionary methods level off.
+
+43
+00:02:24.290 --> 00:02:30.141
+In Milky-Way-mass halos, Inventa found that dark matter follows the sinking stars and gas
+
+44
+00:02:30.191 --> 00:02:36.240
+only about halfway, and that the galaxy, not the halo's mass, sets how strongly it responds.
+
+45
+00:02:37.190 --> 00:02:42.490
+Inventa. Decentralized, self-improving agents for autonomous scientific discovery.

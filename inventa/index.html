@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Inventa: Decentralized Self-Improving Agents for Autonomous Scientific Discovery</title>
+<meta name="description" content="Inventa runs autonomous research units in parallel. Each evolves its own ideas and its own proposal mechanism, and units share only findings that verifiers confirm. It leads on five benchmarks spanning the research cycle.">
+<meta property="og:title" content="Inventa: Decentralized Self-Improving Agents for Autonomous Scientific Discovery">
+<meta property="og:description" content="Autonomous research units that evolve their own mutators and share only verified findings. 73.6% on EurekaBench vs 56.2% for CORAL; 26.0 novel ideas per paper on IdeaBench vs 18.6, with 82% fewer model calls.">
+<meta property="og:image" content="https://jprithwish.github.io/inventa/static/og-card.png">
+<meta property="og:url" content="https://jprithwish.github.io/inventa/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="static/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous">
+<link rel="stylesheet" href="style.css?v=1">
+</head>
+<body>
+
+<nav class="nav" id="nav" aria-label="Sections">
+  <div class="wrap">
+    <a class="mark" href="#top"><img src="static/favicon.svg" alt="">Inventa</a>
+    <div class="links">
+      <a href="#video">Video</a>
+      <a href="#overview">Overview</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#discoveries">Discoveries</a>
+      <a href="#bibtex">BibTeX</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <canvas class="hero-bg" id="heroBg" aria-hidden="true"></canvas>
+  <div class="wrap hero-inner">
+    <p class="pill"><span class="dot"></span>Preprint &middot; 2026<span class="sep"></span><span class="soon">arXiv &middot; coming soon</span></p>
+    <h1><span class="brand">Inventa</span>: Decentralized Self-Improving Agents<br class="br-wide"> for Autonomous Scientific Discovery</h1>
+    <p class="lede"><b>Inventa</b> runs many autonomous research units in parallel. Each unit evolves its own lineage of ideas and its own proposal mechanism, and units communicate only through a shared knowledge that <b>verifiers alone</b> write.</p>
+    <p class="authors">
+      <span class="au"><a href="https://jprithwish.github.io/">Prithwish Jana</a><sup>1,&dagger;</sup>,</span>
+      <span class="au"><a href="https://nkanak.github.io/" target="_blank" rel="noopener">Nikos Kanakaris</a><sup>2</sup>,</span>
+      <span class="au"><a href="https://purakjain.com/" target="_blank" rel="noopener">Purak Jain</a><sup>2</sup>,</span>
+      <span class="au"><a href="https://scholar.google.com/citations?user=QF_rhCIAAAAJ" target="_blank" rel="noopener">Anoop Deoras</a><sup>2</sup>,</span>
+      <span class="au"><a href="https://scholar.google.com/citations?user=qULIvBsAAAAJ" target="_blank" rel="noopener">Sahika Genc</a><sup>2</sup></span>
+    </p>
+    <p class="affil"><span><sup>1</sup>Georgia Institute of Technology</span><span><sup>2</sup>Amazon</span></p>
+    <div class="logos" aria-label="Affiliations">
+      <img src="static/logo-gatech.svg" alt="Georgia Institute of Technology" class="gt">
+      <img src="static/logo-aws-rgb.svg" alt="Amazon Web Services" class="aws">
+    </div>
+    <div class="buttons">
+      <span class="btn btn-soon" title="The arXiv link will appear here once the preprint is live"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l5 5v13H6z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v6h6M9 13h8M9 17h6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>Paper<span class="tag">soon</span></span>
+      <a class="btn" href="#video"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M10 8.6v6.8l5.6-3.4z" fill="currentColor"/></svg>Video</a>
+      <a class="btn" href="#bibtex"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 7 4 12l4.5 5M15.5 7 20 12l-4.5 5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg>BibTeX</a>
+    </div>
+    <p class="fn"><sup>&dagger;</sup>Work done while at Amazon.</p>
+  </div>
+</header>
+
+<main>
+
+<section class="sec sec-video" id="video" aria-labelledby="video-title">
+  <div class="wrap">
+    <div class="video-head">
+      <p class="eyebrow">Video overview &middot; 2&frac34; minutes, narrated</p>
+      <h2 id="video-title">See how Inventa works</h2>
+    </div>
+    <div class="video-frame">
+      <video id="overviewVideo" controls preload="metadata" playsinline poster="static/inventa-overview-poster.jpg">
+        <source src="static/inventa-overview.mp4" type="video/mp4">
+        <track kind="captions" src="static/inventa-overview.vtt" srclang="en" label="English" default>
+      </video>
+    </div>
+    <p class="video-foot">Narration and captions follow the paper. The animation walks through Figure&nbsp;1 of the paper step by step.</p>
+  </div>
+</section>
+
+<section class="sec" id="overview" aria-labelledby="tldr-title">
+  <div class="wrap">
+    <div class="tldr">
+      <h2 id="tldr-title" class="tldr-h">TL;DR</h2>
+      <ul>
+        <li><b>The setting.</b> LLM agents can generate research ideas and improve scientific discovery through iterative experimentation, across retrieval, ideation, proposal writing and law discovery.</li>
+        <li><b>The problem.</b> More agents or more iterations do not automatically produce more diverse or feasible ideas. Agents converge on similar candidates, propagate unsupported claims through shared memory, and keep applying search strategies that no longer yield improvements.</li>
+        <li><b>What Inventa does.</b> It runs <b>autonomous research units</b>, each with a lineage of candidate ideas written by a <b>mutator agent</b>. A local <b>orchestrator agent</b> periodically adapts the mutator's harness; when progress stalls it replaces the model or restarts the lineage. <b>Verifiers</b> evaluate every candidate and record verified improvements, useful components and constraint violations in a <b>shared knowledge</b>, the only channel between units.</li>
+        <li><b>The effect.</b> Inventa leads all five benchmarks: <b>73.6%</b> on EurekaBench versus 56.2% for CORAL, and <b>26.0</b> novel ideas per paper on IdeaBench versus 18.6 for ResearchAgent, with <b>82% fewer</b> model calls.</li>
+      </ul>
+    </div>
+
+    <div class="glance" id="glance" aria-label="Results at a glance"></div>
+  </div>
+</section>
+
+<section class="sec sec-tint" id="figure" aria-labelledby="fig-title">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">01</span><h2 id="fig-title">One round of Inventa, step by step</h2></div>
+    <p class="lede-s">Given a research task, Inventa generates novel and verified ideas. Step through Figure&nbsp;1 of the paper: click a step, or let it play.</p>
+    <div class="figstep" id="figstep">
+      <ol class="steps" id="stepList" aria-label="Steps"></ol>
+      <div class="figpane">
+        <div class="figbox" id="figbox">
+          <img src="static/fig1-pipeline.svg" alt="Figure 1: overview of Inventa. A research task enters; N autonomous research units run in parallel; each unit reads the shared knowledge, selects a parent, mutates it into a child, has verifiers test it, accepts or rejects the child and records it; an orchestrator retools, redraws or restarts; verifiers publish findings to the shared knowledge; the best verified idea is returned with its certificate." id="figImg">
+          <svg class="figov" id="figOv" viewBox="0 0 1374 575.805" preserveAspectRatio="xMidYMid meet" aria-hidden="true"></svg>
+        </div>
+        <div class="figcap" id="figCap" aria-live="polite"></div>
+        <div class="figctl">
+          <button class="pbtn" id="figPlay" type="button" aria-label="Pause">Pause</button>
+          <div class="fbar"><span id="figProg"></span></div>
+          <a class="figlink" href="static/fig1-pipeline.svg" target="_blank" rel="noopener">Open the static figure</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="why" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">02</span><h2 id="why-title">Four challenges, four design choices</h2></div>
+    <p class="lede-s">Recent AI co-scientists coordinate multiple agents to generate, test and refine hypotheses. Four challenges remain; Inventa answers each with one component, modelled on how research groups pursue different approaches while building on evidence reported by others.</p>
+    <div class="chal">
+      <article class="ch">
+        <p class="k">1 &middot; Diversity</p>
+        <h3>Maintaining diversity as search grows</h3>
+        <p class="bad">Systems largely follow myopic hill-climbing, which narrows the exploration radius; extra samples or iterations yield increasingly similar candidates.</p>
+        <p class="good"><b>Autonomous research units.</b> Each unit, like a lab, keeps its own idea lineage and advances at its own pace. A stalled unit redraws its model or restarts with a new seed idea.</p>
+      </article>
+      <article class="ch">
+        <p class="k">2 &middot; Sharing</p>
+        <h3>Sharing knowledge without propagating errors</h3>
+        <p class="bad">Isolated agents cannot benefit from one another's findings, while interacting agents converge; unverified claims influence later attempts.</p>
+        <p class="good"><b>Verified shared knowledge.</b> Only verifiers write to it, and they publish three kinds of findings: <span class="fk v">verified</span> bests, <span class="fk p">partial</span> components worth reusing, and <span class="fk r">refuted</span> constraint violations.</p>
+      </article>
+      <article class="ch">
+        <p class="k">3 &middot; Self-adaptation</p>
+        <h3>Adapting the proposal mechanism</h3>
+        <p class="bad">Refining ideas does not change the prompts, tools or control flow used to generate them, so iterations improve ideas but do not expand the search space.</p>
+        <p class="good"><b>An orchestrator per unit.</b> Acting as a meta-mutator, it evolves the mutator's harness and keeps an edit only if twin trials show significantly fitter children.</p>
+      </article>
+      <article class="ch">
+        <p class="k">4 &middot; Feasibility</p>
+        <h3>Satisfying scientific constraints</h3>
+        <p class="bad">Highly novel ideas often prove infeasible under the task's assumptions or physical requirements: a novelty&ndash;feasibility gap.</p>
+        <p class="good"><b>Verifiers with a certificate.</b> Every candidate is scored on held-out data, checked against domain constraints, tested out of distribution and ablated component by component.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-tint" id="method" aria-labelledby="method-title">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">03</span><h2 id="method-title">Method</h2></div>
+    <p class="lede-s">Inventa separates three operations: developing candidate ideas, self-adapting the process that develops them, and determining which findings can be shared. Units pursue different approaches while receiving, only through shared knowledge, common evidence about successful candidates, useful components and observed constraint violations.</p>
+
+    <div class="comp3">
+      <article class="comp cu">
+        <p class="ck">Component I</p>
+        <h3>Autonomous research units</h3>
+        <p>A unit's state is its <b>lineage memory</b>, an idea tree of the candidates it has explored, and its current <b>mutator</b>, a model run in a harness. Each node holds an idea, its certificate of verifier evidence and an acceptance label.</p>
+        <p class="sub">The mutator writes a child from the parent, its certificate, recent lineage nodes and a snapshot of the shared knowledge. It runs in a sandbox where validation and test data are inaccessible.</p>
+      </article>
+      <article class="comp cv">
+        <p class="ck">Component II</p>
+        <h3>Verifiers</h3>
+        <p>The verifiers evaluate each candidate against the baseline and the constraints, and return a <b>certificate</b> recording the outcome of every check and the evidence behind each failure.</p>
+        <ul class="checks">
+          <li><b>Held-out scoring</b> on the validation split, with the gain over the baseline.</li>
+          <li><b>Constraint checking</b>, programmatically or by LLM consensus.</li>
+          <li><b>Out-of-distribution testing</b> on a held-out data regime.</li>
+          <li><b>Component ablation</b>: the score lost without each component.</li>
+        </ul>
+      </article>
+      <article class="comp ck3">
+        <p class="ck">Component III</p>
+        <h3>Verified shared knowledge</h3>
+        <p>Verifiers write to it; units read it at the start of every round. It is the sole channel for inter-unit communication.</p>
+        <ul class="finds">
+          <li><span class="fk v">Verified</span> beats every unit's best so far by a noise margin and passes every check. This raises the bar for all units.</li>
+          <li><span class="fk p">Partial</span> a component worth reusing, even from an idea that trails.</li>
+          <li><span class="fk r">Refuted</span> a confirmed constraint violation, so other units avoid it and prune their search.</li>
+        </ul>
+      </article>
+    </div>
+
+    <h3 class="h3row">Every round, five stages <span class="aside">each unit advances at its own pace, with a bounded lag</span></h3>
+    <div class="loop">
+      <div class="st"><span class="n">1</span><h4>Parent selection</h4><p>Thompson sampling over the accepted nodes, treated as arms of a multi-armed bandit rewarded by fitness: promising lineages are exploited, nodes with few children are explored.</p></div>
+      <div class="st"><span class="n">2</span><h4>Mutation</h4><p>The mutator diagnoses the parent and revises it into a child idea, fitted on the training data.</p></div>
+      <div class="st"><span class="n">3</span><h4>Verification &amp; sharing</h4><p>The verifiers test the child, return its certificate, and publish qualifying findings to the shared knowledge.</p></div>
+      <div class="st"><span class="n">4</span><h4>Child acceptance</h4><p>A child is accepted only if no accepted idea is at least as simple and nearly as fit; extra complexity must improve fitness.</p></div>
+      <div class="st"><span class="n">5</span><h4>Memory update</h4><p>The child joins the lineage. Rejected children remain as negative evidence; every scored child updates its parent's value.</p></div>
+    </div>
+
+    <h3 class="h3row">The orchestrator adapts its unit <span class="aside">three actions, the only ones it takes</span></h3>
+    <div class="acts">
+      <div class="act"><p class="an">Retool</p><p class="aw">evolving the harness &middot; every P rounds</p><p>Diagnoses traces of recent attempts and proposes a new harness. A twin trial runs both harnesses on the same parent and mutation plan; the new one is adopted only if the scored pairs give a significantly positive mean difference.</p></div>
+      <div class="act"><p class="an">Redraw</p><p class="aw">replacing the model &middot; on a stall</p><p>The shared knowledge tallies each model's recent fitness improvements; the orchestrator draws a better-performing model from this tally by Thompson sampling, keeping the harness.</p></div>
+      <div class="act"><p class="an">Restart</p><p class="aw">changing direction &middot; stall repeated</p><p>If the unit stalls again after a second Redraw with no verified finding, it archives the lineage and proposes a new seed idea from the shared knowledge.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="results" aria-labelledby="results-title">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">04</span><h2 id="results-title">Results</h2></div>
+    <p class="lede-s">Inventa is evaluated at four stages of the research cycle on five benchmarks: retrieving prior work (ScholarCatalyst, 894 queries), generating ideas (IdeaBench, 736 test papers), writing grounded proposals (IdeaScientist, 277 problems), and discovering scientific laws (EurekaBench, 16 tasks; SciLaws-Bench, 38 tasks). Baselines include frontier AI agents, SoTA evolutionary search and AI co-scientists. All numbers are from the paper.</p>
+
+    <figure class="chart" id="chartStage">
+      <figcaption><span class="cn">A</span><b>Inventa leads at every research stage.</b> Relative gain over the best baseline (gray) on each benchmark&rsquo;s primary metric, with the absolute values.</figcaption>
+      <div class="plot" id="plotStage"></div>
+    </figure>
+
+    <div class="two">
+      <figure class="chart" id="chartCost">
+        <figcaption><span class="cn">B</span><b>Scientific law discovery keeps improving with budget.</b> EurekaBench conditioned score on validation vs. cost per task (units of 10 USD). Inventa after 10 and 20 rounds.</figcaption>
+        <div class="plot" id="plotCost"></div>
+        <div class="legend" id="legCost"></div>
+      </figure>
+      <figure class="chart" id="chartIdeas">
+        <figcaption><span class="cn">C</span><b>More novel ideas for fewer model calls.</b> IdeaBench distinct novel ideas per paper (rated &ge;7) vs. model calls per paper, in the 27-, 122- and 241-idea settings.</figcaption>
+        <div class="plot" id="plotIdeas"></div>
+        <div class="legend" id="legIdeas"></div>
+      </figure>
+    </div>
+
+    <div class="explorer" id="explorer">
+      <div class="ex-head">
+        <h3>Benchmark by benchmark</h3>
+        <div class="tabs" role="tablist" id="exTabs"></div>
+      </div>
+      <p class="ex-note" id="exNote"></p>
+      <div class="plot" id="plotEx"></div>
+      <details class="ex-table"><summary>Show as a table</summary><div id="exTable"></div></details>
+    </div>
+
+    <div class="rq">
+      <div class="rqc">
+        <p class="rk">Consistent with domain constraints</p>
+        <p class="big">0<span>/16</span></p>
+        <p>EurekaBench tasks where Inventa fails a scientific-constraint test. No other method passes them all; the closest, Agentic Scientist, fails 1 of 16, and CORAL fails 3.</p>
+      </div>
+      <div class="rqc">
+        <p class="rk">Beats the published law</p>
+        <p class="big">31<span>/38</span></p>
+        <p>SciLaws-Bench tasks where Inventa's law beats the published one, against 28 for the best baseline; its edge lies in tasks that hold out entire groups (65.8% vs. at most 61.4%).</p>
+      </div>
+      <div class="rqc">
+        <p class="rk">Robust to the judge</p>
+        <div class="plot mini" id="plotJudges"></div>
+        <p>IdeaBench re-scored with two judges unused in search: Inventa still finds the most distinct novel ideas (17.5 and 13.5 vs. 13.1 and 11.3 for OpenEvolve).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec-tint" id="discoveries" aria-labelledby="disc-title">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">05</span><h2 id="disc-title">Discoveries</h2></div>
+    <div id="discoveryBody"></div>
+  </div>
+</section>
+
+<section class="sec" id="bibtex" aria-labelledby="bib-title">
+  <div class="wrap">
+    <div class="sec-head"><span class="num">06</span><h2 id="bib-title">BibTeX</h2></div>
+    <div class="bib">
+      <button class="copy" id="copyBib" type="button">Copy</button>
+<pre id="bibText">@article{jana2026inventa,
+  title   = {Inventa: Decentralized Self-Improving Agents for Autonomous Scientific Discovery},
+  author  = {Jana, Prithwish and Kanakaris, Nikos and Jain, Purak and Deoras, Anoop and Genc, Sahika},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p>Inventa project page &middot; 2026. See also <a href="https://jprithwish.github.io/MILO/">MILO</a>, our work on automated harness discovery.</p>
+  </div>
+</footer>
+
+<div class="tip" id="tip" role="tooltip" hidden></div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous" defer></script>
+<script src="data.js?v=1"></script>
+<script src="discoveries.js?v=1" defer></script>
+<script src="app.js?v=1" defer></script>
+</body>
+</html>
