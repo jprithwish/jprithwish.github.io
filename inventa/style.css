@@ -332,3 +332,23 @@ h1, h2, h3, h4 { font-family: var(--display); color: var(--ink); }
   font: 400 26px/36px var(--sans); cursor: pointer; box-shadow: 0 4px 14px rgba(0,0,0,.25); }
 .lb-x:hover { background: var(--rule-soft); }
 body.lb-on { overflow: hidden; }
+
+/* Figure 2: comparison with existing search */
+.relfig { margin: 34px 0 0; background: #fff; border: 1px solid var(--rule); border-radius: 18px; padding: 20px 22px 16px; box-shadow: var(--shadow-md); }
+.relhead { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin: 0 0 12px; }
+.relhead h3 { font-size: 21px; font-weight: 600; margin: 0; }
+.relimg { display: block; width: 100%; padding: 0; border: 0; background: none; cursor: zoom-in; border-radius: 10px; }
+.relimg img { width: 100%; height: auto; display: block; }
+.relimg:focus-visible { outline: 2px solid var(--unit); outline-offset: 4px; }
+.relfig figcaption { font-size: 14px; color: var(--ink-soft); margin: 12px 2px 0; line-height: 1.55; max-width: 1000px; }
+@media (max-width: 680px) { .relfig { padding: 16px 14px 12px; } .relscroll { overflow-x: auto; -webkit-overflow-scrolling: touch; } .relimg { width: 760px; } .relimg img { width: 760px; max-width: none; } }
+
+/* plasma card */
+.cmp3 .ck2 { margin-top: 10px; }
+.ptab { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.ptab th, .ptab td { padding: 6px 8px; text-align: right; border-bottom: 1px solid var(--rule-soft); }
+.ptab th:first-child, .ptab td:first-child { text-align: left; color: var(--ink-2); }
+.ptab th { font: 700 10.5px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-faint); }
+.ptab td:nth-child(2), .ptab td:nth-child(3) { color: var(--ink-faint); transition: color .4s, background .4s; }
+.ptab[data-k="0"] td:nth-child(2), .ptab[data-k="1"] td:nth-child(3) { color: var(--ink); font-weight: 700; background: var(--rule-soft); }
+.ptab[data-k="0"] th:nth-child(2), .ptab[data-k="1"] th:nth-child(3) { color: var(--ink); }

@@ -429,11 +429,19 @@
 
   /* ---------- figure lightbox ---------- */
   (function () {
-    var lbx = document.getElementById("lightbox"), open = document.getElementById("openFig"), close = document.getElementById("lbClose"), last = null;
-    function show(ev) { if (ev) ev.preventDefault(); last = document.activeElement; lbx.hidden = false; document.body.classList.add("lb-on"); requestAnimationFrame(function () { lbx.classList.add("open"); }); close.focus(); }
+    var lbx = document.getElementById("lightbox"), close = document.getElementById("lbClose"), img = document.getElementById("lbImg"), cap = document.getElementById("lbCap"), last = null;
+    var F = { fig1: ["static/fig1-pipeline.svg", "Figure 1 of the paper: overview of Inventa.", "Figure 1 of the paper"],
+              fig2: ["static/fig2-search.svg", "Figure 2 of the paper: comparison of search mechanisms.", "Figure 2 of the paper"] };
+    function show(key, ev) {
+      if (ev) ev.preventDefault();
+      var f = F[key] || F.fig1, t = document.getElementById("cap-" + key);
+      img.src = f[0]; img.alt = f[1]; lbx.setAttribute("aria-label", f[2]); cap.innerHTML = t ? t.innerHTML : "";
+      last = document.activeElement; lbx.hidden = false; document.body.classList.add("lb-on");
+      requestAnimationFrame(function () { lbx.classList.add("open"); }); close.focus();
+    }
     function hide() { lbx.classList.remove("open"); document.body.classList.remove("lb-on"); setTimeout(function () { lbx.hidden = true; }, 180); if (last) last.focus(); }
-    open.addEventListener("click", show);
-    document.getElementById("figImg").addEventListener("click", show);
+    document.querySelectorAll("[data-lb]").forEach(function (n) { n.addEventListener("click", function (e) { show(n.getAttribute("data-lb"), e); }); });
+    document.getElementById("figImg").addEventListener("click", function (e) { show("fig1", e); });
     close.addEventListener("click", hide);
     lbx.addEventListener("click", function (e) { if (e.target === lbx) hide(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !lbx.hidden) hide(); });
@@ -446,6 +454,6 @@
     (navigator.clipboard ? navigator.clipboard.writeText(s) : Promise.reject()).then(function () { cb.textContent = "Copied"; setTimeout(function () { cb.textContent = "Copy"; }, 1600); }, function () {});
   });
 
-  document.querySelectorAll(".tldr, .ch, .comp, .st, .act, .chart, .explorer, .rqc").forEach(function (n) { n.classList.add("rv"); onReveal(n, function () { n.classList.add("in"); }); });
+  document.querySelectorAll(".tldr, .ch, .relfig, .comp, .st, .act, .chart, .explorer, .rqc").forEach(function (n) { n.classList.add("rv"); onReveal(n, function () { n.classList.add("in"); }); });
   checkReveal();
 })();
