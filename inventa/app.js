@@ -358,6 +358,7 @@
 
   /* ---------- benchmark explorer ---------- */
   (function explorer() {
+    var IO = {"eureka": ["Discover laws", "Explain a phenomenon in plasma physics, astrophysics or neuroscience with a mechanism (16 tasks).", "A research question and an experimental environment: a simulator with training data.", "A mechanism: an executable law, coded and explained.", "Predictive accuracy on held-out data and expert insight questions graded by two agentic LLM judges; the score is zero unless every scientific-constraint test passes."], "scilaws": ["Discover laws", "Find a closed-form law that generalizes, on problems from six disciplines (38 tasks).", "Measured, observed or simulated data from published studies; test data from new conditions or entire held-out groups, such as unseen crystals.", "A closed-form law.", "Fit on the held-out split, normalized so that the best published law scores 50 and a perfect predictor 100."], "ideabench": ["Generate ideas", "Propose research ideas that build on a paper&rsquo;s references.", "The abstracts of five references of an influential 2024 biomedical paper.", "Research ideas. Inventa evolves the idea-generation program, then freezes it for testing.", "An expert-calibrated LLM judge rates every idea from 1 to 10; near-duplicates are merged before counting ideas rated &ge;7."], "ideascientist": ["Write proposals", "Write a grounded research proposal for a research problem.", "A problem definition and its central challenge from a 2026 machine-learning paper, with search and reading tools over 2.77 million ideas from earlier papers.", "A proposal with a rationale and a ledger of the papers read; it must cite at least one paper and have read at least 90% of those it cites.", "The benchmark&rsquo;s LLM judge rates novelty and proposal quality."], "scholar": ["Retrieve prior work", "Find the papers that inspired, or could have inspired, a recent research project.", "The project&rsquo;s central research question, or the same question seen from one subfield, and a 190,896-paper corpus of earlier papers.", "A ranked list of papers. Inventa evolves the retrieval method, as a program.", "Against the papers the project&rsquo;s lead authors labelled as inspiring: nDCG@20 and Recall@5, @20 and @100."]};
     var tabs = [
       { k: "eureka", n: "EurekaBench", unit: "%", note: "Conditioned score (CS, %) on the test split of 16 tasks: predictive accuracy and scientific insight, zero unless the law passes all constraint tests. Frontier agents use Best-of-20.", rows: D.eureka.map(function (r) { return [r[0], r[1]]; }), max: 80 },
       { k: "scilaws", n: "SciLaws-Bench", unit: "%", note: "Held-out predictive fit S_N (%) over 38 tasks; in brackets, tasks where the law beats the published law.", rows: D.scilaws.map(function (r) { return [r[0] + "  (" + r[2] + "/38)", r[1]]; }), max: 70, min: 40 },
@@ -375,6 +376,12 @@
       var t = tabs[i];
       Array.prototype.forEach.call(tabHost.children, function (b, k) { b.setAttribute("aria-selected", k === i ? "true" : "false"); });
       note.textContent = t.note;
+      var q = IO[t.k], io = document.getElementById("exIO");
+      if (q && io) io.innerHTML = '<p class="io-stage">' + q[0] + '</p><div class="io-grid">' +
+        '<div><p class="io-k">Task</p><p>' + q[1] + '</p></div>' +
+        '<div><p class="io-k">Input</p><p>' + q[2] + '</p></div>' +
+        '<div><p class="io-k">Output</p><p>' + q[3] + '</p></div>' +
+        '<div><p class="io-k">Scored by</p><p>' + q[4] + '</p></div></div>';
       var rows = t.rows.slice().sort(function (a, b) { return a[1] - b[1]; });
       var W = 1060, rh = 26, m = { l: 300, r: 70, t: 6, b: 28 }, H = m.t + m.b + rh * rows.length;
       plot.innerHTML = "";

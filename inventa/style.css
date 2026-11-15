@@ -354,3 +354,13 @@ body.lb-on { overflow: hidden; }
 .ptab[data-k="0"] th:nth-child(2), .ptab[data-k="1"] th:nth-child(3) { color: var(--ink); }
 
 .ack { font-size: 14.5px; color: var(--ink-soft); margin: 26px 0 0; line-height: 1.65; max-width: 900px; }
+
+/* benchmark explorer: task / input / output */
+.ex-io { margin: 4px 0 16px; }
+.io-stage { font: 700 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--know-ink); margin: 0 0 8px; }
+.io-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.io-grid > div { background: #fbfcfd; border: 1px solid var(--rule); border-radius: 12px; padding: 10px 12px; min-width: 0; }
+.io-grid p { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-2); }
+.io-grid .io-k { font: 700 10.5px var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 4px; }
+@media (max-width: 1020px) { .io-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .io-grid { grid-template-columns: 1fr; } }

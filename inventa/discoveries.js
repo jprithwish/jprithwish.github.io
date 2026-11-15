@@ -9,7 +9,7 @@ window.renderDiscoveries = function (host, U) {
     return h + '<p class="sbnote">' + note + '</p></div>';
   }
   host.innerHTML =
-    '<p class="lede-s">Two laws Inventa discovered on EurekaBench tasks, one in astrophysics and one in plasma physics, each compared with the law the task starts from and with the best competing method. Both pass every scientific-constraint test of their task.</p>' +
+    '<p class="lede-s">Two of the laws Inventa discovered across EurekaBench&rsquo;s 16 tasks in plasma physics, astrophysics and neuroscience. Each is compared with the law its task starts from and with the best competing method, and both pass every scientific-constraint test of their task.</p>' +
     '<article class="disc">' +
       '<div class="disc-text">' +
         '<p class="dk">Astrophysics &middot; DREAMS simulations of Milky-Way-mass halos</p>' +
