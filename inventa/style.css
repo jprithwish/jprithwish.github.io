@@ -352,3 +352,5 @@ body.lb-on { overflow: hidden; }
 .ptab td:nth-child(2), .ptab td:nth-child(3) { color: var(--ink-faint); transition: color .4s, background .4s; }
 .ptab[data-k="0"] td:nth-child(2), .ptab[data-k="1"] td:nth-child(3) { color: var(--ink); font-weight: 700; background: var(--rule-soft); }
 .ptab[data-k="0"] th:nth-child(2), .ptab[data-k="1"] th:nth-child(3) { color: var(--ink); }
+
+.ack { font-size: 14.5px; color: var(--ink-soft); margin: 26px 0 0; line-height: 1.65; max-width: 900px; }
